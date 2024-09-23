@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace AdminLauncher.BusinessLibrary
 {
-    public class SoftwareList
+    public class SettingsManager
     {
-        private List<Software> softwareList = new();
+        public string DataFilePath { get; set; }
+        public void LoadSettings()
+        {
 
+        }
+        public void SaveSettings() { }
 
 
     }
