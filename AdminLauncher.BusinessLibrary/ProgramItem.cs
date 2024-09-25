@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace AdminLauncher.BusinessLibrary
 {
     public class ProgramItem
@@ -16,7 +17,7 @@ namespace AdminLauncher.BusinessLibrary
 
         public void Launch()
         {
-            ProcessLauncher.LaunchProgram(this); 
+            ProcessLauncher.LaunchProgram(this);
         }
 
     }

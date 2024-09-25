@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AdminLauncher.AppWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="800" Width="500"
+        WindowStartupLocation="Manual"
+        ResizeMode="NoResize"
+        WindowStyle="SingleBorderWindow"
+        Topmost="True">
     <Grid>
-
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel x:Name="ButtonPanel" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
+        </ScrollViewer>
     </Grid>
 </Window>
