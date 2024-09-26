@@ -7,7 +7,7 @@ ProgramItem notepad = new() { Index = 0, Name = "Notepad", Path = @"C:\Program F
 ProgramManager.AddProgram(notepad);
 for (int i = 0; i < 50; i++)
 {
-    ProgramItem VS = new() { Index = 0, Name = $"Visual Studio 2022-{i}", Path = @"C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\devenv.exe" };
+    ProgramItem VS = new() { Index = i, Name = $"Visual Studio 2022-{i}", Path = @"C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\devenv.exe" };
     ProgramManager.AddProgram(VS);
 
 }

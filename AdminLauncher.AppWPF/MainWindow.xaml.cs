@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Drawing;
 using System.Windows.Media.Imaging;
 using Image = System.Windows.Controls.Image;
+using Toolbelt.Drawing;
 
 namespace AdminLauncher.AppWPF
 {
@@ -51,6 +52,7 @@ namespace AdminLauncher.AppWPF
             // Assumendo che ci sia uno StackPanel in XAML con il nome "ButtonPanel"
             foreach (var item in ProgramManager.Programs)
             {
+                
                 // Crea il pulsante
                 Button button = new Button
                 {
@@ -64,7 +66,7 @@ namespace AdminLauncher.AppWPF
                 // Aggiungi l'icona al pulsante
                 Image iconImage = new Image
                 {
-                    Source = GetIconFromExe(item.Path),  // Ottieni l'icona
+                    Source = LoadIconFromEXE(item),  // Ottieni l'icona
                     Width = 32,
                     Height = 32,
                     Margin = new Thickness(0, 0, 5, 0) // Margine tra icona e testo
@@ -92,20 +94,19 @@ namespace AdminLauncher.AppWPF
         }
         //https://www.codeproject.com/Articles/26824/Extract-icons-from-EXE-or-DLL-files
         //potrebbe essere utile
-        public BitmapSource GetIconFromExe(string path)
+        private BitmapImage LoadIconFromEXE(ProgramItem programItem)
         {
-            // Estrarre l'icona dall'eseguibile
-            Icon icon = System.Drawing.Icon.ExtractAssociatedIcon(path);
+            var iconPath= System.IO.Path.Combine(System.IO.Path.GetTempPath(), $"{programItem.Index}-{programItem.Name}.ico");
+            var s = File.Create(iconPath);
+            IconExtractor.Extract1stIconTo(programItem.Path, s);
+            s.Close();
 
-            using (MemoryStream iconStream = new MemoryStream())
-            {
-                icon.Save(iconStream);  // Salva l'icona nel MemoryStream
-                iconStream.Seek(0, SeekOrigin.Begin);
-
-                // Usa BitmapDecoder per convertire l'icona in BitmapSource (compatibile con WPF)
-                BitmapDecoder decoder = BitmapDecoder.Create(iconStream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
-                return decoder.Frames[0];
-            }
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri(iconPath, UriKind.Absolute); // Usa UriKind.Absolute se il percorso è assoluto
+            bitmap.CacheOption = BitmapCacheOption.OnLoad; // Cache per evitare blocchi di file
+            bitmap.EndInit();
+            return bitmap;
         }
     }
 }
