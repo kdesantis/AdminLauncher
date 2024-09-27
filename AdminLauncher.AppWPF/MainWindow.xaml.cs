@@ -1,21 +1,8 @@
 ﻿using AdminLauncher.BusinessLibrary;
-using System.IO;
-using System.Text;
+using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.IO;
-using System.Windows.Media.Imaging;
-using System.Drawing;
-using System.Windows.Media.Imaging;
-using Image = System.Windows.Controls.Image;
-using Toolbelt.Drawing;
 
 namespace AdminLauncher.AppWPF
 {
@@ -30,11 +17,67 @@ namespace AdminLauncher.AppWPF
             InitializeComponent();
 
             PositionWindowInBottomRight();
-            
+
             ProgramManager.Load();
 
             CreateButtons();
 
+        }
+        private void AddProgram_Click(object sender, RoutedEventArgs e)
+        {
+            InterfaceSelectorMode(true);
+        }
+        private void SaveProgram_Click(object sender, RoutedEventArgs e)
+        {
+            // Crea un nuovo oggetto ProgramItem
+            ProgramItem newProgram = new ProgramItem
+            {
+                Name = ProgramNameTextBox.Text,
+                Path = ProgramPathTextBox.Text,
+                Arguments = ProgramArgumentsTextBox.Text,
+                IsFavorite = FavoriteCheckBox.IsChecked == true
+            };
+
+            // Aggiungi il ProgramItem a ProgramsManager e salva
+            ProgramManager.AddProgram(newProgram);
+            ProgramManager.Save();
+            CreateButtons();
+
+            // Torna alla vista principale
+            InterfaceSelectorMode(false);
+        }
+        private void BrowseButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Executable Files (*.exe)|*.exe|All Files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                ProgramPathTextBox.Text = openFileDialog.FileName;
+            }
+        }
+        private void CancelProgram_Click(object sender, RoutedEventArgs e)
+        {
+            InterfaceSelectorMode(false);
+
+            // (Facoltativo) Pulizia dei campi della form
+            ProgramNameTextBox.Clear();
+            ProgramPathTextBox.Clear();
+            ProgramArgumentsTextBox.Clear();
+            FavoriteCheckBox.IsChecked = false;
+        }
+
+        private void InterfaceSelectorMode(bool addMode)
+        {
+            if (addMode)
+            {
+                AddProgramPanel.Visibility = Visibility.Visible;
+                MainScrollViewer.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                AddProgramPanel.Visibility = Visibility.Collapsed;
+                MainScrollViewer.Visibility = Visibility.Visible;
+            }
         }
         private void PositionWindowInBottomRight()
         {
@@ -49,15 +92,16 @@ namespace AdminLauncher.AppWPF
         // Metodo per creare i pulsanti dinamicamente
         private void CreateButtons()
         {
+            ButtonPanel.Children.Clear();
             // Assumendo che ci sia uno StackPanel in XAML con il nome "ButtonPanel"
             foreach (var item in ProgramManager.Programs)
             {
-                
+
                 // Crea il pulsante
                 Button button = new Button
                 {
                     Margin = new Thickness(5),
-                    HorizontalContentAlignment = HorizontalAlignment.Stretch, 
+                    HorizontalContentAlignment = HorizontalAlignment.Stretch,
                 };
 
                 // Crea un DockPanel per inserire l'icona e il testo
@@ -66,7 +110,7 @@ namespace AdminLauncher.AppWPF
                 // Aggiungi l'icona al pulsante
                 Image iconImage = new Image
                 {
-                    Source = LoadIconFromEXE(item),  // Ottieni l'icona
+                    Source = LoadIcon(item.GetIconPath()),  // Ottieni l'icona
                     Width = 32,
                     Height = 32,
                     Margin = new Thickness(0, 0, 5, 0) // Margine tra icona e testo
@@ -92,21 +136,18 @@ namespace AdminLauncher.AppWPF
                 ButtonPanel.Children.Add(button);
             }
         }
-        //https://www.codeproject.com/Articles/26824/Extract-icons-from-EXE-or-DLL-files
-        //potrebbe essere utile
-        private BitmapImage LoadIconFromEXE(ProgramItem programItem)
+        private static BitmapImage LoadIcon(string iconPath)
         {
-            var iconPath= System.IO.Path.Combine(System.IO.Path.GetTempPath(), $"{programItem.Index}-{programItem.Name}.ico");
-            var s = File.Create(iconPath);
-            IconExtractor.Extract1stIconTo(programItem.Path, s);
-            s.Close();
-
             BitmapImage bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.UriSource = new Uri(iconPath, UriKind.Absolute); // Usa UriKind.Absolute se il percorso è assoluto
-            bitmap.CacheOption = BitmapCacheOption.OnLoad; // Cache per evitare blocchi di file
-            bitmap.EndInit();
+            if (iconPath != null)
+            {
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(iconPath, UriKind.Absolute); // Usa UriKind.Absolute se il percorso è assoluto
+                bitmap.CacheOption = BitmapCacheOption.OnLoad; // Cache per evitare blocchi di file
+                bitmap.EndInit();
+            }
             return bitmap;
         }
+
     }
 }

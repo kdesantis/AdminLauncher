@@ -7,12 +7,43 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="500"
         WindowStartupLocation="Manual"
-        ResizeMode="NoResize"
+        ResizeMode="CanMinimize"
         WindowStyle="SingleBorderWindow"
         Topmost="True">
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <!-- Menu bar -->
+        <Menu VerticalAlignment="Top">
+            <MenuItem Header="Add Program" Click="AddProgram_Click"/>
+            <MenuItem Header="Add Routine"/>
+        </Menu>
+
+        <!-- ScrollViewer and ButtonPanel -->
+        <ScrollViewer x:Name="MainScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,30,0,0">
             <StackPanel x:Name="ButtonPanel" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
         </ScrollViewer>
+
+        <!-- Form for adding a new program -->
+        <StackPanel x:Name="AddProgramPanel" Visibility="Collapsed" Margin="0,30,0,0">
+            <TextBlock Text="Add New Program" FontWeight="Bold" FontSize="16" Margin="10" />
+
+            <Label Content="Name" />
+            <TextBox x:Name="ProgramNameTextBox" Margin="5" />
+
+            <Label Content="Path" />
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="ProgramPathTextBox" Width="400" Margin="5" />
+                <Button Content="Browse..." Click="BrowseButton_Click" Width="auto" Margin="5" />
+            </StackPanel>
+
+            <Label Content="Arguments" />
+            <TextBox x:Name="ProgramArgumentsTextBox" Margin="5" />
+
+            <CheckBox x:Name="FavoriteCheckBox" Content="Is Favorite" Margin="5" />
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+                <Button Content="Save" Click="SaveProgram_Click" Width="100" Margin="5" />
+                <Button Content="Cancel" Click="CancelProgram_Click" Width="100" Margin="5" />
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>
