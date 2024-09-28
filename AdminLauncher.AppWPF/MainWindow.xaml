@@ -9,7 +9,8 @@
         WindowStartupLocation="Manual"
         ResizeMode="NoResize"
         WindowStyle="SingleBorderWindow"
-        Topmost="True">
+        Topmost="True"
+        Closing="Window_Closing">
     <Grid>
         <!-- Menu bar -->
         <Menu VerticalAlignment="Top">

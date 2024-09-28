@@ -12,6 +12,7 @@ namespace AdminLauncher.AppWPF
     public partial class MainWindow : Window
     {
         ProgramManager ProgramManager = new();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -22,6 +23,11 @@ namespace AdminLauncher.AppWPF
 
             CreateButtons();
 
+        }
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true; // Cancella l'evento di chiusura
+            this.Hide(); // Nasconde l'applicazione
         }
         private void AddProgram_Click(object sender, RoutedEventArgs e)
         {
