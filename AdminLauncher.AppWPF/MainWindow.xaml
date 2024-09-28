@@ -14,7 +14,7 @@
         <!-- Menu bar -->
         <Menu VerticalAlignment="Top">
             <MenuItem Header="Add Program" Click="AddProgram_Click"/>
-            <MenuItem Header="Add Routine"/>
+            <MenuItem Header="Add Routine" Click="AddRoutine_Click"/>
         </Menu>
 
         <!-- ScrollViewer and ButtonPanel -->
@@ -43,6 +43,26 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
                 <Button Content="Save" Click="SaveProgram_Click" Width="100" Margin="5" />
                 <Button Content="Cancel" Click="CancelProgram_Click" Width="100" Margin="5" />
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Form for adding a new routine -->
+        <StackPanel x:Name="AddRoutinePanel" Visibility="Collapsed" Margin="0,30,0,0">
+            <TextBlock Text="Add New Routine" FontWeight="Bold" FontSize="16" Margin="10" />
+
+            <Label Content="Routine Name" />
+            <TextBox x:Name="RoutineNameTextBox" Margin="5" />
+
+            <Label Content="Select Programs" />
+            <!-- ListBox for selecting programs, allowing multiple selection -->
+            <ListBox x:Name="ProgramsListBox" Margin="5" SelectionMode="Multiple">
+                <!-- Items will be dynamically populated in code-behind -->
+            </ListBox>
+
+            <!-- Buttons for Save and Cancel -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+                <Button Content="Save" Click="SaveRoutine_Click" Width="100" Margin="5" />
+                <Button Content="Cancel" Click="CancelRoutine_Click" Width="100" Margin="5" />
             </StackPanel>
         </StackPanel>
     </Grid>

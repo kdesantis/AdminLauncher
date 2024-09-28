@@ -19,7 +19,6 @@ namespace AdminLauncher.BusinessLibrary
         {
             Programs.Remove(program);
         }
-
         public void AddRoutine(RoutineItem routine)
         {
             Routines.Add(routine);

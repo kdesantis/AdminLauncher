@@ -25,7 +25,67 @@ namespace AdminLauncher.AppWPF
         }
         private void AddProgram_Click(object sender, RoutedEventArgs e)
         {
-            InterfaceSelectorMode(true);
+            InterfaceSelectorMode(1);
+        }
+        // Evento al click di "Add Routine"
+        private void AddRoutine_Click(object sender, RoutedEventArgs e)
+        {
+            InterfaceSelectorMode(2);
+
+            // Popola la lista dei ProgramItem nel ListBox
+            ProgramsListBox.Items.Clear();
+            foreach (var program in ProgramManager.Programs)
+            {
+                ProgramsListBox.Items.Add(program.Name); // Aggiungiamo il nome del programma
+            }
+        }
+        // Evento al click del bottone "Salva Routine"
+        private void SaveRoutine_Click(object sender, RoutedEventArgs e)
+        {
+            // Crea una nuova RoutineItem
+            RoutineItem newRoutine = new RoutineItem
+            {
+                Name = RoutineNameTextBox.Text,
+                Programs = new List<ProgramItem>()
+            };
+
+            // Aggiunge i programmi selezionati nella Routine
+            foreach (var selectedProgram in ProgramsListBox.SelectedItems)
+            {
+                var program = ProgramManager.FindProgramByName(selectedProgram.ToString());
+                if (program != null)
+                {
+                    newRoutine.AddProgram(program);
+                }
+            }
+
+            // Aggiungi la nuova Routine a ProgramManager e salva
+            ProgramManager.AddRoutine(newRoutine);
+            ProgramManager.Save();
+
+            // Torna alla vista principale
+            AddRoutinePanel.Visibility = Visibility.Collapsed;
+            MainScrollViewer.Visibility = Visibility.Visible;
+        }
+        // Evento per annullare la creazione della routine
+        private void CancelRoutine_Click(object sender, RoutedEventArgs e)
+        {
+            AddRoutinePanel.Visibility = Visibility.Collapsed;
+            MainScrollViewer.Visibility = Visibility.Visible;
+
+            // (Facoltativo) Pulizia dei campi della form
+            RoutineNameTextBox.Clear();
+            ProgramsListBox.UnselectAll();
+        }
+        // Evento per selezionare il percorso del programma tramite finestra di dialogo (per Add Program)
+        private void BrowseButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Executable Files (*.exe)|*.exe|All Files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                ProgramPathTextBox.Text = openFileDialog.FileName;
+            }
         }
         private void SaveProgram_Click(object sender, RoutedEventArgs e)
         {
@@ -37,6 +97,7 @@ namespace AdminLauncher.AppWPF
                 Arguments = ProgramArgumentsTextBox.Text,
                 IsFavorite = FavoriteCheckBox.IsChecked == true
             };
+            ClearAddProgramData();
 
             // Aggiungi il ProgramItem a ProgramsManager e salva
             ProgramManager.AddProgram(newProgram);
@@ -44,22 +105,16 @@ namespace AdminLauncher.AppWPF
             CreateButtons();
 
             // Torna alla vista principale
-            InterfaceSelectorMode(false);
-        }
-        private void BrowseButton_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Executable Files (*.exe)|*.exe|All Files (*.*)|*.*";
-            if (openFileDialog.ShowDialog() == true)
-            {
-                ProgramPathTextBox.Text = openFileDialog.FileName;
-            }
+            InterfaceSelectorMode(0);
         }
         private void CancelProgram_Click(object sender, RoutedEventArgs e)
         {
-            InterfaceSelectorMode(false);
+            InterfaceSelectorMode(0);
+            ClearAddProgramData();
+        }
 
-            // (Facoltativo) Pulizia dei campi della form
+        private void ClearAddProgramData()
+        {
             ProgramNameTextBox.Clear();
             ProgramPathTextBox.Clear();
             ProgramArgumentsTextBox.Clear();
@@ -78,18 +133,38 @@ namespace AdminLauncher.AppWPF
             }
             CreateButtons();
         }
-
-        private void InterfaceSelectorMode(bool addMode)
+        private void OnDeleteRoutineClicked(RoutineItem item)
         {
-            if (addMode)
+            MessageBoxResult result = MessageBox.Show($"Can I leave the case here? Are you sure you want to delete {item.Name}?",
+                "Confirm Deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (result == MessageBoxResult.Yes)
             {
-                AddProgramPanel.Visibility = Visibility.Visible;
-                MainScrollViewer.Visibility = Visibility.Collapsed;
+                // Se l'utente conferma, chiama il metodo RemoveProgram del ProgramManager
+                ProgramManager.RemoveRoutine(item);
+                ProgramManager.Save();
             }
-            else
+            CreateButtons();
+        }
+
+        private void InterfaceSelectorMode(int mode)
+        {
+            switch (mode)
             {
-                AddProgramPanel.Visibility = Visibility.Collapsed;
-                MainScrollViewer.Visibility = Visibility.Visible;
+                case 0:
+                    AddProgramPanel.Visibility = Visibility.Visible;
+                    MainScrollViewer.Visibility = Visibility.Collapsed;
+                    break;
+                case 1:
+                    AddProgramPanel.Visibility = Visibility.Collapsed;
+                    MainScrollViewer.Visibility = Visibility.Visible;
+                    break;
+                case 2:
+                    MainScrollViewer.Visibility = Visibility.Collapsed;
+                    AddRoutinePanel.Visibility = Visibility.Visible;
+                    break;
+                default:
+                    break;
             }
         }
         private void PositionWindowInBottomRight()
@@ -109,7 +184,6 @@ namespace AdminLauncher.AppWPF
             // Assumendo che ci sia uno StackPanel in XAML con il nome "ButtonPanel"
             foreach (var item in ProgramManager.Programs)
             {
-
                 // Crea il pulsante
                 Button button = new Button
                 {
@@ -143,6 +217,48 @@ namespace AdminLauncher.AppWPF
                 ContextMenu contextMenu = new ContextMenu();
                 MenuItem deleteMenuItem = new MenuItem { Header = "Delete Program" };
                 deleteMenuItem.Click += (s, e) => OnDeleteProgramClicked(item); // Associa l'evento click
+                contextMenu.Items.Add(deleteMenuItem);
+                button.ContextMenu = contextMenu;
+
+                // Associa il click del pulsante al metodo specifico dell'oggetto
+                button.Click += (sender, e) => item.Launch();
+
+                // Aggiungi il pulsante al pannello
+                ButtonPanel.Children.Add(button);
+            }
+            foreach (var item in ProgramManager.Routines)
+            {
+                // Crea il pulsante
+                Button button = new Button
+                {
+                    Margin = new Thickness(5),
+                    HorizontalContentAlignment = HorizontalAlignment.Stretch,
+                };
+
+                // Crea un DockPanel per inserire l'icona e il testo
+                DockPanel dockPanel = new DockPanel();
+                // Aggiungi l'icona al pulsante
+                Image iconImage = new Image
+                {
+                    Source = LoadIcon("pack://application:,,,/list.png"),  // Ottieni l'icona
+                    Width = 32,
+                    Height = 32,
+                    Margin = new Thickness(0, 0, 5, 0) // Margine tra icona e testo
+                };
+                DockPanel.SetDock(iconImage, Dock.Left);  // Posiziona l'icona a sinistra
+                dockPanel.Children.Add(iconImage);
+                // Aggiungi il nome del programma al pulsante
+                TextBlock textBlock = new TextBlock
+                {
+                    Text = item.Name+"(Routine)",
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+                dockPanel.Children.Add(textBlock);
+                button.Content = dockPanel;
+                // Crea il ContextMenu con l'opzione "Delete Program"
+                ContextMenu contextMenu = new ContextMenu();
+                MenuItem deleteMenuItem = new MenuItem { Header = "Delete Program" };
+                deleteMenuItem.Click += (s, e) => OnDeleteRoutineClicked(item); // Associa l'evento click
                 contextMenu.Items.Add(deleteMenuItem);
                 button.ContextMenu = contextMenu;
 
