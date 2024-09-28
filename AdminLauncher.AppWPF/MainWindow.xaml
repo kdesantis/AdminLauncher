@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="500"
         WindowStartupLocation="Manual"
-        ResizeMode="CanMinimize"
+        ResizeMode="NoResize"
         WindowStyle="SingleBorderWindow"
         Topmost="True">
     <Grid>

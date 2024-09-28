@@ -65,6 +65,19 @@ namespace AdminLauncher.AppWPF
             ProgramArgumentsTextBox.Clear();
             FavoriteCheckBox.IsChecked = false;
         }
+        private void OnDeleteProgramClicked(ProgramItem item)
+        {
+            MessageBoxResult result = MessageBox.Show($"Can I leave the case here? Are you sure you want to delete {item.Name}?",
+                "Confirm Deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                // Se l'utente conferma, chiama il metodo RemoveProgram del ProgramManager
+                ProgramManager.RemoveProgram(item);
+                ProgramManager.Save();
+            }
+            CreateButtons();
+        }
 
         private void InterfaceSelectorMode(bool addMode)
         {
@@ -125,9 +138,13 @@ namespace AdminLauncher.AppWPF
                     VerticalAlignment = VerticalAlignment.Center
                 };
                 dockPanel.Children.Add(textBlock);
-
-                // Assegna il DockPanel come contenuto del pulsante
                 button.Content = dockPanel;
+                // Crea il ContextMenu con l'opzione "Delete Program"
+                ContextMenu contextMenu = new ContextMenu();
+                MenuItem deleteMenuItem = new MenuItem { Header = "Delete Program" };
+                deleteMenuItem.Click += (s, e) => OnDeleteProgramClicked(item); // Associa l'evento click
+                contextMenu.Items.Add(deleteMenuItem);
+                button.ContextMenu = contextMenu;
 
                 // Associa il click del pulsante al metodo specifico dell'oggetto
                 button.Click += (sender, e) => item.Launch();

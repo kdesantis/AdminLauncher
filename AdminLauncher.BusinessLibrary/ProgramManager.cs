@@ -8,7 +8,8 @@ namespace AdminLauncher.BusinessLibrary
 {
     public class ProgramManager
     {
-        public List<ProgramItem> Programs { get; private set; } = new();
+        public List<ProgramItem> Programs { get; set; } = new();
+        public List<RoutineItem> Routines { get; set; } = new();
 
         public void AddProgram(ProgramItem program)
         {
@@ -18,6 +19,16 @@ namespace AdminLauncher.BusinessLibrary
         {
             Programs.Remove(program);
         }
+
+        public void AddRoutine(RoutineItem routine)
+        {
+            Routines.Add(routine);
+        }
+        public void RemoveRoutine(RoutineItem routine)
+        {
+            Routines.Remove(routine);
+        }
+
         public ProgramItem FindProgramByName(string name)
         {
             return Programs.FirstOrDefault(program => program.Name == name);
@@ -25,12 +36,14 @@ namespace AdminLauncher.BusinessLibrary
         public void Save()
         {
             PersistenceManager persistenceManager = new();
-            persistenceManager.SaveData(Programs);
+            persistenceManager.SaveData(this);
         }
         public void Load()
         {
             PersistenceManager persistenceManager = new();
-            Programs = persistenceManager.LoadData();
+            var savedProgramManager = new PersistenceManager().LoadData();
+            Programs = savedProgramManager.Programs;
+            Routines = savedProgramManager.Routines;
         }
     }
 }

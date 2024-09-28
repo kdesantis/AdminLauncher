@@ -12,7 +12,7 @@ namespace AdminLauncher.BusinessLibrary
         public int Index { get; set; }
         public string Name { get; set; }
         public string Path { get; set; }
-        public string Arguments { get; set; }
+        public string? Arguments { get; set; }
         public bool IsFavorite { get; set; }
 
         public void Launch()
