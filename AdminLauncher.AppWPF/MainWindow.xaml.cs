@@ -55,12 +55,6 @@ namespace AdminLauncher.AppWPF
             notifyIcon.DoubleClick += (s, e) => ShowWindow();
         }
 
-        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
-        {
-            e.Cancel = true;
-            Hide();
-        }
-
         private void ShowWindow()
         {
             Show();

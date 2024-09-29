@@ -9,7 +9,14 @@ namespace AdminLauncher.BusinessLibrary
 {
     public class ProgramItem : GenericItem
     {
-        public string Path { get; set; }
+        private string path;
+
+        public string Path
+        {
+            get { return path; }
+            set { path = value.Replace("\"",string.Empty); }
+        }
+
         public string? Arguments { get; set; }
         public bool IsFavorite { get; set; }
 
