@@ -118,9 +118,8 @@ namespace AdminLauncher.AppWPF
             ProgramManager.AddRoutine(newRoutine);
             ProgramManager.Save();
 
-            // Torna alla vista principale
-            AddRoutinePanel.Visibility = Visibility.Collapsed;
-            MainScrollViewer.Visibility = Visibility.Visible;
+            InterfaceSelectorMode(0);
+            CreateButtons();
         }
         // Evento per annullare la creazione della routine
         private void CancelRoutine_Click(object sender, RoutedEventArgs e)
@@ -207,16 +206,19 @@ namespace AdminLauncher.AppWPF
             switch (mode)
             {
                 case 0:
-                    AddProgramPanel.Visibility = Visibility.Visible;
-                    MainScrollViewer.Visibility = Visibility.Collapsed;
-                    break;
-                case 1:
                     AddProgramPanel.Visibility = Visibility.Collapsed;
                     MainScrollViewer.Visibility = Visibility.Visible;
+                    AddRoutinePanel.Visibility = Visibility.Collapsed;
+                    break;
+                case 1:
+                    AddProgramPanel.Visibility = Visibility.Visible;
+                    MainScrollViewer.Visibility = Visibility.Collapsed;
+                    AddRoutinePanel.Visibility = Visibility.Collapsed;
                     break;
                 case 2:
                     MainScrollViewer.Visibility = Visibility.Collapsed;
                     AddRoutinePanel.Visibility = Visibility.Visible;
+
                     break;
                 default:
                     break;
@@ -243,7 +245,7 @@ namespace AdminLauncher.AppWPF
                 Button button = new Button
                 {
                     Margin = new Thickness(5),
-                    HorizontalContentAlignment = HorizontalAlignment.Stretch,
+                    HorizontalContentAlignment = System.Windows.HorizontalAlignment.Stretch,
                 };
 
                 // Crea un DockPanel per inserire l'icona e il testo
@@ -287,7 +289,7 @@ namespace AdminLauncher.AppWPF
                 Button button = new Button
                 {
                     Margin = new Thickness(5),
-                    HorizontalContentAlignment = HorizontalAlignment.Stretch,
+                    HorizontalContentAlignment = System.Windows.HorizontalAlignment.Stretch,
                 };
 
                 // Crea un DockPanel per inserire l'icona e il testo
@@ -305,7 +307,7 @@ namespace AdminLauncher.AppWPF
                 // Aggiungi il nome del programma al pulsante
                 TextBlock textBlock = new TextBlock
                 {
-                    Text = item.Name+"(Routine)",
+                    Text = item.Name + "(Routine)",
                     VerticalAlignment = VerticalAlignment.Center
                 };
                 dockPanel.Children.Add(textBlock);
