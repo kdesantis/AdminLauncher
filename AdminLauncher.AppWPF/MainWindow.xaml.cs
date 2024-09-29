@@ -193,8 +193,8 @@ namespace AdminLauncher.AppWPF
             ButtonPanel.Children.Clear();
 
             List<GenericItem> genericItems = new List<GenericItem>();
-            genericItems.AddRange(ProgramManager.Routines);
-            genericItems.AddRange(ProgramManager.Programs);
+            genericItems.AddRange(ProgramManager.Routines.OrderBy(e => e.Name));
+            genericItems.AddRange(ProgramManager.Programs.OrderBy(e => e.Name));
 
             foreach (var item in genericItems)
             {
