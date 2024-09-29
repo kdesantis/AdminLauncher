@@ -9,7 +9,14 @@ namespace AdminLauncher.BusinessLibrary
     public class RoutineItem
     {
         public int Index { get; set; }
-        public string Name { get; set; }
+        private string name;
+
+        public string Name
+        {
+            get { return $"{name}(routine)"; }
+            set { name = value; }
+        }
+
         public List<ProgramItem> Programs { get; set; }
 
         public void AddProgram(ProgramItem program)

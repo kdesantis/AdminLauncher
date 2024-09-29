@@ -28,7 +28,7 @@ namespace AdminLauncher.AppWPF
 
             ProgramManager.Load();
 
-            CreateButtons();
+            GenerateButtons();
 
             // Inizializza NotifyIcon
             InitializeNotifyIcon();
@@ -80,12 +80,12 @@ namespace AdminLauncher.AppWPF
         }
         private void AddProgram_Click(object sender, RoutedEventArgs e)
         {
-            InterfaceSelectorMode(1);
+            InterfaceSelectorMode(InterfaceEnum.AddProgramInterface);
         }
         // Evento al click di "Add Routine"
         private void AddRoutine_Click(object sender, RoutedEventArgs e)
         {
-            InterfaceSelectorMode(2);
+            InterfaceSelectorMode(InterfaceEnum.AddRoutineInterface);
 
             // Popola la lista dei ProgramItem nel ListBox
             ProgramsListBox.Items.Clear();
@@ -118,8 +118,8 @@ namespace AdminLauncher.AppWPF
             ProgramManager.AddRoutine(newRoutine);
             ProgramManager.Save();
 
-            InterfaceSelectorMode(0);
-            CreateButtons();
+            InterfaceSelectorMode(InterfaceEnum.MainInterface);
+            GenerateButtons();
         }
         // Evento per annullare la creazione della routine
         private void CancelRoutine_Click(object sender, RoutedEventArgs e)
@@ -156,14 +156,14 @@ namespace AdminLauncher.AppWPF
             // Aggiungi il ProgramItem a ProgramsManager e salva
             ProgramManager.AddProgram(newProgram);
             ProgramManager.Save();
-            CreateButtons();
+            GenerateButtons();
 
             // Torna alla vista principale
-            InterfaceSelectorMode(0);
+            InterfaceSelectorMode(InterfaceEnum.MainInterface);
         }
         private void CancelProgram_Click(object sender, RoutedEventArgs e)
         {
-            InterfaceSelectorMode(0);
+            InterfaceSelectorMode(InterfaceEnum.MainInterface);
             ClearAddProgramData();
         }
 
@@ -185,7 +185,7 @@ namespace AdminLauncher.AppWPF
                 ProgramManager.RemoveProgram(item);
                 ProgramManager.Save();
             }
-            CreateButtons();
+            GenerateButtons();
         }
         private void OnDeleteRoutineClicked(RoutineItem item)
         {
@@ -198,25 +198,26 @@ namespace AdminLauncher.AppWPF
                 ProgramManager.RemoveRoutine(item);
                 ProgramManager.Save();
             }
-            CreateButtons();
+            GenerateButtons();
         }
 
-        private void InterfaceSelectorMode(int mode)
+        private void InterfaceSelectorMode(InterfaceEnum mode)
         {
             switch (mode)
             {
-                case 0:
+                case InterfaceEnum.MainInterface:
                     AddProgramPanel.Visibility = Visibility.Collapsed;
                     MainScrollViewer.Visibility = Visibility.Visible;
                     AddRoutinePanel.Visibility = Visibility.Collapsed;
                     break;
-                case 1:
+                case InterfaceEnum.AddProgramInterface:
                     AddProgramPanel.Visibility = Visibility.Visible;
                     MainScrollViewer.Visibility = Visibility.Collapsed;
                     AddRoutinePanel.Visibility = Visibility.Collapsed;
                     break;
-                case 2:
+                case InterfaceEnum.AddRoutineInterface:
                     MainScrollViewer.Visibility = Visibility.Collapsed;
+                    AddProgramPanel.Visibility = Visibility.Collapsed;
                     AddRoutinePanel.Visibility = Visibility.Visible;
 
                     break;
@@ -235,11 +236,54 @@ namespace AdminLauncher.AppWPF
             this.Top = workAreaHeight - this.Height;
         }
         // Metodo per creare i pulsanti dinamicamente
-        private void CreateButtons()
+        private void GenerateButtons()
         {
             ButtonPanel.Children.Clear();
+            foreach (var item in ProgramManager.Routines)
+            {
+                // Crea il pulsante
+                Button button = new Button
+                {
+                    Margin = new Thickness(5),
+                    HorizontalContentAlignment = System.Windows.HorizontalAlignment.Stretch,
+                };
+
+                // Crea un DockPanel per inserire l'icona e il testo
+                DockPanel dockPanel = new DockPanel();
+                // Aggiungi l'icona al pulsante
+                Image iconImage = new Image
+                {
+                    Source = LoadIcon("pack://application:,,,/list.png"),  // Ottieni l'icona
+                    Width = 32,
+                    Height = 32,
+                    Margin = new Thickness(0, 0, 5, 0) // Margine tra icona e testo
+                };
+                DockPanel.SetDock(iconImage, Dock.Left);  // Posiziona l'icona a sinistra
+                dockPanel.Children.Add(iconImage);
+                // Aggiungi il nome del programma al pulsante
+                TextBlock textBlock = new TextBlock
+                {
+                    Text = item.Name,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+                dockPanel.Children.Add(textBlock);
+                button.Content = dockPanel;
+                // Crea il ContextMenu con l'opzione "Delete Program"
+                ContextMenu contextMenu = new ContextMenu();
+                MenuItem deleteMenuItem = new MenuItem { Header = "Delete Program" };
+                deleteMenuItem.Click += (s, e) => OnDeleteRoutineClicked(item); // Associa l'evento click
+                contextMenu.Items.Add(deleteMenuItem);
+                button.ContextMenu = contextMenu;
+
+                // Associa il click del pulsante al metodo specifico dell'oggetto
+                button.Click += (sender, e) => item.Launch();
+
+                // Aggiungi il pulsante al pannello
+                ButtonPanel.Children.Add(button);
+            }
+
             // Assumendo che ci sia uno StackPanel in XAML con il nome "ButtonPanel"
-            foreach (var item in ProgramManager.Programs)
+            foreach (var item in ProgramManager.Programs.OrderBy(e => e.IsFavorite == false))
             {
                 // Crea il pulsante
                 Button button = new Button
@@ -283,48 +327,7 @@ namespace AdminLauncher.AppWPF
                 // Aggiungi il pulsante al pannello
                 ButtonPanel.Children.Add(button);
             }
-            foreach (var item in ProgramManager.Routines)
-            {
-                // Crea il pulsante
-                Button button = new Button
-                {
-                    Margin = new Thickness(5),
-                    HorizontalContentAlignment = System.Windows.HorizontalAlignment.Stretch,
-                };
 
-                // Crea un DockPanel per inserire l'icona e il testo
-                DockPanel dockPanel = new DockPanel();
-                // Aggiungi l'icona al pulsante
-                Image iconImage = new Image
-                {
-                    Source = LoadIcon("pack://application:,,,/list.png"),  // Ottieni l'icona
-                    Width = 32,
-                    Height = 32,
-                    Margin = new Thickness(0, 0, 5, 0) // Margine tra icona e testo
-                };
-                DockPanel.SetDock(iconImage, Dock.Left);  // Posiziona l'icona a sinistra
-                dockPanel.Children.Add(iconImage);
-                // Aggiungi il nome del programma al pulsante
-                TextBlock textBlock = new TextBlock
-                {
-                    Text = item.Name + "(Routine)",
-                    VerticalAlignment = VerticalAlignment.Center
-                };
-                dockPanel.Children.Add(textBlock);
-                button.Content = dockPanel;
-                // Crea il ContextMenu con l'opzione "Delete Program"
-                ContextMenu contextMenu = new ContextMenu();
-                MenuItem deleteMenuItem = new MenuItem { Header = "Delete Program" };
-                deleteMenuItem.Click += (s, e) => OnDeleteRoutineClicked(item); // Associa l'evento click
-                contextMenu.Items.Add(deleteMenuItem);
-                button.ContextMenu = contextMenu;
-
-                // Associa il click del pulsante al metodo specifico dell'oggetto
-                button.Click += (sender, e) => item.Launch();
-
-                // Aggiungi il pulsante al pannello
-                ButtonPanel.Children.Add(button);
-            }
         }
         private static BitmapImage LoadIcon(string iconPath)
         {
