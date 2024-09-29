@@ -1,6 +1,7 @@
 ﻿using AdminLauncher.BusinessLibrary;
 using Microsoft.Win32;
 using System.Drawing;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -46,7 +47,7 @@ namespace AdminLauncher.AppWPF
         {
             notifyIcon = new NotifyIcon
             {
-                Icon = SystemIcons.Application,
+                Icon =  new Icon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocket.ico")),
                 Visible = true,
                 Text = "Admin Launcher"
             };

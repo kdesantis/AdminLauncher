@@ -36,7 +36,7 @@ namespace AdminLauncher.BusinessLibrary
 
         public override string GetIconPath()
         {
-            return Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "list.png"));
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "list.png");
         }
     }
 }
