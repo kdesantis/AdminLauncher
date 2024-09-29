@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AdminLauncher.AppWPF"
         mc:Ignorable="d"
-        Title="Admin Launcher by De Santis Kevin" Height="800" Width="500"
+        Title="Admin Launcher by De Santis Kevin" Height="800" Width="400"
         WindowStartupLocation="Manual"
         ResizeMode="NoResize"
         WindowStyle="SingleBorderWindow"
