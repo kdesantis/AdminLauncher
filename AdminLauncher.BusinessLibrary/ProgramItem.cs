@@ -7,20 +7,18 @@ using Toolbelt.Drawing;
 
 namespace AdminLauncher.BusinessLibrary
 {
-    public class ProgramItem
+    public class ProgramItem: GenericItem
     {
-        public int Index { get; set; }
-        public string Name { get; set; }
         public string Path { get; set; }
         public string? Arguments { get; set; }
         public bool IsFavorite { get; set; }
 
-        public void Launch()
+        public override void Launch()
         {
             ProcessLauncher.LaunchProgram(this);
         }
 
-        public string GetIconPath()
+        public override string GetIconPath()
         {
             var iconPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), $"{Index}-{Name}.ico");
             if (File.Exists(Path))

@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace AdminLauncher.BusinessLibrary
 {
-    public class RoutineItem
+    public class RoutineItem : GenericItem
     {
-        public int Index { get; set; }
         private string name;
-
-        public string Name
+        public override string Name
         {
-            get { return $"{name}(routine)"; }
+            get { return name.EndsWith("(routine)") ? name : name + "(routine)" ; }
             set { name = value; }
         }
 
@@ -30,10 +28,15 @@ namespace AdminLauncher.BusinessLibrary
                 Programs.Remove(program);
         }
 
-        public void Launch()
+        public override void Launch()
         {
             foreach (var program in Programs)
                 program.Launch();
+        }
+
+        public override string GetIconPath()
+        {
+            return Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "list.png"));
         }
     }
 }
