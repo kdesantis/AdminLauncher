@@ -94,9 +94,7 @@ namespace AdminLauncher.AppWPF
             {
                 var program = ProgramManager.FindProgramByName(selectedProgram.ToString());
                 if (program != null)
-                {
                     newRoutine.AddProgram(program);
-                }
             }
 
             ProgramManager.AddRoutine(newRoutine);
@@ -186,9 +184,11 @@ namespace AdminLauncher.AppWPF
         {
             ButtonPanel.Children.Clear();
 
-            List<GenericItem> genericItems = new List<GenericItem>();
-            genericItems.AddRange(ProgramManager.Routines.OrderBy(e => e.Name));
-            genericItems.AddRange(ProgramManager.Programs.OrderBy(e => e.Name));
+            List<GenericItem> genericItems =
+            [
+                .. ProgramManager.Routines.OrderBy(e => e.Name),
+                .. ProgramManager.Programs.OrderBy(e => e.Name),
+            ];
 
             foreach (var item in genericItems)
             {
