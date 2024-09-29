@@ -26,12 +26,8 @@ namespace AdminLauncher.AppWPF
             InitializeComponent();
 
             PositionWindowInBottomRight();
-
             ProgramManager.Load();
-
             GenerateButtons();
-
-            // Inizializza NotifyIcon
             InitializeNotifyIcon();
         }
 
@@ -47,7 +43,7 @@ namespace AdminLauncher.AppWPF
         {
             notifyIcon = new NotifyIcon
             {
-                Icon =  new Icon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocket.ico")),
+                Icon = new Icon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocket.ico")),
                 Visible = true,
                 Text = "Admin Launcher"
             };
@@ -142,7 +138,6 @@ namespace AdminLauncher.AppWPF
         }
         private void CancelProgram_Click(object sender, RoutedEventArgs e) =>
             InterfaceLoader(InterfaceEnum.MainInterface);
-
         private void ClearAddProgramData()
         {
             ProgramNameTextBox.Clear();
@@ -155,7 +150,6 @@ namespace AdminLauncher.AppWPF
             RoutineNameTextBox.Clear();
             ProgramsListBox.UnselectAll();
         }
-
         private void OnDeleteClicked(GenericItem item)
         {
             MessageBoxResult result = MessageBox.Show($"Can I leave the case here? Are you sure you want to delete {item.Name}?",
@@ -171,7 +165,6 @@ namespace AdminLauncher.AppWPF
             }
             GenerateButtons();
         }
-
         private void InterfaceLoader(InterfaceEnum mode)
         {
             switch (mode)
@@ -195,7 +188,6 @@ namespace AdminLauncher.AppWPF
                     break;
             }
         }
-
         private void GenerateButtons()
         {
             ButtonPanel.Children.Clear();
@@ -254,6 +246,5 @@ namespace AdminLauncher.AppWPF
             }
             return bitmap;
         }
-
     }
 }

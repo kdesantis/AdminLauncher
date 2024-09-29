@@ -7,7 +7,7 @@ using Toolbelt.Drawing;
 
 namespace AdminLauncher.BusinessLibrary
 {
-    public class ProgramItem: GenericItem
+    public class ProgramItem : GenericItem
     {
         public string Path { get; set; }
         public string? Arguments { get; set; }
@@ -25,8 +25,9 @@ namespace AdminLauncher.BusinessLibrary
             {
                 var s = File.Create(iconPath);
                 IconExtractor.Extract1stIconTo(Path, s);
+                bool valid = s.Length > 0;
                 s.Close();
-                return iconPath;
+                return valid ? iconPath : null;
             }
             return null;
         }
