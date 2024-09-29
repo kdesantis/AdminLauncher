@@ -12,18 +12,16 @@
         Topmost="True"
         Closing="Window_Closing" Icon="/rocket.png">
     <Grid>
-        <!-- Menu bar -->
+        
         <Menu VerticalAlignment="Top">
             <MenuItem Header="Add Program" Click="AddProgram_Click"/>
             <MenuItem Header="Add Routine" Click="AddRoutine_Click"/>
         </Menu>
 
-        <!-- ScrollViewer and ButtonPanel -->
         <ScrollViewer x:Name="MainScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,30,0,0">
             <StackPanel x:Name="ButtonPanel" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
         </ScrollViewer>
 
-        <!-- Form for adding a new program -->
         <StackPanel x:Name="AddProgramPanel" Visibility="Collapsed" Margin="0,30,0,0">
             <TextBlock Text="Add New Program" FontWeight="Bold" FontSize="16" Margin="10" />
 
