@@ -1,8 +1,14 @@
 ﻿using AdminLauncher.BusinessLibrary;
 using Microsoft.Win32;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using Application = System.Windows.Application;
+using Button = System.Windows.Controls.Button;
+using Image = System.Windows.Controls.Image;
+using MessageBox = System.Windows.MessageBox;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace AdminLauncher.AppWPF
 {
@@ -12,6 +18,7 @@ namespace AdminLauncher.AppWPF
     public partial class MainWindow : Window
     {
         ProgramManager ProgramManager = new();
+        private NotifyIcon notifyIcon;
 
         public MainWindow()
         {
@@ -23,7 +30,49 @@ namespace AdminLauncher.AppWPF
 
             CreateButtons();
 
+            // Inizializza NotifyIcon
+            InitializeNotifyIcon();
         }
+        private void InitializeNotifyIcon()
+        {
+            notifyIcon = new NotifyIcon
+            {
+                Icon = SystemIcons.Application, // Puoi utilizzare una tua icona
+                Visible = true,
+                Text = "Admin Launcher"
+            };
+
+            // Menu contestuale per NotifyIcon
+            var contextMenu = new System.Windows.Forms.ContextMenuStrip();
+            contextMenu.Items.Add("Close", null, OnCloseClick);
+            notifyIcon.ContextMenuStrip = contextMenu;
+
+            // Evento per ripristinare l'applicazione al doppio clic
+            notifyIcon.DoubleClick += (s, e) => ShowWindow();
+        }
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true; // Annulla la chiusura della finestra
+            Hide(); // Nascondi la finestra invece di chiuderla
+        }
+
+        private void ShowWindow()
+        {
+            Show(); // Mostra la finestra
+            WindowState = WindowState.Normal; // Assicurati che la finestra non sia minimizzata
+        }
+
+        private void OnCloseClick(object sender, EventArgs e)
+        {
+            Application.Current.Shutdown(); // Chiudi l'applicazione
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            notifyIcon.Dispose(); // Pulisci la risorsa NotifyIcon
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true; // Cancella l'evento di chiusura
