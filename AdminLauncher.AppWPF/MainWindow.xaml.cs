@@ -70,25 +70,18 @@ namespace AdminLauncher.AppWPF
             WindowState = WindowState.Normal;
         }
 
-        private void OnCloseClick(object sender, EventArgs e)
-        {
+        private void OnCloseClick(object sender, EventArgs e) =>
             Application.Current.Shutdown();
-        }
 
-        private void Window_Closed(object sender, EventArgs e)
-        {
+        private void Window_Closed(object sender, EventArgs e) =>
             notifyIcon.Dispose();
-        }
-
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
             this.Hide();
         }
-        private void AddProgram_Click(object sender, RoutedEventArgs e)
-        {
+        private void AddProgram_Click(object sender, RoutedEventArgs e) =>
             InterfaceLoader(InterfaceEnum.AddProgramInterface);
-        }
 
         private void AddRoutine_Click(object sender, RoutedEventArgs e)
         {
@@ -121,10 +114,8 @@ namespace AdminLauncher.AppWPF
             InterfaceLoader(InterfaceEnum.MainInterface);
             GenerateButtons();
         }
-        private void CancelRoutine_Click(object sender, RoutedEventArgs e)
-        {
+        private void CancelRoutine_Click(object sender, RoutedEventArgs e) =>
             InterfaceLoader(InterfaceEnum.MainInterface);
-        }
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -148,10 +139,8 @@ namespace AdminLauncher.AppWPF
 
             InterfaceLoader(InterfaceEnum.MainInterface);
         }
-        private void CancelProgram_Click(object sender, RoutedEventArgs e)
-        {
+        private void CancelProgram_Click(object sender, RoutedEventArgs e) =>
             InterfaceLoader(InterfaceEnum.MainInterface);
-        }
 
         private void ClearAddProgramData()
         {
