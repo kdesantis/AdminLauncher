@@ -7,7 +7,17 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
 	  <UseWindowsForms>true</UseWindowsForms>
+	  <ApplicationManifest>app.manifest</ApplicationManifest>
+	  <ApplicationIcon>rocket.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="rocket.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="rocket.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="8.0.8" />
@@ -15,6 +25,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AdminLauncher.BusinessLibrary\AdminLauncher.BusinessLibrary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="rocket.png" />
   </ItemGroup>
 
 </Project>
