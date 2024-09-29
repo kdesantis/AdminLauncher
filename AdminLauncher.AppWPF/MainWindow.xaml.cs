@@ -187,7 +187,7 @@ namespace AdminLauncher.AppWPF
             List<GenericItem> genericItems =
             [
                 .. ProgramManager.Routines.OrderBy(e => e.Name),
-                .. ProgramManager.Programs.OrderBy(e => e.Name),
+                .. ProgramManager.Programs.OrderBy(e => e.Name).OrderByDescending(e => e.IsFavorite),
             ];
 
             foreach (var item in genericItems)
@@ -198,7 +198,11 @@ namespace AdminLauncher.AppWPF
                     HorizontalContentAlignment = System.Windows.HorizontalAlignment.Stretch,
                 };
 
-                DockPanel dockPanel = new DockPanel();
+                Grid grid = new Grid();
+                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
                 Image iconImage = new Image
                 {
                     Source = LoadIcon(item.GetIconPath()),
@@ -206,16 +210,32 @@ namespace AdminLauncher.AppWPF
                     Height = 32,
                     Margin = new Thickness(0, 0, 5, 0)
                 };
-                DockPanel.SetDock(iconImage, Dock.Left);
-                dockPanel.Children.Add(iconImage);
+                Grid.SetColumn(iconImage, 0);
+                grid.Children.Add(iconImage);
 
                 TextBlock textBlock = new TextBlock
                 {
                     Text = item.Name,
                     VerticalAlignment = VerticalAlignment.Center
                 };
-                dockPanel.Children.Add(textBlock);
-                button.Content = dockPanel;
+                Grid.SetColumn(textBlock, 1);
+                grid.Children.Add(textBlock);
+
+                if (item is ProgramItem && ((ProgramItem)item).IsFavorite)
+                {
+                    Image favoriteIcon = new Image
+                    {
+                        Source = LoadIcon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "favorite.png")),
+                        Width = 32,
+                        Height = 32,
+                        Margin = new Thickness(0, 0, 5, 0),
+                        HorizontalAlignment = System.Windows.HorizontalAlignment.Right
+                    };
+                    Grid.SetColumn(favoriteIcon, 2);
+                    grid.Children.Add(favoriteIcon);
+                }
+
+                button.Content = grid;
 
                 ContextMenu contextMenu = new ContextMenu();
                 MenuItem deleteMenuItem = new MenuItem { Header = item is ProgramItem ? "Delete Program" : "Delete Routine" };

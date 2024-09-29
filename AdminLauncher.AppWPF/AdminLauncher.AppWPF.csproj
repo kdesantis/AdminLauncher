@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="favorite.png" />
     <None Remove="rocket.png" />
   </ItemGroup>
 
@@ -30,6 +31,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="favorite.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="rocket.png" />
   </ItemGroup>
 
