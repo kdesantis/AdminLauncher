@@ -29,10 +29,14 @@
             <TextBox x:Name="ProgramNameTextBox" Margin="5" />
 
             <Label Content="Path" />
-            <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="ProgramPathTextBox" Width="400" Margin="5" />
-                <Button Content="Browse..." Click="BrowseButton_Click" Width="auto" Margin="5" />
-            </StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80*" />
+                    <ColumnDefinition Width="20*" />
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="ProgramPathTextBox" Grid.Column="0" Margin="5" />
+                <Button Content="Browse..." Click="BrowseButton_Click" Grid.Column="1" Margin="5" />
+            </Grid>
 
             <Label Content="Arguments" />
             <TextBox x:Name="ProgramArgumentsTextBox" Margin="5" />
