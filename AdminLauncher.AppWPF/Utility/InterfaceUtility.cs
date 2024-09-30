@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdminLauncher.BusinessLibrary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -53,6 +54,12 @@ namespace AdminLauncher.AppWPF.Utility
                     mainWindow.AddRoutinePanel.Visibility = Visibility.Visible;
                     break;
             }
+        }
+        public static void LoadProgramsListBox(ProgramManager programManager, MainWindow mainWindow)
+        {
+            mainWindow.ProgramsListBox.Items.Clear();
+            foreach (var program in programManager.Programs)
+                mainWindow.ProgramsListBox.Items.Add(program.Name);
         }
     }
 }

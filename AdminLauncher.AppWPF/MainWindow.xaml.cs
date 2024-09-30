@@ -47,7 +47,7 @@ namespace AdminLauncher.AppWPF
         private void AddRoutine_Click(object sender, RoutedEventArgs e)
         {
             InterfaceUtility.InterfaceLoader(InterfaceEnum.AddRoutineInterface, this);
-            ButtonGenerator.LoadProgramsListBox(ProgramManager, this);
+            InterfaceUtility.LoadProgramsListBox(ProgramManager, this);
         }
         private void QuickRun_Click(object sender, RoutedEventArgs e)
         {
@@ -107,8 +107,5 @@ namespace AdminLauncher.AppWPF
         }
         private void CancelProgram_Click(object sender, RoutedEventArgs e) =>
             InterfaceUtility.InterfaceLoader(InterfaceEnum.MainInterface, this);
-
-
-
     }
 }
