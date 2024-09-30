@@ -25,6 +25,7 @@
         <StackPanel x:Name="AddProgramPanel" Visibility="Collapsed" Margin="0,30,0,0">
             <TextBlock Text="Add New Program" FontWeight="Bold" FontSize="16" Margin="10" />
 
+            <Label x:Name="ProgramIndexLabel" Visibility="Collapsed" Content="-1"/>
             <Label Content="Name" />
             <TextBox x:Name="ProgramNameTextBox" Margin="5" />
 
@@ -52,6 +53,8 @@
         <StackPanel x:Name="AddRoutinePanel" Visibility="Collapsed" Margin="0,30,0,0">
             <TextBlock Text="Add New Routine" FontWeight="Bold" FontSize="16" Margin="10" />
 
+            <Label x:Name="RoutineIndexLabel" Visibility="Collapsed" Content="-1"/>
+            
             <Label Content="Routine Name" />
             <TextBox x:Name="RoutineNameTextBox" Margin="5" />
 

@@ -29,6 +29,11 @@ namespace AdminLauncher.AppWPF
             ProgramManager.Load();
             GenerateButtons();
             InitializeNotifyIcon();
+
+#if DEBUG
+            ProgramIndexLabel.Visibility = Visibility.Visible;
+            RoutineIndexLabel.Visibility = Visibility.Visible;
+#endif
         }
 
         private void PositionWindowInBottomRight()
@@ -63,9 +68,6 @@ namespace AdminLauncher.AppWPF
 
         private void OnCloseClick(object sender, EventArgs e) =>
             Application.Current.Shutdown();
-
-        private void Window_Closed(object sender, EventArgs e) =>
-            notifyIcon.Dispose();
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
@@ -77,7 +79,11 @@ namespace AdminLauncher.AppWPF
         private void AddRoutine_Click(object sender, RoutedEventArgs e)
         {
             InterfaceLoader(InterfaceEnum.AddRoutineInterface);
+            LoadProgramsListBox();
+        }
 
+        private void LoadProgramsListBox()
+        {
             ProgramsListBox.Items.Clear();
             foreach (var program in ProgramManager.Programs)
                 ProgramsListBox.Items.Add(program.Name);
@@ -86,6 +92,7 @@ namespace AdminLauncher.AppWPF
         {
             RoutineItem newRoutine = new RoutineItem
             {
+                Index = Int32.Parse(RoutineIndexLabel.Content.ToString()),
                 Name = RoutineNameTextBox.Text,
                 Programs = new List<ProgramItem>()
             };
@@ -116,6 +123,7 @@ namespace AdminLauncher.AppWPF
         {
             ProgramItem newProgram = new ProgramItem
             {
+                Index = Int32.Parse(ProgramIndexLabel.Content.ToString()),
                 Name = ProgramNameTextBox.Text,
                 Path = ProgramPathTextBox.Text,
                 Arguments = ProgramArgumentsTextBox.Text,
@@ -132,6 +140,7 @@ namespace AdminLauncher.AppWPF
             InterfaceLoader(InterfaceEnum.MainInterface);
         private void ClearAddProgramData()
         {
+            ProgramIndexLabel.Content = -1;
             ProgramNameTextBox.Clear();
             ProgramPathTextBox.Clear();
             ProgramArgumentsTextBox.Clear();
@@ -139,6 +148,7 @@ namespace AdminLauncher.AppWPF
         }
         private void ClearRoutineData()
         {
+            RoutineIndexLabel.Content = -1;
             RoutineNameTextBox.Clear();
             ProgramsListBox.UnselectAll();
         }
@@ -156,6 +166,28 @@ namespace AdminLauncher.AppWPF
                 ProgramManager.Save();
             }
             GenerateButtons();
+        }
+        private void OnEditClicked(GenericItem item)
+        {
+            if (item is ProgramItem)
+            {
+                var program = (ProgramItem)item;
+                InterfaceLoader(InterfaceEnum.AddProgramInterface);
+                ProgramIndexLabel.Content = program.Index;
+                ProgramNameTextBox.Text = program.Name;
+                ProgramPathTextBox.Text = program.Path;
+                ProgramArgumentsTextBox.Text = program.Arguments;
+                FavoriteCheckBox.IsChecked = program.IsFavorite;
+
+            }
+            else if (item is RoutineItem)
+            {
+                LoadProgramsListBox();
+                var routine = (RoutineItem)item;
+                RoutineIndexLabel.Content = routine.Index;
+                InterfaceLoader(InterfaceEnum.AddRoutineInterface);
+                RoutineNameTextBox.Text = routine.Name;
+            }
         }
         private void InterfaceLoader(InterfaceEnum mode)
         {
@@ -241,6 +273,10 @@ namespace AdminLauncher.AppWPF
                 MenuItem deleteMenuItem = new MenuItem { Header = item is ProgramItem ? "Delete Program" : "Delete Routine" };
                 deleteMenuItem.Click += (s, e) => OnDeleteClicked(item);
                 contextMenu.Items.Add(deleteMenuItem);
+
+                MenuItem editMenuItem = new MenuItem { Header = item is ProgramItem ? "Edit Program" : "Edit Routine" };
+                editMenuItem.Click += (s, e) => OnEditClicked(item);
+                contextMenu.Items.Add(editMenuItem);
                 button.ContextMenu = contextMenu;
 
                 button.Click += (sender, e) => item.Launch();
