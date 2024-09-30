@@ -55,10 +55,10 @@ namespace AdminLauncher.AppWPF.Utility
                     break;
             }
         }
-        public static void LoadProgramsListBox(ProgramManager programManager, MainWindow mainWindow)
+        public static void LoadProgramsListBox(List<ProgramItem> programs, MainWindow mainWindow)
         {
             mainWindow.ProgramsListBox.Items.Clear();
-            foreach (var program in programManager.Programs)
+            foreach (var program in programs)
                 mainWindow.ProgramsListBox.Items.Add(program.Name);
         }
     }

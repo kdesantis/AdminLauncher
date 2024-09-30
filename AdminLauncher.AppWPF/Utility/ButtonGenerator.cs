@@ -15,36 +15,41 @@ namespace AdminLauncher.AppWPF.Utility
 {
     public static class ButtonGenerator
     {
+        private static ProgramManager? CurrentProgramManager;
+        private static MainWindow? CurrentMainWindows;
         public static void GenerateButtons(ProgramManager programManager, MainWindow mainWindow)
         {
-            mainWindow.ButtonPanel.Children.Clear();
+            CurrentProgramManager = programManager;
+            CurrentMainWindows = mainWindow;
 
-            List<GenericItem> genericItems = GetSortedGenericItems(programManager);
+            CurrentMainWindows.ButtonPanel.Children.Clear();
+
+            List<GenericItem> genericItems = GetSortedGenericItems();
 
             foreach (var item in genericItems)
             {
-                Button button = CreateButton(item, programManager, mainWindow);
-                mainWindow.ButtonPanel.Children.Add(button);
+                Button button = CreateButton(item);
+                CurrentMainWindows.ButtonPanel.Children.Add(button);
             }
         }
 
-        static List<GenericItem> GetSortedGenericItems(ProgramManager programManager)
+        private static List<GenericItem> GetSortedGenericItems()
         {
             return
             [
-                .. programManager.Routines.OrderBy(e => e.Name),
-                .. programManager.Programs.OrderBy(e => e.Name).OrderByDescending(e => e.IsFavorite),
+                .. CurrentProgramManager.Routines.OrderBy(e => e.Name),
+                .. CurrentProgramManager.Programs.OrderBy(e => e.Name).OrderByDescending(e => e.IsFavorite),
             ];
         }
 
-        static Button CreateButton(GenericItem item, ProgramManager programManager, MainWindow mainWindow)
+        private static Button CreateButton(GenericItem item)
         {
             Button button = new Button
             {
                 Margin = new Thickness(5),
                 HorizontalContentAlignment = System.Windows.HorizontalAlignment.Stretch,
                 Content = CreateButtonContent(item),
-                ContextMenu = CreateContextMenu(item, programManager, mainWindow)
+                ContextMenu = CreateContextMenu(item)
             };
 
             button.Click += (sender, e) => item.Launch();
@@ -52,7 +57,7 @@ namespace AdminLauncher.AppWPF.Utility
             return button;
         }
 
-        static UIElement CreateButtonContent(GenericItem item)
+        private static UIElement CreateButtonContent(GenericItem item)
         {
             Grid grid = new Grid();
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
@@ -94,32 +99,32 @@ namespace AdminLauncher.AppWPF.Utility
             return grid;
         }
 
-        static ContextMenu CreateContextMenu(GenericItem item, ProgramManager programManager, MainWindow mainWindow)
+        private static ContextMenu CreateContextMenu(GenericItem item)
         {
             ContextMenu contextMenu = new ContextMenu();
 
             MenuItem deleteMenuItem = new MenuItem { Header = item is ProgramItem ? "Delete Program" : "Delete Routine" };
-            deleteMenuItem.Click += (s, e) => OnDeleteClicked(item, programManager, mainWindow);
+            deleteMenuItem.Click += (s, e) => OnDeleteClicked(item);
             contextMenu.Items.Add(deleteMenuItem);
 
             MenuItem editMenuItem = new MenuItem { Header = item is ProgramItem ? "Edit Program" : "Edit Routine" };
-            editMenuItem.Click += (s, e) => OnEditClicked(item, mainWindow, programManager);
+            editMenuItem.Click += (s, e) => OnEditClicked(item);
             contextMenu.Items.Add(editMenuItem);
 
             return contextMenu;
         }
 
-        static void OnDeleteClicked(GenericItem item, ProgramManager programManager, MainWindow mainWindow)
+        private static void OnDeleteClicked(GenericItem item)
         {
             if (ConfirmDeletion(item.Name))
             {
-                RemoveItem(item, programManager);
-                programManager.Save();
-                GenerateButtons(programManager, mainWindow);
+                RemoveItem(item);
+                CurrentProgramManager.Save();
+                GenerateButtons(CurrentProgramManager, CurrentMainWindows);
             }
         }
 
-        static bool ConfirmDeletion(string itemName)
+        private static bool ConfirmDeletion(string itemName)
         {
             MessageBoxResult result = MessageBox.Show(
                 $"Are you sure you want to delete {itemName}?",
@@ -131,45 +136,45 @@ namespace AdminLauncher.AppWPF.Utility
             return result == MessageBoxResult.Yes;
         }
 
-        static void RemoveItem(GenericItem item, ProgramManager programManager)
+        private static void RemoveItem(GenericItem item)
         {
             if (item is ProgramItem)
             {
-                programManager.RemoveProgram((ProgramItem)item);
+                CurrentProgramManager.RemoveProgram((ProgramItem)item);
             }
             else if (item is RoutineItem)
             {
-                programManager.RemoveRoutine((RoutineItem)item);
+                CurrentProgramManager.RemoveRoutine((RoutineItem)item);
             }
         }
-        static void OnEditClicked(GenericItem item, MainWindow mainWindow, ProgramManager programManager)
+        private static void OnEditClicked(GenericItem item)
         {
             if (item is ProgramItem programItem)
             {
-                EditProgram(programItem, mainWindow);
+                EditProgram(programItem);
             }
             else if (item is RoutineItem routineItem)
             {
-                EditRoutine(routineItem, mainWindow, programManager);
+                EditRoutine(routineItem);
             }
         }
 
-        static void EditProgram(ProgramItem program, MainWindow mainWindow)
+        private static void EditProgram(ProgramItem program)
         {
-            InterfaceUtility.InterfaceLoader(InterfaceEnum.AddProgramInterface, mainWindow);
-            mainWindow.ProgramIndexLabel.Content = program.Index;
-            mainWindow.ProgramNameTextBox.Text = program.Name;
-            mainWindow.ProgramPathTextBox.Text = program.Path;
-            mainWindow.ProgramArgumentsTextBox.Text = program.Arguments;
-            mainWindow.FavoriteCheckBox.IsChecked = program.IsFavorite;
+            InterfaceUtility.InterfaceLoader(InterfaceEnum.AddProgramInterface, CurrentMainWindows);
+            CurrentMainWindows.ProgramIndexLabel.Content = program.Index;
+            CurrentMainWindows.ProgramNameTextBox.Text = program.Name;
+            CurrentMainWindows.ProgramPathTextBox.Text = program.Path;
+            CurrentMainWindows.ProgramArgumentsTextBox.Text = program.Arguments;
+            CurrentMainWindows.FavoriteCheckBox.IsChecked = program.IsFavorite;
         }
 
-        static void EditRoutine(RoutineItem routine, MainWindow mainWindow, ProgramManager programManager)
+        private static void EditRoutine(RoutineItem routine)
         {
-            InterfaceUtility.LoadProgramsListBox(programManager, mainWindow);
-            InterfaceUtility.InterfaceLoader(InterfaceEnum.AddRoutineInterface, mainWindow);
-            mainWindow.RoutineIndexLabel.Content = routine.Index;
-            mainWindow.RoutineNameTextBox.Text = routine.Name;
+            InterfaceUtility.LoadProgramsListBox(CurrentProgramManager.Programs, CurrentMainWindows);
+            InterfaceUtility.InterfaceLoader(InterfaceEnum.AddRoutineInterface, CurrentMainWindows);
+            CurrentMainWindows.RoutineIndexLabel.Content = routine.Index;
+            CurrentMainWindows.RoutineNameTextBox.Text = routine.Name;
         }
     }
 }
