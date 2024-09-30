@@ -29,7 +29,7 @@ namespace AdminLauncher.AppWPF.Utility
         }
         public static void ShowWindow(MainWindow mainWindow)
         {
-            InterfaceUtility.PositionWindowInBottomRight(mainWindow);
+            InterfaceControl.PositionWindowInBottomRight(mainWindow);
             mainWindow.Show();
             mainWindow.WindowState = WindowState.Normal;
         }

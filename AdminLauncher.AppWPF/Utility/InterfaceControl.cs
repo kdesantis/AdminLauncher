@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace AdminLauncher.AppWPF.Utility
 {
-    public static class InterfaceUtility
+    public static class InterfaceControl
     {
         public static void PositionWindowInBottomRight(MainWindow mainWindow)
         {
@@ -18,7 +18,7 @@ namespace AdminLauncher.AppWPF.Utility
             mainWindow.Left = workAreaWidth - mainWindow.Width;
             mainWindow.Top = workAreaHeight - mainWindow.Height;
         }
-        public static void ClearAddProgramData(MainWindow mainWindow)
+        private static void ClearAddProgramData(MainWindow mainWindow)
         {
             mainWindow.ProgramIndexLabel.Content = -1;
             mainWindow.ProgramNameTextBox.Clear();
@@ -26,7 +26,7 @@ namespace AdminLauncher.AppWPF.Utility
             mainWindow.ProgramArgumentsTextBox.Clear();
             mainWindow.FavoriteCheckBox.IsChecked = false;
         }
-        public static void ClearRoutineData(MainWindow mainWindow)
+        private static void ClearRoutineData(MainWindow mainWindow)
         {
             mainWindow.RoutineIndexLabel.Content = -1;
             mainWindow.RoutineNameTextBox.Clear();
@@ -40,8 +40,8 @@ namespace AdminLauncher.AppWPF.Utility
                     mainWindow.AddProgramPanel.Visibility = Visibility.Collapsed;
                     mainWindow.MainScrollViewer.Visibility = Visibility.Visible;
                     mainWindow.AddRoutinePanel.Visibility = Visibility.Collapsed;
-                    InterfaceUtility.ClearAddProgramData(mainWindow);
-                    InterfaceUtility.ClearRoutineData(mainWindow);
+                    ClearAddProgramData(mainWindow);
+                    ClearRoutineData(mainWindow);
                     break;
                 case InterfaceEnum.AddProgramInterface:
                     mainWindow.AddProgramPanel.Visibility = Visibility.Visible;

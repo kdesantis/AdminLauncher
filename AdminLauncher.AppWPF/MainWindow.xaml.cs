@@ -1,6 +1,7 @@
 ﻿using AdminLauncher.AppWPF.Utility;
 using AdminLauncher.BusinessLibrary;
 using Microsoft.Win32;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows;
@@ -8,6 +9,9 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
+using DataFormats = System.Windows.DataFormats;
+using DragDropEffects = System.Windows.DragDropEffects;
+using DragEventArgs = System.Windows.DragEventArgs;
 using Image = System.Windows.Controls.Image;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
@@ -26,7 +30,7 @@ namespace AdminLauncher.AppWPF
         {
             InitializeComponent();
 
-            InterfaceUtility.PositionWindowInBottomRight(this);
+            InterfaceControl.PositionWindowInBottomRight(this);
             ProgramManager.Load();
             ButtonGenerator.GenerateButtons(ProgramManager, this);
             notifyIcon = NotifyIconUtility.InitializeNotifyIcon(this);
@@ -42,12 +46,12 @@ namespace AdminLauncher.AppWPF
             this.Hide();
         }
         private void AddProgram_Click(object sender, RoutedEventArgs e) =>
-            InterfaceUtility.InterfaceLoader(InterfaceEnum.AddProgramInterface, this);
+            InterfaceControl.InterfaceLoader(InterfaceEnum.AddProgramInterface, this);
 
         private void AddRoutine_Click(object sender, RoutedEventArgs e)
         {
-            InterfaceUtility.InterfaceLoader(InterfaceEnum.AddRoutineInterface, this);
-            InterfaceUtility.LoadProgramsListBox(ProgramManager.Programs, this);
+            InterfaceControl.InterfaceLoader(InterfaceEnum.AddRoutineInterface, this);
+            InterfaceControl.LoadProgramsListBox(ProgramManager.Programs, this);
         }
         private void QuickRun_Click(object sender, RoutedEventArgs e)
         {
@@ -76,11 +80,11 @@ namespace AdminLauncher.AppWPF
             ProgramManager.AddRoutine(newRoutine);
             ProgramManager.Save();
 
-            InterfaceUtility.InterfaceLoader(InterfaceEnum.MainInterface, this);
+            InterfaceControl.InterfaceLoader(InterfaceEnum.MainInterface, this);
             ButtonGenerator.GenerateButtons(ProgramManager, this);
         }
         private void CancelRoutine_Click(object sender, RoutedEventArgs e) =>
-            InterfaceUtility.InterfaceLoader(InterfaceEnum.MainInterface, this);
+            InterfaceControl.InterfaceLoader(InterfaceEnum.MainInterface, this);
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -103,9 +107,9 @@ namespace AdminLauncher.AppWPF
             ProgramManager.Save();
             ButtonGenerator.GenerateButtons(ProgramManager, this);
 
-            InterfaceUtility.InterfaceLoader(InterfaceEnum.MainInterface, this);
+            InterfaceControl.InterfaceLoader(InterfaceEnum.MainInterface, this);
         }
         private void CancelProgram_Click(object sender, RoutedEventArgs e) =>
-            InterfaceUtility.InterfaceLoader(InterfaceEnum.MainInterface, this);
+            InterfaceControl.InterfaceLoader(InterfaceEnum.MainInterface, this);
     }
 }

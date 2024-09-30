@@ -161,7 +161,7 @@ namespace AdminLauncher.AppWPF.Utility
 
         private static void EditProgram(ProgramItem program)
         {
-            InterfaceUtility.InterfaceLoader(InterfaceEnum.AddProgramInterface, CurrentMainWindows);
+            InterfaceControl.InterfaceLoader(InterfaceEnum.AddProgramInterface, CurrentMainWindows);
             CurrentMainWindows.ProgramIndexLabel.Content = program.Index;
             CurrentMainWindows.ProgramNameTextBox.Text = program.Name;
             CurrentMainWindows.ProgramPathTextBox.Text = program.Path;
@@ -171,8 +171,8 @@ namespace AdminLauncher.AppWPF.Utility
 
         private static void EditRoutine(RoutineItem routine)
         {
-            InterfaceUtility.LoadProgramsListBox(CurrentProgramManager.Programs, CurrentMainWindows);
-            InterfaceUtility.InterfaceLoader(InterfaceEnum.AddRoutineInterface, CurrentMainWindows);
+            InterfaceControl.LoadProgramsListBox(CurrentProgramManager.Programs, CurrentMainWindows);
+            InterfaceControl.InterfaceLoader(InterfaceEnum.AddRoutineInterface, CurrentMainWindows);
             CurrentMainWindows.RoutineIndexLabel.Content = routine.Index;
             CurrentMainWindows.RoutineNameTextBox.Text = routine.Name;
         }

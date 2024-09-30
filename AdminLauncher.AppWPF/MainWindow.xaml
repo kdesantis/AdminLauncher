@@ -12,7 +12,7 @@
         Topmost="True"
         Closing="Window_Closing" Icon="/rocket.png">
     <Grid>
-        
+
         <Menu VerticalAlignment="Top">
             <MenuItem Header="Add Program" Click="AddProgram_Click"/>
             <MenuItem Header="Add Routine" Click="AddRoutine_Click"/>
@@ -55,7 +55,7 @@
             <TextBlock Text="Add New Routine" FontWeight="Bold" FontSize="16" Margin="10" />
 
             <Label x:Name="RoutineIndexLabel" Visibility="Collapsed" Content="-1"/>
-            
+
             <Label Content="Routine Name" />
             <TextBox x:Name="RoutineNameTextBox" Margin="5" />
 
