@@ -62,6 +62,7 @@ namespace AdminLauncher.AppWPF
 
         private void ShowWindow()
         {
+            PositionWindowInBottomRight();
             Show();
             WindowState = WindowState.Normal;
         }
@@ -81,7 +82,13 @@ namespace AdminLauncher.AppWPF
             InterfaceLoader(InterfaceEnum.AddRoutineInterface);
             LoadProgramsListBox();
         }
-
+        private void QuickRun_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Executable Files (*.exe)|*.exe|All Files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
+                new ProgramItem { Path = openFileDialog.FileName }.Launch();
+        }
         private void LoadProgramsListBox()
         {
             ProgramsListBox.Items.Clear();
@@ -295,6 +302,11 @@ namespace AdminLauncher.AppWPF
                 bitmap.EndInit();
             }
             return bitmap;
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

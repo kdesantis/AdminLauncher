@@ -16,6 +16,7 @@
         <Menu VerticalAlignment="Top">
             <MenuItem Header="Add Program" Click="AddProgram_Click"/>
             <MenuItem Header="Add Routine" Click="AddRoutine_Click"/>
+            <MenuItem Header="Quick Run" Click="QuickRun_Click"/>
         </Menu>
 
         <ScrollViewer x:Name="MainScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,30,0,0">
