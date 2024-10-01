@@ -1,5 +1,6 @@
 ﻿using AdminLauncher.AppWPF.Utility;
 using AdminLauncher.BusinessLibrary;
+using AdminLauncher.UpdateLibrary;
 using Microsoft.Win32;
 using System.Diagnostics;
 using System.Drawing;
@@ -25,7 +26,7 @@ namespace AdminLauncher.AppWPF
     {
         ProgramManager ProgramManager = new();
         private NotifyIcon notifyIcon;
-
+        Version currVersion = new Version("0.0.1");
         public MainWindow()
         {
             InitializeComponent();
@@ -34,12 +35,13 @@ namespace AdminLauncher.AppWPF
             ProgramManager.Load();
             ButtonGenerator.GenerateButtons(ProgramManager, this);
             notifyIcon = NotifyIconUtility.InitializeNotifyIcon(this);
-
+            UpdateUtility.CheckUpdateAsync(currVersion);
 #if DEBUG
             ProgramIndexLabel.Visibility = Visibility.Visible;
             RoutineIndexLabel.Visibility = Visibility.Visible;
 #endif
         }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
