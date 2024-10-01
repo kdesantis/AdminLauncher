@@ -6,7 +6,7 @@ namespace AdminLauncher.UpdateLibrary
 {
     public class UpdateChecker
     {
-        private const string pastebinUrl = ""; // Inserisci l'URL del post raw su Pastebin
+        private const string pastebinUrl = "https://pastebin.com/raw/yhxzjRXj";
         public ReleaseInformation? UpdateInformation { get; set; }
 
         public async Task<bool> CheckForUpdatesAsync(Version currentVersion)
@@ -25,8 +25,6 @@ namespace AdminLauncher.UpdateLibrary
             }
             catch (Exception ex)
             {
-                // Gestisci eventuali errori di rete o parsing
-                Console.WriteLine($"Errore durante il controllo degli aggiornamenti: {ex.Message}");
             }
             return result;
         }
