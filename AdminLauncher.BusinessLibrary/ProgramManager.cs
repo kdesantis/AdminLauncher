@@ -36,7 +36,7 @@ namespace AdminLauncher.BusinessLibrary
         {
             int index;
             var existRoutine = Routines.FirstOrDefault(p => p.Index == routine.Index);
-            if(existRoutine != null)
+            if (existRoutine != null)
             {
                 index = existRoutine.Index;
                 Routines.Remove(existRoutine);
@@ -64,11 +64,18 @@ namespace AdminLauncher.BusinessLibrary
         }
         public void Load()
         {
-            PersistenceManager persistenceManager = new();
-            var savedProgramManager = new PersistenceManager().LoadData();
-            Programs = savedProgramManager.Programs;
-            Routines = savedProgramManager.Routines;
-            CurrIndex = savedProgramManager.CurrIndex;
+            try
+            {
+                PersistenceManager persistenceManager = new();
+                var savedProgramManager = new PersistenceManager().LoadData();
+                Programs = savedProgramManager.Programs;
+                Routines = savedProgramManager.Routines;
+                CurrIndex = savedProgramManager.CurrIndex;
+            }
+            catch (Exception)
+            {
+                //Ignore configuration File
+            }
         }
     }
 }

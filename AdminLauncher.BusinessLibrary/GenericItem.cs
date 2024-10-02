@@ -9,7 +9,15 @@ namespace AdminLauncher.BusinessLibrary
     public abstract class GenericItem
     {
         public int Index { get; set; }
-        public virtual string Name { get; set; }
+
+        private string name;
+
+        public virtual string Name
+        {
+            get { return name; }
+            set { name = string.IsNullOrEmpty(value) ? $"GenericProgram" : value; ; }
+        }
+
 
         public abstract LaunchResult Launch();
         public abstract string GetIconPath();

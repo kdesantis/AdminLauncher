@@ -103,13 +103,13 @@ namespace AdminLauncher.AppWPF.Utility
         {
             ContextMenu contextMenu = new ContextMenu();
 
-            MenuItem deleteMenuItem = new MenuItem { Header = item is ProgramItem ? "Delete Program" : "Delete Routine" };
-            deleteMenuItem.Click += (s, e) => OnDeleteClicked(item);
-            contextMenu.Items.Add(deleteMenuItem);
-
             MenuItem editMenuItem = new MenuItem { Header = item is ProgramItem ? "Edit Program" : "Edit Routine" };
             editMenuItem.Click += (s, e) => OnEditClicked(item);
             contextMenu.Items.Add(editMenuItem);
+
+            MenuItem deleteMenuItem = new MenuItem { Header = item is ProgramItem ? "Delete Program" : "Delete Routine" };
+            deleteMenuItem.Click += (s, e) => OnDeleteClicked(item);
+            contextMenu.Items.Add(deleteMenuItem);
 
             return contextMenu;
         }

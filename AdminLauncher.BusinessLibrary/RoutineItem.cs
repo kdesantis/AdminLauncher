@@ -12,7 +12,7 @@ namespace AdminLauncher.BusinessLibrary
         public override string Name
         {
             get { return name.EndsWith("(routine)") ? name : name + "(routine)"; }
-            set { name = value; }
+            set { name = string.IsNullOrEmpty(value) ? $"GenericRoutine" : value; }
         }
 
         public List<ProgramItem> Programs { get; set; }
@@ -33,14 +33,14 @@ namespace AdminLauncher.BusinessLibrary
             var result = new List<LaunchResult>();
             foreach (var program in Programs)
                 result.Add(program.Launch());
-            
+
             var results = result.Select(e => e.LaunchState).ToList();
             var countSuccess = results.Where(e => e == LaunchState.Success).Count();
             var countError = results.Where(e => e == LaunchState.Error).Count();
             LaunchState launchState;
             if (countError > 0 && countSuccess > 0)
                 launchState = LaunchState.Partial;
-            else if(countSuccess > 0 && countError==0) 
+            else if (countSuccess > 0 && countError == 0)
                 launchState = LaunchState.Success;
             else
                 launchState = LaunchState.Error;
