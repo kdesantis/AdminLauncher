@@ -13,7 +13,7 @@ namespace AdminLauncher.AppWPF.Utility
     {
         public static void LaunchInformatinError(LaunchResult launchResult)
         {
-            if (launchResult.LaunchState != LaunchState.Success)
+            if (launchResult.LaunchState != LaunchStateEnum.Success)
             {
                 var message = $"Error in launching {launchResult.GenericItem.Name}: {launchResult.Message}";
                 MessageBox.Show(message, "Launch Error", MessageBoxButton.OK, MessageBoxImage.Error);

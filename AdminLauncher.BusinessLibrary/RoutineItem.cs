@@ -34,22 +34,22 @@ namespace AdminLauncher.BusinessLibrary
             foreach (var program in Programs)
                 result.Add(program.Launch());
 
-            var results = result.Select(e => e.LaunchState).ToList();
-            var countSuccess = results.Where(e => e == LaunchState.Success).Count();
-            var countError = results.Where(e => e == LaunchState.Error).Count();
-            LaunchState launchState;
-            if (countError > 0 && countSuccess > 0)
-                launchState = LaunchState.Partial;
-            else if (countSuccess > 0 && countError == 0)
-                launchState = LaunchState.Success;
+            var countSuccess = result.Select(e => e.LaunchState).ToList().Where(e => e == LaunchStateEnum.Success).Count();
+            var countError = result.Select(e => e.LaunchState).ToList().Where(e => e == LaunchStateEnum.Error).Count();
+            LaunchStateEnum launchState;
+
+            if (countSuccess == result.Count)
+                launchState = LaunchStateEnum.Success;
+            else if (countError == result.Count)
+                launchState = LaunchStateEnum.Error;
             else
-                launchState = LaunchState.Error;
+                launchState = LaunchStateEnum.Partial;
+
             string message = "Launch success";
-            if (launchState != LaunchState.Success)
-                message = $"The launch of the following items failed:{string.Join(", ", result.Where(e => e.LaunchState == LaunchState.Error).Select(e => e.GenericItem.Name))}";
+            if (launchState != LaunchStateEnum.Success)
+                message = $"The launch of the following items failed:{string.Join(", ", result.Where(e => e.LaunchState == LaunchStateEnum.Error).Select(e => e.GenericItem.Name))}";
 
             return new LaunchResult() { GenericItem = this, LaunchState = launchState, Message = message };
-
         }
 
         public override string GetIconPath()
