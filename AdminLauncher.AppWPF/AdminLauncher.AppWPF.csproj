@@ -14,10 +14,14 @@
   <ItemGroup>
     <None Remove="favorite.png" />
     <None Remove="rocket.png" />
+    <None Remove="rocketDebug.ico" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="rocket.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="rocketDebug.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

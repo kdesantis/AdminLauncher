@@ -13,9 +13,13 @@ namespace AdminLauncher.AppWPF.Utility
     {
         public static NotifyIcon InitializeNotifyIcon(MainWindow mainWindow)
         {
+            var icon = new Icon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocket.ico"));
+#if DEBUG
+            icon = new Icon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocketDebug.ico"));
+#endif
             NotifyIcon notifyIcon = new NotifyIcon
             {
-                Icon = new Icon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocket.ico")),
+                Icon = icon ,
                 Visible = true,
                 Text = "Admin Launcher"
             };
