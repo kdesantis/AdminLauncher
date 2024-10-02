@@ -58,7 +58,7 @@ namespace AdminLauncher.AppWPF.Utility
         public static void LoadProgramsListBox(List<ProgramItem> programs, MainWindow mainWindow)
         {
             mainWindow.ProgramsListBox.Items.Clear();
-            foreach (var program in programs)
+            foreach (var program in programs.OrderBy(e => e.Name))
                 mainWindow.ProgramsListBox.Items.Add(program.Name);
         }
     }
