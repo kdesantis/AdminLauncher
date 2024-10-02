@@ -60,7 +60,10 @@ namespace AdminLauncher.AppWPF
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Executable Files (*.exe)|*.exe|All Files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
-                new ProgramItem { Path = openFileDialog.FileName }.Launch();
+            {
+                var result = (new ProgramItem { Name = "Quick Run", Path = openFileDialog.FileName }).Launch();
+                MessageBoxUtility.LaunchInformatinError(result);
+            }
         }
 
         private void SaveRoutine_Click(object sender, RoutedEventArgs e)

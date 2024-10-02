@@ -52,7 +52,7 @@ namespace AdminLauncher.AppWPF.Utility
                 ContextMenu = CreateContextMenu(item)
             };
 
-            button.Click += (sender, e) => item.Launch();
+            button.Click += (sender, e) => MessageBoxUtility.LaunchInformatinError(item.Launch());
 
             return button;
         }

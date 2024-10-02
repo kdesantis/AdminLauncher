@@ -11,7 +11,7 @@ namespace AdminLauncher.BusinessLibrary
         private string name;
         public override string Name
         {
-            get { return name.EndsWith("(routine)") ? name : name + "(routine)" ; }
+            get { return name.EndsWith("(routine)") ? name : name + "(routine)"; }
             set { name = value; }
         }
 
@@ -28,10 +28,28 @@ namespace AdminLauncher.BusinessLibrary
                 Programs.Remove(program);
         }
 
-        public override void Launch()
+        public override LaunchResult Launch()
         {
+            var result = new List<LaunchResult>();
             foreach (var program in Programs)
-                program.Launch();
+                result.Add(program.Launch());
+            
+            var results = result.Select(e => e.LaunchState).ToList();
+            var countSuccess = results.Where(e => e == LaunchState.Success).Count();
+            var countError = results.Where(e => e == LaunchState.Error).Count();
+            LaunchState launchState;
+            if (countError > 0 && countSuccess > 0)
+                launchState = LaunchState.Partial;
+            else if(countSuccess > 0 && countError==0) 
+                launchState = LaunchState.Success;
+            else
+                launchState = LaunchState.Error;
+            string message = "Launch success";
+            if (launchState != LaunchState.Success)
+                message = $"The launch of the following items failed:{string.Join(", ", result.Where(e => e.LaunchState == LaunchState.Error).Select(e => e.GenericItem.Name))}";
+
+            return new LaunchResult() { GenericItem = this, LaunchState = launchState, Message = message };
+
         }
 
         public override string GetIconPath()

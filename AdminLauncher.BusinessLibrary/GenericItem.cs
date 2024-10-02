@@ -11,7 +11,7 @@ namespace AdminLauncher.BusinessLibrary
         public int Index { get; set; }
         public virtual string Name { get; set; }
 
-        public abstract void Launch();
+        public abstract LaunchResult Launch();
         public abstract string GetIconPath();
     }
 }
