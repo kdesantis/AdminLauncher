@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AdminLauncher.BusinessLibrary\AdminLauncher.BusinessLibrary.csproj" />
+    <ProjectReference Include="..\AdminLauncher.UpdateLibrary\AdminLauncher.UpdateLibrary.csproj" />
   </ItemGroup>
 
   <ItemGroup>

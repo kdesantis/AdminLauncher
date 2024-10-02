@@ -20,9 +20,9 @@ namespace AdminLauncher.BusinessLibrary
         public string? Arguments { get; set; }
         public bool IsFavorite { get; set; }
 
-        public override void Launch()
+        public override LaunchResult Launch()
         {
-            ProcessLauncher.LaunchProgram(this);
+            return ProcessLauncher.LaunchProgram(this);
         }
 
         public override string GetIconPath()
