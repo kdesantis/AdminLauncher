@@ -8,6 +8,7 @@ namespace AdminLauncher.UpdateLibrary
     {
         private const string pastebinUrl = "https://pastebin.com/raw/yhxzjRXj";
         public ReleaseInformation? UpdateInformation { get; set; }
+        public string? Error { get; set; }
 
         public async Task<bool> CheckForUpdatesAsync(Version currentVersion)
         {
@@ -16,7 +17,6 @@ namespace AdminLauncher.UpdateLibrary
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    // Recupera il contenuto di Pastebin
                     var response = await client.GetStringAsync(pastebinUrl);
                     UpdateInformation = JsonSerializer.Deserialize<ReleaseInformation>(response);
 
@@ -25,6 +25,7 @@ namespace AdminLauncher.UpdateLibrary
             }
             catch (Exception ex)
             {
+                Error = ex.Message;
             }
             return result;
         }
