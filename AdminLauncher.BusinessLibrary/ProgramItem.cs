@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Toolbelt.Drawing;
 
@@ -9,12 +10,13 @@ namespace AdminLauncher.BusinessLibrary
 {
     public class ProgramItem : GenericItem
     {
-        private string path;
+        private string executablePath;
 
-        public string Path
+        [JsonPropertyName("Path")]
+        public string ExecutablePath
         {
-            get { return path; }
-            set { path = value.Replace("\"",string.Empty); }
+            get { return executablePath; }
+            set { executablePath = GetValidPath(value); }
         }
 
         public string? Arguments { get; set; }
@@ -28,15 +30,20 @@ namespace AdminLauncher.BusinessLibrary
         public override string GetIconPath()
         {
             var iconPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), $"{Index}-{Name}.ico");
-            if (File.Exists(Path))
+            if (File.Exists(ExecutablePath))
             {
                 var s = File.Create(iconPath);
-                IconExtractor.Extract1stIconTo(Path, s);
+                IconExtractor.Extract1stIconTo(ExecutablePath, s);
                 bool valid = s.Length > 0;
                 s.Close();
                 return valid ? iconPath : null;
             }
             return null;
+        }
+
+        private static string GetValidPath(string path)
+        {
+            return path.Replace("\"", string.Empty);
         }
 
     }

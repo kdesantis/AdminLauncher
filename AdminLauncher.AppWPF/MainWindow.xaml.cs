@@ -61,7 +61,7 @@ namespace AdminLauncher.AppWPF
             openFileDialog.Filter = "Executable Files (*.exe)|*.exe|All Files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
-                var result = (new ProgramItem { Name = "Quick Run", Path = openFileDialog.FileName }).Launch();
+                var result = (new ProgramItem { Name = "Quick Run", ExecutablePath = openFileDialog.FileName }).Launch();
                 MessageBoxUtility.LaunchInformatinError(result);
             }
         }
@@ -103,7 +103,7 @@ namespace AdminLauncher.AppWPF
             {
                 Index = Int32.Parse(ProgramIndexLabel.Content.ToString()),
                 Name = ProgramNameTextBox.Text,
-                Path = ProgramPathTextBox.Text,
+                ExecutablePath = ProgramPathTextBox.Text,
                 Arguments = ProgramArgumentsTextBox.Text,
                 IsFavorite = FavoriteCheckBox.IsChecked == true
             };

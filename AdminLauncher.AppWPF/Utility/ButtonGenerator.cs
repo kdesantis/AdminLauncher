@@ -164,7 +164,7 @@ namespace AdminLauncher.AppWPF.Utility
             InterfaceControl.InterfaceLoader(InterfaceEnum.AddProgramInterface, CurrentMainWindows);
             CurrentMainWindows.ProgramIndexLabel.Content = program.Index;
             CurrentMainWindows.ProgramNameTextBox.Text = program.Name;
-            CurrentMainWindows.ProgramPathTextBox.Text = program.Path;
+            CurrentMainWindows.ProgramPathTextBox.Text = program.ExecutablePath;
             CurrentMainWindows.ProgramArgumentsTextBox.Text = program.Arguments;
             CurrentMainWindows.FavoriteCheckBox.IsChecked = program.IsFavorite;
         }
