@@ -1,10 +1,12 @@
-﻿using System;
+﻿using IWshRuntimeLibrary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Toolbelt.Drawing;
+using File = System.IO.File;
 
 namespace AdminLauncher.BusinessLibrary
 {
@@ -43,7 +45,16 @@ namespace AdminLauncher.BusinessLibrary
 
         private static string GetValidPath(string path)
         {
-            return path.Replace("\"", string.Empty);
+            path = path.Replace("\"", string.Empty);
+            if (Path.GetExtension(path).ToLower() == ".lnk")
+                path = ResolveShortcut(path);
+            return path;
+        }
+        private static string ResolveShortcut(string shortcutPath)
+        {
+            var shell = new WshShell();
+            IWshShortcut link = (IWshShortcut)shell.CreateShortcut(shortcutPath);
+            return link.TargetPath;
         }
 
     }
