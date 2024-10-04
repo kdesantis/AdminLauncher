@@ -1,6 +1,7 @@
 ﻿using AdminLauncher.UpdateLibrary;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace AdminLauncher.AppWPF.Utility
     {
         public static async Task<ReleaseInformation> CheckUpdateAsync(Version currVersion)
         {
-            var updater = new UpdateChecker();
+            var updater = new UpdateChecker(ConfigurationManager.AppSettings["UrlUpdateChecker"]);
             var result = await updater.CheckForUpdatesAsync(currVersion);
             if (result)
                 NotifyUserForUpdate(updater.UpdateInformation);

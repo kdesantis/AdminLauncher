@@ -2,6 +2,7 @@
 using AdminLauncher.BusinessLibrary;
 using AdminLauncher.UpdateLibrary;
 using Microsoft.Win32;
+using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -27,7 +28,6 @@ namespace AdminLauncher.AppWPF
     {
         ProgramManager ProgramManager = new();
         private NotifyIcon notifyIcon;
-        Version currVersion = new Version("0.0.1");
         public MainWindow()
         {
             InitializeComponent();
@@ -44,6 +44,7 @@ namespace AdminLauncher.AppWPF
         }
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            var currVersion = new Version(ConfigurationManager.AppSettings["CurrVersion"]); ;
             var updateInformation = await UpdateUtility.CheckUpdateAsync(currVersion);
             InterfaceControl.UpdateVersionText(updateInformation, currVersion, this);
         }
