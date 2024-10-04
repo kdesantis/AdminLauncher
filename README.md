@@ -11,7 +11,7 @@
 
 ## System Requirements 💻
 
-- **Windows 10** or higher
+- **Windows 7** or higher
 - **.NET Core 8** or later
 
 ## Installation 🛠️
@@ -23,6 +23,10 @@
 ## License 📜
 
 This project is licensed under the **GNU General Public License v3.0**. See the [LICENSE](https://www.gnu.org/licenses/gpl-3.0.en.html#license-text) file for more details.
+
+## Credits 🙏
+
+[IconExtractor](https://github.com/jsakamoto/iconextractor) bj jsakamoto
 
 ## Notes 📝
 
