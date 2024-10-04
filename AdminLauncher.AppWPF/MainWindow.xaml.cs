@@ -36,13 +36,17 @@ namespace AdminLauncher.AppWPF
             ProgramManager.Load();
             ButtonGenerator.GenerateButtons(ProgramManager, this);
             notifyIcon = NotifyIconUtility.InitializeNotifyIcon(this);
-            UpdateUtility.CheckUpdateAsync(currVersion);
+
 #if DEBUG
             ProgramIndexLabel.Visibility = Visibility.Visible;
             RoutineIndexLabel.Visibility = Visibility.Visible;
 #endif
         }
-
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var updateInformation = await UpdateUtility.CheckUpdateAsync(currVersion);
+            InterfaceControl.UpdateVersionText(updateInformation, currVersion, this);
+        }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
@@ -127,5 +131,6 @@ namespace AdminLauncher.AppWPF
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
             e.Handled = true;
         }
+
     }
 }

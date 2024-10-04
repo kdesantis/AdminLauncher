@@ -1,4 +1,5 @@
 ﻿using AdminLauncher.BusinessLibrary;
+using AdminLauncher.UpdateLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,6 +71,17 @@ namespace AdminLauncher.AppWPF.Utility
             mainWindow.ProgramsListBox.Items.Clear();
             foreach (var program in programs.OrderBy(e => e.Name))
                 mainWindow.ProgramsListBox.Items.Add(program.Name);
+        }
+
+        public static void UpdateVersionText(ReleaseInformation updateInfo, Version currVersion, MainWindow mainWindow)
+        {
+            mainWindow.CurrentVersionText.Text = currVersion.ToString();
+            mainWindow.LastVersionText.Text = updateInfo.Version.ToString();
+            if (new Version(updateInfo.Version) > currVersion)
+            {
+                mainWindow.UpdateLink.Visibility = Visibility.Visible;
+                mainWindow.UpdateLinkHyperLink.NavigateUri = new Uri(updateInfo.Url);
+            }
         }
     }
     public enum InterfaceEnum
