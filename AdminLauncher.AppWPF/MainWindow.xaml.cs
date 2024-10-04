@@ -8,6 +8,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using DataFormats = System.Windows.DataFormats;
@@ -47,6 +48,8 @@ namespace AdminLauncher.AppWPF
             e.Cancel = true;
             this.Hide();
         }
+        private void Home_Click(object sender, RoutedEventArgs e) =>
+            InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
         private void AddProgram_Click(object sender, RoutedEventArgs e) =>
             InterfaceControl.InterfaceLoader(InterfaceEnum.AddProgramInterface, this);
 
@@ -65,7 +68,10 @@ namespace AdminLauncher.AppWPF
                 MessageBoxUtility.LaunchInformatinError(result);
             }
         }
-
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            InterfaceControl.InterfaceLoader(InterfaceEnum.About, this);
+        }
         private void SaveRoutine_Click(object sender, RoutedEventArgs e)
         {
             RoutineItem newRoutine = new RoutineItem
@@ -85,11 +91,11 @@ namespace AdminLauncher.AppWPF
             ProgramManager.AddRoutine(newRoutine);
             ProgramManager.Save();
 
-            InterfaceControl.InterfaceLoader(InterfaceEnum.MainInterface, this);
+            InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
             ButtonGenerator.GenerateButtons(ProgramManager, this);
         }
         private void CancelRoutine_Click(object sender, RoutedEventArgs e) =>
-            InterfaceControl.InterfaceLoader(InterfaceEnum.MainInterface, this);
+            InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -112,9 +118,14 @@ namespace AdminLauncher.AppWPF
             ProgramManager.Save();
             ButtonGenerator.GenerateButtons(ProgramManager, this);
 
-            InterfaceControl.InterfaceLoader(InterfaceEnum.MainInterface, this);
+            InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
         }
         private void CancelProgram_Click(object sender, RoutedEventArgs e) =>
-            InterfaceControl.InterfaceLoader(InterfaceEnum.MainInterface, this);
+            InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
+            e.Handled = true;
+        }
     }
 }
