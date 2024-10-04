@@ -1,4 +1,5 @@
 ﻿using AdminLauncher.BusinessLibrary;
+using AdminLauncher.UpdateLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,10 +37,11 @@ namespace AdminLauncher.AppWPF.Utility
         {
             switch (mode)
             {
-                case InterfaceEnum.MainInterface:
+                case InterfaceEnum.Home:
                     mainWindow.AddProgramPanel.Visibility = Visibility.Collapsed;
                     mainWindow.MainScrollViewer.Visibility = Visibility.Visible;
                     mainWindow.AddRoutinePanel.Visibility = Visibility.Collapsed;
+                    mainWindow.AbountPanel.Visibility = Visibility.Collapsed;
                     ClearAddProgramData(mainWindow);
                     ClearRoutineData(mainWindow);
                     break;
@@ -47,11 +49,20 @@ namespace AdminLauncher.AppWPF.Utility
                     mainWindow.AddProgramPanel.Visibility = Visibility.Visible;
                     mainWindow.MainScrollViewer.Visibility = Visibility.Collapsed;
                     mainWindow.AddRoutinePanel.Visibility = Visibility.Collapsed;
+                    mainWindow.AbountPanel.Visibility = Visibility.Collapsed;
                     break;
                 case InterfaceEnum.AddRoutineInterface:
                     mainWindow.MainScrollViewer.Visibility = Visibility.Collapsed;
                     mainWindow.AddProgramPanel.Visibility = Visibility.Collapsed;
                     mainWindow.AddRoutinePanel.Visibility = Visibility.Visible;
+                    mainWindow.AbountPanel.Visibility = Visibility.Collapsed;
+                    break;
+                case InterfaceEnum.About:
+                    mainWindow.MainScrollViewer.Visibility = Visibility.Collapsed;
+                    mainWindow.AddProgramPanel.Visibility = Visibility.Collapsed;
+                    mainWindow.AddRoutinePanel.Visibility = Visibility.Collapsed;
+                    mainWindow.AbountPanel.Visibility = Visibility.Visible;
+
                     break;
             }
         }
@@ -61,5 +72,23 @@ namespace AdminLauncher.AppWPF.Utility
             foreach (var program in programs.OrderBy(e => e.Name))
                 mainWindow.ProgramsListBox.Items.Add(program.Name);
         }
+
+        public static void UpdateVersionText(ReleaseInformation updateInfo, Version currVersion, MainWindow mainWindow)
+        {
+            mainWindow.CurrentVersionText.Text = currVersion.ToString();
+            mainWindow.LastVersionText.Text = updateInfo.Version.ToString();
+            if (new Version(updateInfo.Version) > currVersion)
+            {
+                mainWindow.UpdateLink.Visibility = Visibility.Visible;
+                mainWindow.UpdateLinkHyperLink.NavigateUri = new Uri(updateInfo.Url);
+            }
+        }
+    }
+    public enum InterfaceEnum
+    {
+        Home,
+        AddProgramInterface,
+        AddRoutineInterface,
+        About
     }
 }

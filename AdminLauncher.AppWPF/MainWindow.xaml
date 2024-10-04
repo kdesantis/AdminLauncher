@@ -10,13 +10,15 @@
         ResizeMode="NoResize"
         WindowStyle="SingleBorderWindow"
         Topmost="True"
-        Closing="Window_Closing" Icon="/rocket.png">
+        Closing="Window_Closing" Icon="/rocket.png" Loaded="Window_Loaded">
     <Grid>
 
         <Menu VerticalAlignment="Top">
+            <MenuItem Header="Home" Click="Home_Click"/>
             <MenuItem Header="Add Program" Click="AddProgram_Click"/>
             <MenuItem Header="Add Routine" Click="AddRoutine_Click"/>
             <MenuItem Header="Quick Run" Click="QuickRun_Click"/>
+            <MenuItem Header="?" Click="About_Click"/>
         </Menu>
 
         <ScrollViewer x:Name="MainScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,30,0,0">
@@ -67,6 +69,62 @@
                 <Button Content="Save" Click="SaveRoutine_Click" Width="100" Margin="5" />
                 <Button Content="Cancel" Click="CancelRoutine_Click" Width="100" Margin="5" />
             </StackPanel>
+        </StackPanel>
+        <StackPanel x:Name="AbountPanel" Visibility="Collapsed" Margin="0,30,0,0">
+
+            <!-- Title with Software Name and Version -->
+            <Grid HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" FontSize="24" FontWeight="Bold" Text="Admin Launcher " Margin="0,10,0,0"/>
+                <TextBlock x:Name="CurrentVersionText" Grid.Column="1" FontSize="24" FontWeight="Bold" Text="0.0.0"  Margin="0,10,0,0"/>
+            </Grid>
+            <Grid HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" FontSize="14"  Text="Last version: " HorizontalAlignment="Left" />
+                <TextBlock x:Name="LastVersionText" Grid.Column="1" FontSize="14"  Text="0.0.0" HorizontalAlignment="Left" Margin="0,0,10,0"/>
+                <TextBlock x:Name="UpdateLink" Grid.Column="2" FontSize="14" TextWrapping="Wrap" Visibility="Collapsed" Margin="0,0,0,10">
+                    <Hyperlink x:Name="UpdateLinkHyperLink" NavigateUri="https://github.com/kdesantis/AdminLauncher/releases" RequestNavigate="Hyperlink_RequestNavigate">DonwloadNow</Hyperlink>
+                </TextBlock>
+            </Grid>
+
+            <!-- Authors/Developers -->
+            <TextBlock FontSize="16" FontWeight="Bold" Text="Developed by" Margin="0,10,0,10"/>
+            <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
+            De Santis Kevin
+            </TextBlock>
+
+            <!-- License -->
+            <TextBlock FontSize="16" FontWeight="Bold" Text="License" Margin="0,10,0,10"/>
+            <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
+            This software is distributed under the GNU General Public License v3.0.
+            </TextBlock>
+
+            <!-- Useful Links -->
+            <TextBlock FontSize="16" FontWeight="Bold" Text="Useful Links" Margin="0,10,0,10"/>
+            <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
+            <Hyperlink NavigateUri="https://github.com/kdesantis/AdminLauncher" RequestNavigate="Hyperlink_RequestNavigate">GitHub repository</Hyperlink>
+            </TextBlock>
+
+            <!-- Credits -->
+            <TextBlock FontSize="16" FontWeight="Bold" Text="Credits" Margin="0,10,0,10"/>
+            <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
+            IconExtractor by jsakamoto <Hyperlink NavigateUri="https://github.com/jsakamoto/iconextractor" RequestNavigate="Hyperlink_RequestNavigate">ProjectSite</Hyperlink>
+            </TextBlock>
+
+            <!-- Support and contact -->
+            <TextBlock FontSize="16" FontWeight="Bold" Text="Support" Margin="0,10,0,10"/>
+            <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
+            To report bugs or request assistance, open a issue:
+            <Hyperlink NavigateUri="https://github.com/kdesantis/AdminLauncher/issues" RequestNavigate="Hyperlink_RequestNavigate">GitHub issue</Hyperlink>
+            </TextBlock>
+
         </StackPanel>
     </Grid>
 </Window>

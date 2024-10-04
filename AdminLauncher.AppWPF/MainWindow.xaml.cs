@@ -2,12 +2,14 @@
 using AdminLauncher.BusinessLibrary;
 using AdminLauncher.UpdateLibrary;
 using Microsoft.Win32;
+using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using DataFormats = System.Windows.DataFormats;
@@ -26,7 +28,6 @@ namespace AdminLauncher.AppWPF
     {
         ProgramManager ProgramManager = new();
         private NotifyIcon notifyIcon;
-        Version currVersion = new Version("0.0.1");
         public MainWindow()
         {
             InitializeComponent();
@@ -35,18 +36,25 @@ namespace AdminLauncher.AppWPF
             ProgramManager.Load();
             ButtonGenerator.GenerateButtons(ProgramManager, this);
             notifyIcon = NotifyIconUtility.InitializeNotifyIcon(this);
-            UpdateUtility.CheckUpdateAsync(currVersion);
+
 #if DEBUG
             ProgramIndexLabel.Visibility = Visibility.Visible;
             RoutineIndexLabel.Visibility = Visibility.Visible;
 #endif
         }
-
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var currVersion = new Version(ConfigurationManager.AppSettings["CurrVersion"]); ;
+            var updateInformation = await UpdateUtility.CheckUpdateAsync(currVersion);
+            InterfaceControl.UpdateVersionText(updateInformation, currVersion, this);
+        }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
             this.Hide();
         }
+        private void Home_Click(object sender, RoutedEventArgs e) =>
+            InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
         private void AddProgram_Click(object sender, RoutedEventArgs e) =>
             InterfaceControl.InterfaceLoader(InterfaceEnum.AddProgramInterface, this);
 
@@ -65,7 +73,10 @@ namespace AdminLauncher.AppWPF
                 MessageBoxUtility.LaunchInformatinError(result);
             }
         }
-
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            InterfaceControl.InterfaceLoader(InterfaceEnum.About, this);
+        }
         private void SaveRoutine_Click(object sender, RoutedEventArgs e)
         {
             RoutineItem newRoutine = new RoutineItem
@@ -85,11 +96,11 @@ namespace AdminLauncher.AppWPF
             ProgramManager.AddRoutine(newRoutine);
             ProgramManager.Save();
 
-            InterfaceControl.InterfaceLoader(InterfaceEnum.MainInterface, this);
+            InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
             ButtonGenerator.GenerateButtons(ProgramManager, this);
         }
         private void CancelRoutine_Click(object sender, RoutedEventArgs e) =>
-            InterfaceControl.InterfaceLoader(InterfaceEnum.MainInterface, this);
+            InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -112,9 +123,15 @@ namespace AdminLauncher.AppWPF
             ProgramManager.Save();
             ButtonGenerator.GenerateButtons(ProgramManager, this);
 
-            InterfaceControl.InterfaceLoader(InterfaceEnum.MainInterface, this);
+            InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
         }
         private void CancelProgram_Click(object sender, RoutedEventArgs e) =>
-            InterfaceControl.InterfaceLoader(InterfaceEnum.MainInterface, this);
+            InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
+            e.Handled = true;
+        }
+
     }
 }
