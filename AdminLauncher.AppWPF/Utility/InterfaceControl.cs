@@ -62,15 +62,16 @@ namespace AdminLauncher.AppWPF.Utility
                     mainWindow.AddProgramPanel.Visibility = Visibility.Collapsed;
                     mainWindow.AddRoutinePanel.Visibility = Visibility.Collapsed;
                     mainWindow.AbountPanel.Visibility = Visibility.Visible;
-
                     break;
             }
         }
-        public static void LoadProgramsListBox(List<ProgramItem> programs, MainWindow mainWindow)
+        public static void LoadProgramsListBox(List<ProgramItem> programs, MainWindow mainWindow, RoutineItem routineToUpdate = null)
         {
             mainWindow.ProgramsListBox.Items.Clear();
             foreach (var program in programs.OrderBy(e => e.Name))
                 mainWindow.ProgramsListBox.Items.Add(program.Name);
+            if (routineToUpdate != null)
+                routineToUpdate.Programs.ForEach(program => { mainWindow.ProgramsListBox.SelectedItems.Add(program.Name); });
         }
 
         public static void UpdateVersionText(ReleaseInformation updateInfo, Version currVersion, MainWindow mainWindow)

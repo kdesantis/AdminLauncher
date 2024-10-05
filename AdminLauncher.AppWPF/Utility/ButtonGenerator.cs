@@ -138,25 +138,17 @@ namespace AdminLauncher.AppWPF.Utility
 
         private static void RemoveItem(GenericItem item)
         {
-            if (item is ProgramItem)
-            {
-                CurrentProgramManager.RemoveProgram((ProgramItem)item);
-            }
-            else if (item is RoutineItem)
-            {
-                CurrentProgramManager.RemoveRoutine((RoutineItem)item);
-            }
+            if (item is ProgramItem program)
+                CurrentProgramManager.RemoveProgram(program);
+            else if (item is RoutineItem routine)
+                CurrentProgramManager.RemoveRoutine(routine);
         }
         private static void OnEditClicked(GenericItem item)
         {
             if (item is ProgramItem programItem)
-            {
                 EditProgram(programItem);
-            }
             else if (item is RoutineItem routineItem)
-            {
                 EditRoutine(routineItem);
-            }
         }
 
         private static void EditProgram(ProgramItem program)
@@ -171,7 +163,7 @@ namespace AdminLauncher.AppWPF.Utility
 
         private static void EditRoutine(RoutineItem routine)
         {
-            InterfaceControl.LoadProgramsListBox(CurrentProgramManager.Programs, CurrentMainWindows);
+            InterfaceControl.LoadProgramsListBox(CurrentProgramManager.Programs, CurrentMainWindows, routine);
             InterfaceControl.InterfaceLoader(InterfaceEnum.AddRoutineInterface, CurrentMainWindows);
             CurrentMainWindows.RoutineIndexLabel.Content = routine.Index;
             CurrentMainWindows.RoutineNameTextBox.Text = routine.Name;
