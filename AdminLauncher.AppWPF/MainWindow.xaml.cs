@@ -44,9 +44,8 @@ namespace AdminLauncher.AppWPF
         }
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var currVersion = new Version(ConfigurationManager.AppSettings["CurrVersion"]); ;
-            var updateInformation = await UpdateUtility.CheckUpdateAsync(currVersion, false);
-            InterfaceControl.UpdateVersionText(updateInformation, currVersion, this);
+            var updateInformation = await UpdateUtility.CheckUpdateAsync(false);
+            InterfaceControl.UpdateVersionText(updateInformation, this);
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -56,9 +55,8 @@ namespace AdminLauncher.AppWPF
 
         private async void CheckUpdateHyperLinl_Click(object sender, RoutedEventArgs e)
         {
-            var currVersion = new Version(ConfigurationManager.AppSettings["CurrVersion"]); ;
-            var updateInformation = await UpdateUtility.CheckUpdateAsync(currVersion, true);
-            InterfaceControl.UpdateVersionText(updateInformation, currVersion, this);
+            var updateInformation = await UpdateUtility.CheckUpdateAsync(true);
+            InterfaceControl.UpdateVersionText(updateInformation, this);
         }
         private void Home_Click(object sender, RoutedEventArgs e) =>
             InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);

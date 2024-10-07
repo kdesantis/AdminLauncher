@@ -13,8 +13,9 @@ namespace AdminLauncher.AppWPF.Utility
 {
     public class UpdateUtility
     {
-        public static async Task<ReleaseInformation> CheckUpdateAsync(Version currVersion, bool showNegativeEsit)
+        public static async Task<ReleaseInformation> CheckUpdateAsync(bool showNegativeEsit)
         {
+            var currVersion = new Version(ConfigurationManager.AppSettings["CurrVersion"]);
             var updater = new UpdateChecker(ConfigurationManager.AppSettings["UrlUpdateChecker"]);
             var result = await updater.CheckForUpdatesAsync(currVersion);
             if (result)

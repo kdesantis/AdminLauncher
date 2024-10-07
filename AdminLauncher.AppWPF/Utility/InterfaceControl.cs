@@ -2,6 +2,7 @@
 using AdminLauncher.UpdateLibrary;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -74,8 +75,9 @@ namespace AdminLauncher.AppWPF.Utility
                 routineToUpdate.Programs.ForEach(program => { mainWindow.ProgramsListBox.SelectedItems.Add(program.Name); });
         }
 
-        public static void UpdateVersionText(ReleaseInformation updateInfo, Version currVersion, MainWindow mainWindow)
+        public static void UpdateVersionText(ReleaseInformation updateInfo, MainWindow mainWindow)
         {
+            var currVersion = new Version(ConfigurationManager.AppSettings["CurrVersion"]);
             mainWindow.CurrentVersionText.Text = currVersion.ToString();
             mainWindow.LastVersionText.Text = updateInfo.Version.ToString();
             if (new Version(updateInfo.Version) > currVersion)
