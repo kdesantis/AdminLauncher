@@ -83,6 +83,11 @@ namespace AdminLauncher.AppWPF.Utility
                 mainWindow.UpdateLink.Visibility = Visibility.Visible;
                 mainWindow.UpdateLinkHyperLink.NavigateUri = new Uri(updateInfo.Url);
             }
+            else
+            {
+                mainWindow.UpdateLink.Visibility = Visibility.Collapsed;
+                mainWindow.CheckUpdateLink.Visibility = Visibility.Visible;
+            }
         }
     }
     public enum InterfaceEnum

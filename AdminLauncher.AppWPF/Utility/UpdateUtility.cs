@@ -13,7 +13,7 @@ namespace AdminLauncher.AppWPF.Utility
 {
     public class UpdateUtility
     {
-        public static async Task<ReleaseInformation> CheckUpdateAsync(Version currVersion)
+        public static async Task<ReleaseInformation> CheckUpdateAsync(Version currVersion, bool showNegativeEsit)
         {
             var updater = new UpdateChecker(ConfigurationManager.AppSettings["UrlUpdateChecker"]);
             var result = await updater.CheckForUpdatesAsync(currVersion);
@@ -21,6 +21,8 @@ namespace AdminLauncher.AppWPF.Utility
                 MessageBoxUtility.NotifyUserForUpdate(updater.UpdateInformation);
             else if (updater.Error != null)
                 MessageBoxUtility.ErrorToSearchUpdate();
+            else if (showNegativeEsit)
+                MessageBoxUtility.UpdateNotAvailable();
 
             return updater.UpdateInformation;
         }
