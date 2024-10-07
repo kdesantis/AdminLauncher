@@ -26,8 +26,7 @@ namespace AdminLauncher.AppWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        ProgramManager ProgramManager = new();
-        private NotifyIcon notifyIcon;
+        readonly ProgramManager ProgramManager = new();
         public MainWindow()
         {
             InitializeComponent();
@@ -35,7 +34,7 @@ namespace AdminLauncher.AppWPF
             InterfaceControl.PositionWindowInBottomRight(this);
             ProgramManager.Load();
             ButtonGenerator.GenerateButtons(ProgramManager, this);
-            notifyIcon = NotifyIconUtility.InitializeNotifyIcon(this);
+            NotifyIcon notifyIcon = NotifyIconUtility.InitializeNotifyIcon(this);
 
 #if DEBUG
             ProgramIndexLabel.Visibility = Visibility.Visible;
@@ -70,25 +69,25 @@ namespace AdminLauncher.AppWPF
         }
         private void QuickRun_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Executable Files (*.exe)|*.exe|All Files (*.*)|*.*";
+            OpenFileDialog openFileDialog = new()
+            {
+                Filter = "Executable Files (*.exe)|*.exe|All Files (*.*)|*.*"
+            };
             if (openFileDialog.ShowDialog() == true)
             {
                 var result = (new ProgramItem { Name = "Quick Run", ExecutablePath = openFileDialog.FileName }).Launch();
                 MessageBoxUtility.LaunchInformatinError(result);
             }
         }
-        private void About_Click(object sender, RoutedEventArgs e)
-        {
+        private void About_Click(object sender, RoutedEventArgs e) =>
             InterfaceControl.InterfaceLoader(InterfaceEnum.About, this);
-        }
         private void SaveRoutine_Click(object sender, RoutedEventArgs e)
         {
-            RoutineItem newRoutine = new RoutineItem
+            RoutineItem newRoutine = new()
             {
                 Index = Int32.Parse(RoutineIndexLabel.Content.ToString()),
                 Name = RoutineNameTextBox.Text,
-                Programs = new List<ProgramItem>()
+                Programs = []
             };
 
             foreach (var selectedProgram in ProgramsListBox.SelectedItems)
@@ -108,14 +107,16 @@ namespace AdminLauncher.AppWPF
             InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Executable Files (*.exe)|*.exe|All Files (*.*)|*.*";
+            OpenFileDialog openFileDialog = new()
+            {
+                Filter = "Executable Files (*.exe)|*.exe|All Files (*.*)|*.*"
+            };
             if (openFileDialog.ShowDialog() == true)
                 ProgramPathTextBox.Text = openFileDialog.FileName;
         }
         private void SaveProgram_Click(object sender, RoutedEventArgs e)
         {
-            ProgramItem newProgram = new ProgramItem
+            ProgramItem newProgram = new()
             {
                 Index = Int32.Parse(ProgramIndexLabel.Content.ToString()),
                 Name = ProgramNameTextBox.Text,

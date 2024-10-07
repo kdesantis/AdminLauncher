@@ -11,15 +11,20 @@ namespace AdminLauncher.AppWPF.Utility
 {
     public static class NotifyIconUtility
     {
+        /// <summary>
+        /// Initialize the NotifyIcon of the application
+        /// </summary>
+        /// <param name="mainWindow"></param>
+        /// <returns></returns>
         public static NotifyIcon InitializeNotifyIcon(MainWindow mainWindow)
         {
             var icon = new Icon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocket.ico"));
 #if DEBUG
             icon = new Icon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocketDebug.ico"));
 #endif
-            NotifyIcon notifyIcon = new NotifyIcon
+            NotifyIcon notifyIcon = new()
             {
-                Icon = icon ,
+                Icon = icon,
                 Visible = true,
                 Text = "Admin Launcher"
             };
@@ -31,7 +36,7 @@ namespace AdminLauncher.AppWPF.Utility
             notifyIcon.DoubleClick += (s, e) => ShowWindow(mainWindow);
             return notifyIcon;
         }
-        public static void ShowWindow(MainWindow mainWindow)
+        private static void ShowWindow(MainWindow mainWindow)
         {
             InterfaceControl.PositionWindowInBottomRight(mainWindow);
             mainWindow.Show();

@@ -4,7 +4,7 @@ namespace AdminLauncher.BusinessLibrary
 {
     public class PersistenceManager
     {
-        private string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "AdminLauncherPrograms.json");
+        private readonly string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "AdminLauncherPrograms.json");
         public void SaveData(ProgramManager programManager)
         {
             if (File.Exists(path))

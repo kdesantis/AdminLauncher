@@ -15,7 +15,7 @@ namespace AdminLauncher.BusinessLibrary
             set { name = string.IsNullOrEmpty(value) ? $"GenericRoutine" : value; }
         }
 
-        public List<ProgramItem> Programs { get; set; }
+        public required List<ProgramItem> Programs { get; set; }
 
         public void AddProgram(ProgramItem program)
         {
@@ -27,15 +27,18 @@ namespace AdminLauncher.BusinessLibrary
             if (Programs.Contains(program))
                 Programs.Remove(program);
         }
-
+        /// <summary>
+        /// Launches programs in the routine in succession
+        /// </summary>
+        /// <returns></returns>
         public override LaunchResult Launch()
         {
             var result = new List<LaunchResult>();
             foreach (var program in Programs)
                 result.Add(program.Launch());
 
-            var countSuccess = result.Select(e => e.LaunchState).ToList().Where(e => e == LaunchStateEnum.Success).Count();
-            var countError = result.Select(e => e.LaunchState).ToList().Where(e => e == LaunchStateEnum.Error).Count();
+            var countSuccess = result.Select(e => e.LaunchState).Count(e => e == LaunchStateEnum.Success);
+            var countError = result.Select(e => e.LaunchState).Count(e => e == LaunchStateEnum.Error);
             LaunchStateEnum launchState;
 
             if (countSuccess == result.Count)
@@ -51,7 +54,10 @@ namespace AdminLauncher.BusinessLibrary
 
             return new LaunchResult() { GenericItem = this, LaunchState = launchState, Message = message };
         }
-
+        /// <summary>
+        /// Returns the path icon to be shown in the button
+        /// </summary>
+        /// <returns></returns>
         public override string GetIconPath()
         {
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "list.png");

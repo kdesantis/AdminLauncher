@@ -13,6 +13,11 @@ namespace AdminLauncher.AppWPF.Utility
 {
     public class UpdateUtility
     {
+        /// <summary>
+        /// Check for newer versions of the one in use
+        /// </summary>
+        /// <param name="showNegativeEsit"></param>
+        /// <returns></returns>
         public static async Task<ReleaseInformation> CheckUpdateAsync(bool showNegativeEsit)
         {
             var currVersion = new Version(ConfigurationManager.AppSettings["CurrVersion"]);

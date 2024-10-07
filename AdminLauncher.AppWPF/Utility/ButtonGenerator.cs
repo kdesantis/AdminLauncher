@@ -17,6 +17,11 @@ namespace AdminLauncher.AppWPF.Utility
     {
         private static ProgramManager? CurrentProgramManager;
         private static MainWindow? CurrentMainWindows;
+        /// <summary>
+        /// Populates the StackPanel “ButtonPanel” of the MainWindows with all the programs and routines in the program manager
+        /// </summary>
+        /// <param name="programManager"></param>
+        /// <param name="mainWindow"></param>
         public static void GenerateButtons(ProgramManager programManager, MainWindow mainWindow)
         {
             CurrentProgramManager = programManager;
@@ -44,7 +49,7 @@ namespace AdminLauncher.AppWPF.Utility
 
         private static Button CreateButton(GenericItem item)
         {
-            Button button = new Button
+            Button button = new()
             {
                 Margin = new Thickness(5),
                 HorizontalContentAlignment = System.Windows.HorizontalAlignment.Stretch,
@@ -57,14 +62,14 @@ namespace AdminLauncher.AppWPF.Utility
             return button;
         }
 
-        private static UIElement CreateButtonContent(GenericItem item)
+        private static Grid CreateButtonContent(GenericItem item)
         {
-            Grid grid = new Grid();
+            Grid grid = new();
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
-            Image iconImage = new Image
+            Image iconImage = new()
             {
                 Source = IconUtility.LoadIcon(item.GetIconPath()),
                 Width = 32,
@@ -74,7 +79,7 @@ namespace AdminLauncher.AppWPF.Utility
             Grid.SetColumn(iconImage, 0);
             grid.Children.Add(iconImage);
 
-            TextBlock textBlock = new TextBlock
+            TextBlock textBlock = new()
             {
                 Text = item.Name,
                 VerticalAlignment = VerticalAlignment.Center
@@ -84,7 +89,7 @@ namespace AdminLauncher.AppWPF.Utility
 
             if (item is ProgramItem programItem && programItem.IsFavorite)
             {
-                Image favoriteIcon = new Image
+                Image favoriteIcon = new()
                 {
                     Source = IconUtility.LoadIcon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "favorite.png")),
                     Width = 32,
@@ -101,13 +106,13 @@ namespace AdminLauncher.AppWPF.Utility
 
         private static ContextMenu CreateContextMenu(GenericItem item)
         {
-            ContextMenu contextMenu = new ContextMenu();
+            ContextMenu contextMenu = new();
 
-            MenuItem editMenuItem = new MenuItem { Header = item is ProgramItem ? "Edit Program" : "Edit Routine" };
+            MenuItem editMenuItem = new() { Header = item is ProgramItem ? "Edit Program" : "Edit Routine" };
             editMenuItem.Click += (s, e) => OnEditClicked(item);
             contextMenu.Items.Add(editMenuItem);
 
-            MenuItem deleteMenuItem = new MenuItem { Header = item is ProgramItem ? "Delete Program" : "Delete Routine" };
+            MenuItem deleteMenuItem = new() { Header = item is ProgramItem ? "Delete Program" : "Delete Routine" };
             deleteMenuItem.Click += (s, e) => OnDeleteClicked(item);
             contextMenu.Items.Add(deleteMenuItem);
 

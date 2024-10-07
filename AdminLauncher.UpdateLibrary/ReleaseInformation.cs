@@ -8,8 +8,8 @@ namespace AdminLauncher.UpdateLibrary
 {
     public class ReleaseInformation
     {
-        public string Version { get; set; }
-        public string Url { get; set; }
-        public string ReleaseNotes { get; set; }
+        public required string Version { get; set; }
+        public required string Url { get; set; }
+        public required string ReleaseNotes { get; set; }
     }
 }

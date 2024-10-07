@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace AdminLauncher.BusinessLibrary
 {
+
     public abstract class GenericItem
     {
         public int Index { get; set; }
@@ -15,7 +16,7 @@ namespace AdminLauncher.BusinessLibrary
         public virtual string Name
         {
             get { return name; }
-            set { name = string.IsNullOrEmpty(value) ? $"GenericProgram" : value; ; }
+            set { name = string.IsNullOrEmpty(value) ? $"GenericProgram" : value; }
         }
 
 

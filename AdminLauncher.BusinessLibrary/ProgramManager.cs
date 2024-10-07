@@ -8,8 +8,8 @@ namespace AdminLauncher.BusinessLibrary
 {
     public class ProgramManager
     {
-        public List<ProgramItem> Programs { get; set; } = new();
-        public List<RoutineItem> Routines { get; set; } = new();
+        public List<ProgramItem> Programs { get; set; } = [];
+        public List<RoutineItem> Routines { get; set; } = [];
         public int CurrIndex { get; set; }
 
         public void AddProgram(ProgramItem program)
@@ -66,7 +66,6 @@ namespace AdminLauncher.BusinessLibrary
         {
             try
             {
-                PersistenceManager persistenceManager = new();
                 var savedProgramManager = new PersistenceManager().LoadData();
                 Programs = savedProgramManager.Programs;
                 Routines = savedProgramManager.Routines;

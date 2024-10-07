@@ -9,13 +9,18 @@ using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using Application = System.Windows.Application;
 
-namespace AdminLauncher.AppWPF
+namespace AdminLauncher.AppWPF.Utility
 {
-    public class IconUtility
+    public static class IconUtility
     {
+        /// <summary>
+        /// Restores the BitMapImage version of the icon to the indexed path
+        /// </summary>
+        /// <param name="iconPath"></param>
+        /// <returns></returns>
         public static BitmapImage LoadIcon(string iconPath)
         {
-            BitmapImage bitmap = new BitmapImage();
+            BitmapImage bitmap = new();
             if (iconPath != null)
             {
                 bitmap.BeginInit();
@@ -25,6 +30,6 @@ namespace AdminLauncher.AppWPF
             }
             return bitmap;
         }
-        
+
     }
 }

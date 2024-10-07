@@ -23,12 +23,18 @@ namespace AdminLauncher.BusinessLibrary
 
         public string? Arguments { get; set; }
         public bool IsFavorite { get; set; }
-
+        /// <summary>
+        /// Launches the executable of the current program
+        /// </summary>
+        /// <returns></returns>
         public override LaunchResult Launch()
         {
             return ProcessLauncher.LaunchProgram(this);
         }
-
+        /// <summary>
+        /// Extracts the exe icon to a temporary folder and returns the path to access it
+        /// </summary>
+        /// <returns></returns>
         public override string GetIconPath()
         {
             var iconPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), $"{Index}-{Name}.ico");
@@ -46,7 +52,7 @@ namespace AdminLauncher.BusinessLibrary
         private static string GetValidPath(string path)
         {
             path = path.Replace("\"", string.Empty);
-            if (Path.GetExtension(path).ToLower() == ".lnk")
+            if (Path.GetExtension(path).Equals(".lnk", StringComparison.CurrentCultureIgnoreCase))
                 path = ResolveShortcut(path);
             return path;
         }

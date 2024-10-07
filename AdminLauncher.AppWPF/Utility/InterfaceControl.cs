@@ -12,6 +12,10 @@ namespace AdminLauncher.AppWPF.Utility
 {
     public static class InterfaceControl
     {
+        /// <summary>
+        /// Set the position of MainWindows to the bottom right, above the program bar
+        /// </summary>
+        /// <param name="mainWindow"></param>
         public static void PositionWindowInBottomRight(MainWindow mainWindow)
         {
             double workAreaHeight = SystemParameters.WorkArea.Height;
@@ -34,6 +38,11 @@ namespace AdminLauncher.AppWPF.Utility
             mainWindow.RoutineNameTextBox.Clear();
             mainWindow.ProgramsListBox.UnselectAll();
         }
+        /// <summary>
+        /// Makes the desired StackPanel visible
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="mainWindow"></param>
         public static void InterfaceLoader(InterfaceEnum mode, MainWindow mainWindow)
         {
             switch (mode)
@@ -66,15 +75,24 @@ namespace AdminLauncher.AppWPF.Utility
                     break;
             }
         }
+        /// <summary>
+        /// Populates the Listbox with programs that you can select to create/edit a routine
+        /// </summary>
+        /// <param name="programs"></param>
+        /// <param name="mainWindow"></param>
+        /// <param name="routineToUpdate"></param>
         public static void LoadProgramsListBox(List<ProgramItem> programs, MainWindow mainWindow, RoutineItem routineToUpdate = null)
         {
             mainWindow.ProgramsListBox.Items.Clear();
             foreach (var program in programs.OrderBy(e => e.Name))
                 mainWindow.ProgramsListBox.Items.Add(program.Name);
-            if (routineToUpdate != null)
-                routineToUpdate.Programs.ForEach(program => { mainWindow.ProgramsListBox.SelectedItems.Add(program.Name); });
+            routineToUpdate?.Programs.ForEach(program => { mainWindow.ProgramsListBox.SelectedItems.Add(program.Name); });
         }
-
+        /// <summary>
+        /// Manages the display of items regarding version and updates in the AboutTab
+        /// </summary>
+        /// <param name="updateInfo"></param>
+        /// <param name="mainWindow"></param>
         public static void UpdateVersionText(ReleaseInformation updateInfo, MainWindow mainWindow)
         {
             var currVersion = new Version(ConfigurationManager.AppSettings["CurrVersion"]);
@@ -92,6 +110,9 @@ namespace AdminLauncher.AppWPF.Utility
             }
         }
     }
+    /// <summary>
+    /// Indentifies the various tabs in the ui
+    /// </summary>
     public enum InterfaceEnum
     {
         Home,
