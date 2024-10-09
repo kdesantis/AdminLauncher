@@ -69,14 +69,11 @@ namespace AdminLauncher.AppWPF
         }
         private void QuickRun_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new()
+            var filePath = DialogUtility.ShowOpenFileDialog();
+            if (filePath is not null)
             {
-                Filter = "Executable Files (*.exe)|*.exe|All Files (*.*)|*.*"
-            };
-            if (openFileDialog.ShowDialog() == true)
-            {
-                var result = (new ProgramItem { Name = "Quick Run", ExecutablePath = openFileDialog.FileName }).Launch();
-                MessageBoxUtility.LaunchInformatinError(result);
+                var result = (new ProgramItem { Name = "Quick Run", ExecutablePath = filePath }).Launch();
+                DialogUtility.LaunchInformatinError(result);
             }
         }
         private void About_Click(object sender, RoutedEventArgs e) =>
@@ -107,12 +104,9 @@ namespace AdminLauncher.AppWPF
             InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new()
-            {
-                Filter = "Executable Files (*.exe)|*.exe|All Files (*.*)|*.*"
-            };
-            if (openFileDialog.ShowDialog() == true)
-                ProgramPathTextBox.Text = openFileDialog.FileName;
+            var filePath = DialogUtility.ShowOpenFileDialog();
+            if (filePath is not null)
+                ProgramPathTextBox.Text = filePath;
         }
         private void SaveProgram_Click(object sender, RoutedEventArgs e)
         {

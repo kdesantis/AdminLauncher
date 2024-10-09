@@ -24,11 +24,11 @@ namespace AdminLauncher.AppWPF.Utility
             var updater = new UpdateChecker(ConfigurationManager.AppSettings["UrlUpdateChecker"]);
             var result = await updater.CheckForUpdatesAsync(currVersion);
             if (result)
-                MessageBoxUtility.NotifyUserForUpdate(updater.UpdateInformation);
+                DialogUtility.NotifyUserForUpdate(updater.UpdateInformation);
             else if (updater.Error != null)
-                MessageBoxUtility.ErrorToSearchUpdate();
+                DialogUtility.ErrorToSearchUpdate();
             else if (showNegativeEsit)
-                MessageBoxUtility.UpdateNotAvailable();
+                DialogUtility.UpdateNotAvailable();
 
             return updater.UpdateInformation;
         }

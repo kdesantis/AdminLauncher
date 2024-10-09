@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AdminLauncher.AppWPF"
         mc:Ignorable="d"
-        Title="Admin Launcher by De Santis Kevin" Height="800" Width="400"
+        Title="Admin Launcher" Height="800" Width="400"
         WindowStartupLocation="Manual"
         ResizeMode="NoResize"
         WindowStyle="SingleBorderWindow"
@@ -70,9 +70,8 @@
                 <Button Content="Cancel" Click="CancelRoutine_Click" Width="100" Margin="5" />
             </StackPanel>
         </StackPanel>
-        <StackPanel x:Name="AbountPanel" Visibility="Collapsed" Margin="0,30,0,0">
+        <StackPanel x:Name="AbountPanel" Visibility="Collapsed" Margin="5,30,5,0">
 
-            <!-- Title with Software Name and Version -->
             <Grid HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>

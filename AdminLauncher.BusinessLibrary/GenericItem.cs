@@ -19,7 +19,6 @@ namespace AdminLauncher.BusinessLibrary
             set { name = string.IsNullOrEmpty(value) ? $"GenericProgram" : value; }
         }
 
-
         public abstract LaunchResult Launch();
         public abstract string GetIconPath();
     }

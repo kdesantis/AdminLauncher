@@ -8,10 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using MessageBox = System.Windows.MessageBox;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace AdminLauncher.AppWPF.Utility
 {
-    public static class MessageBoxUtility
+    public static class DialogUtility
     {
         /// <summary>
         /// Show the rusults of the launch occurred in case of other than positive outcome
@@ -58,6 +59,20 @@ namespace AdminLauncher.AppWPF.Utility
         {
             var message = $"No update available. The version you have is the most recent";
             MessageBox.Show(message, "Check Update", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        /// <summary>
+        /// Launches a dialog box for selecting an executable. If selected it returns the path to the selected file, otherwise null
+        /// </summary>
+        /// <returns></returns>
+        public static string ShowOpenFileDialog()
+        {
+            OpenFileDialog openFileDialog = new()
+            {
+                Filter = "Executable Files (*.exe)(*.bat)(*.cmd)|*.exe;*.bat;*.cmd|All Files (*.*)|*.*"
+            };
+            if (openFileDialog.ShowDialog() == true)
+                return openFileDialog.FileName;
+            return null;
         }
     }
 }
