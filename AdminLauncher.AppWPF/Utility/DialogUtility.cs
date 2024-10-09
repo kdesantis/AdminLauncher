@@ -57,7 +57,7 @@ namespace AdminLauncher.AppWPF.Utility
         /// </summary>
         public static void UpdateNotAvailable()
         {
-            var message = $"No update available. The version you have is the most recent";
+            var message = $"No update available. This version is the most recent";
             MessageBox.Show(message, "Check Update", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         /// <summary>
