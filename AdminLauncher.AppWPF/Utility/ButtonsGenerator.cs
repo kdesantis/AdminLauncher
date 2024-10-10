@@ -15,23 +15,26 @@ using Orientation = System.Windows.Controls.Orientation;
 
 namespace AdminLauncher.AppWPF.Utility
 {
-    public class ButtonGenerator
+    public class ButtonsGenerator
     {
         protected ProgramManager? Manager { get; set; }
         protected MainWindow? Window { get; set; }
+
+        public ButtonsGenerator(ProgramManager programManager, MainWindow mainWindow)
+        {
+            this.Manager = programManager;
+            this.Window = mainWindow;
+        }
 
         /// <summary>
         /// Populates the StackPanel “ButtonPanel” of the MainWindows with all the programs and routines in the program manager
         /// </summary>
         /// <param name="programManager"></param>
         /// <param name="mainWindow"></param>
-        public void GenerateButtons(ProgramManager programManager, MainWindow mainWindow)
+        public void GenerateButtons()
         {
-            Manager = programManager;
-            Window = mainWindow;
-
-            new VerticalButtonsGenerator().GenerateVerticalButtons(programManager, mainWindow);
-            //new HorizontalButtonsGenerator().GenerateHorizontalButtons(Manager, Window);
+            new VerticalButtonsGenerator(Manager, Window).GenerateVerticalButtons();
+            //new HorizontalButtonsGenerator(Manager, Window).GenerateHorizontalButtons();
         }
         protected List<GenericItem> GetSortedGenericItems()
         {
@@ -63,11 +66,11 @@ namespace AdminLauncher.AppWPF.Utility
             {
                 RemoveItem(item);
                 Manager.Save();
-                GenerateButtons(Manager, Window);
+                GenerateButtons();
             }
         }
 
-        private static bool ConfirmDeletion(string itemName)
+        private bool ConfirmDeletion(string itemName)
         {
             MessageBoxResult result = MessageBox.Show(
                 $"Are you sure you want to delete {itemName}?",
@@ -79,14 +82,14 @@ namespace AdminLauncher.AppWPF.Utility
             return result == MessageBoxResult.Yes;
         }
 
-        protected void RemoveItem(GenericItem item)
+        private void RemoveItem(GenericItem item)
         {
             if (item is ProgramItem program)
                 Manager.RemoveProgram(program);
             else if (item is RoutineItem routine)
                 Manager.RemoveRoutine(routine);
         }
-        protected void OnEditClicked(GenericItem item)
+        private void OnEditClicked(GenericItem item)
         {
             if (item is ProgramItem programItem)
                 EditProgram(programItem);
@@ -94,7 +97,7 @@ namespace AdminLauncher.AppWPF.Utility
                 EditRoutine(routineItem);
         }
 
-        protected void EditProgram(ProgramItem program)
+        private void EditProgram(ProgramItem program)
         {
             InterfaceControl.InterfaceLoader(InterfaceEnum.AddProgramInterface, Window);
             Window.ProgramIndexLabel.Content = program.Index;
@@ -104,7 +107,7 @@ namespace AdminLauncher.AppWPF.Utility
             Window.FavoriteCheckBox.IsChecked = program.IsFavorite;
         }
 
-        protected void EditRoutine(RoutineItem routine)
+        private void EditRoutine(RoutineItem routine)
         {
             InterfaceControl.LoadProgramsListBox(Manager.Programs, Window, routine);
             InterfaceControl.InterfaceLoader(InterfaceEnum.AddRoutineInterface, Window);

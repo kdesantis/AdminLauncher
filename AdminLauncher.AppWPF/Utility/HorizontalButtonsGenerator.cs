@@ -17,14 +17,14 @@ using Orientation = System.Windows.Controls.Orientation;
 
 namespace AdminLauncher.AppWPF.Utility
 {
-    public class HorizontalButtonsGenerator : ButtonGenerator
+    public class HorizontalButtonsGenerator : ButtonsGenerator
     {
-
-        public void GenerateHorizontalButtons(ProgramManager programManager, MainWindow mainWindow)
+        public HorizontalButtonsGenerator(ProgramManager programManager, MainWindow mainWindow) : base(programManager, mainWindow)
         {
-            Manager = programManager;
-            Window = mainWindow;
+        }
 
+        public void GenerateHorizontalButtons()
+        {
             Window.ButtonPanel.Children.Clear();
 
             List<GenericItem> genericItems = GetSortedGenericItems();
@@ -33,7 +33,7 @@ namespace AdminLauncher.AppWPF.Utility
             WrapPanel gridPanel = new()
             {
                 Orientation = Orientation.Horizontal,
-                ItemWidth = (mainWindow.Width - 20) / 2,
+                ItemWidth = (Window.Width - 20) / 2,
                 ItemHeight = 150,
                 HorizontalAlignment = HorizontalAlignment.Center,
             };

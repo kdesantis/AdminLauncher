@@ -15,18 +15,19 @@ using Orientation = System.Windows.Controls.Orientation;
 
 namespace AdminLauncher.AppWPF.Utility
 {
-    public class VerticalButtonsGenerator : ButtonGenerator
+    public class VerticalButtonsGenerator : ButtonsGenerator
     {
+        public VerticalButtonsGenerator(ProgramManager programManager, MainWindow mainWindow) : base(programManager, mainWindow)
+        {
+        }
+
         /// <summary>
         /// Populates the StackPanel “ButtonPanel” of the MainWindows with all the programs and routines in the program manager
         /// </summary>
         /// <param name="programManager"></param>
         /// <param name="mainWindow"></param>
-        public void GenerateVerticalButtons(ProgramManager programManager, MainWindow mainWindow)
+        public void GenerateVerticalButtons()
         {
-            Manager = programManager;
-            Window = mainWindow;
-
             Window.ButtonPanel.Children.Clear();
 
             List<GenericItem> genericItems = GetSortedGenericItems();
