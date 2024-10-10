@@ -13,8 +13,6 @@ namespace AdminLauncher.BusinessLibrary
     public class ProgramItem : GenericItem
     {
         private string executablePath;
-
-        [JsonPropertyName("Path")]
         public string ExecutablePath
         {
             get { return executablePath; }
