@@ -10,101 +10,39 @@ using Button = System.Windows.Controls.Button;
 using Image = System.Windows.Controls.Image;
 using MessageBox = System.Windows.MessageBox;
 using System.IO;
+using HorizontalAlignment = System.Windows.HorizontalAlignment;
+using Orientation = System.Windows.Controls.Orientation;
 
 namespace AdminLauncher.AppWPF.Utility
 {
-    public static class ButtonGenerator
+    public class ButtonGenerator
     {
-        private static ProgramManager? CurrentProgramManager;
-        private static MainWindow? CurrentMainWindows;
+        protected ProgramManager? Manager { get; set; }
+        protected MainWindow? Window { get; set; }
+
         /// <summary>
         /// Populates the StackPanel “ButtonPanel” of the MainWindows with all the programs and routines in the program manager
         /// </summary>
         /// <param name="programManager"></param>
         /// <param name="mainWindow"></param>
-        public static void GenerateButtons(ProgramManager programManager, MainWindow mainWindow)
+        public void GenerateButtons(ProgramManager programManager, MainWindow mainWindow)
         {
-            CurrentProgramManager = programManager;
-            CurrentMainWindows = mainWindow;
+            Manager = programManager;
+            Window = mainWindow;
 
-            CurrentMainWindows.ButtonPanel.Children.Clear();
-
-            List<GenericItem> genericItems = GetSortedGenericItems();
-
-            foreach (var item in genericItems)
-            {
-                Button button = CreateButton(item);
-                CurrentMainWindows.ButtonPanel.Children.Add(button);
-            }
+            new VerticalButtonsGenerator().GenerateVerticalButtons(programManager, mainWindow);
+            //new HorizontalButtonsGenerator().GenerateHorizontalButtons(Manager, Window);
         }
-
-        private static List<GenericItem> GetSortedGenericItems()
+        protected List<GenericItem> GetSortedGenericItems()
         {
             return
             [
-                .. CurrentProgramManager.Routines.OrderBy(e => e.Name),
-                .. CurrentProgramManager.Programs.OrderBy(e => e.Name).OrderByDescending(e => e.IsFavorite),
+                .. Manager.Routines.OrderBy(e => e.Name),
+                .. Manager.Programs.OrderBy(e => e.Name).OrderByDescending(e => e.IsFavorite),
             ];
         }
 
-        private static Button CreateButton(GenericItem item)
-        {
-            Button button = new()
-            {
-                Margin = new Thickness(5),
-                HorizontalContentAlignment = System.Windows.HorizontalAlignment.Stretch,
-                Content = CreateButtonContent(item),
-                ContextMenu = CreateContextMenu(item)
-            };
-
-            button.Click += (sender, e) => DialogUtility.LaunchInformatinError(item.Launch());
-
-            return button;
-        }
-
-        private static Grid CreateButtonContent(GenericItem item)
-        {
-            Grid grid = new();
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-
-            Image iconImage = new()
-            {
-                Source = IconUtility.LoadIcon(item.GetIconPath()),
-                Width = 32,
-                Height = 32,
-                Margin = new Thickness(0, 0, 5, 0)
-            };
-            Grid.SetColumn(iconImage, 0);
-            grid.Children.Add(iconImage);
-
-            TextBlock textBlock = new()
-            {
-                Text = item.Name,
-                VerticalAlignment = VerticalAlignment.Center
-            };
-            Grid.SetColumn(textBlock, 1);
-            grid.Children.Add(textBlock);
-
-            if (item is ProgramItem programItem && programItem.IsFavorite)
-            {
-                Image favoriteIcon = new()
-                {
-                    Source = IconUtility.LoadIcon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "favorite.png")),
-                    Width = 32,
-                    Height = 32,
-                    Margin = new Thickness(0, 0, 5, 0),
-                    HorizontalAlignment = System.Windows.HorizontalAlignment.Right
-                };
-                Grid.SetColumn(favoriteIcon, 2);
-                grid.Children.Add(favoriteIcon);
-            }
-
-            return grid;
-        }
-
-        private static ContextMenu CreateContextMenu(GenericItem item)
+        protected ContextMenu CreateContextMenu(GenericItem item)
         {
             ContextMenu contextMenu = new();
 
@@ -119,13 +57,13 @@ namespace AdminLauncher.AppWPF.Utility
             return contextMenu;
         }
 
-        private static void OnDeleteClicked(GenericItem item)
+        protected void OnDeleteClicked(GenericItem item)
         {
             if (ConfirmDeletion(item.Name))
             {
                 RemoveItem(item);
-                CurrentProgramManager.Save();
-                GenerateButtons(CurrentProgramManager, CurrentMainWindows);
+                Manager.Save();
+                GenerateButtons(Manager, Window);
             }
         }
 
@@ -141,14 +79,14 @@ namespace AdminLauncher.AppWPF.Utility
             return result == MessageBoxResult.Yes;
         }
 
-        private static void RemoveItem(GenericItem item)
+        protected void RemoveItem(GenericItem item)
         {
             if (item is ProgramItem program)
-                CurrentProgramManager.RemoveProgram(program);
+                Manager.RemoveProgram(program);
             else if (item is RoutineItem routine)
-                CurrentProgramManager.RemoveRoutine(routine);
+                Manager.RemoveRoutine(routine);
         }
-        private static void OnEditClicked(GenericItem item)
+        protected void OnEditClicked(GenericItem item)
         {
             if (item is ProgramItem programItem)
                 EditProgram(programItem);
@@ -156,22 +94,22 @@ namespace AdminLauncher.AppWPF.Utility
                 EditRoutine(routineItem);
         }
 
-        private static void EditProgram(ProgramItem program)
+        protected void EditProgram(ProgramItem program)
         {
-            InterfaceControl.InterfaceLoader(InterfaceEnum.AddProgramInterface, CurrentMainWindows);
-            CurrentMainWindows.ProgramIndexLabel.Content = program.Index;
-            CurrentMainWindows.ProgramNameTextBox.Text = program.Name;
-            CurrentMainWindows.ProgramPathTextBox.Text = program.ExecutablePath;
-            CurrentMainWindows.ProgramArgumentsTextBox.Text = program.Arguments;
-            CurrentMainWindows.FavoriteCheckBox.IsChecked = program.IsFavorite;
+            InterfaceControl.InterfaceLoader(InterfaceEnum.AddProgramInterface, Window);
+            Window.ProgramIndexLabel.Content = program.Index;
+            Window.ProgramNameTextBox.Text = program.Name;
+            Window.ProgramPathTextBox.Text = program.ExecutablePath;
+            Window.ProgramArgumentsTextBox.Text = program.Arguments;
+            Window.FavoriteCheckBox.IsChecked = program.IsFavorite;
         }
 
-        private static void EditRoutine(RoutineItem routine)
+        protected void EditRoutine(RoutineItem routine)
         {
-            InterfaceControl.LoadProgramsListBox(CurrentProgramManager.Programs, CurrentMainWindows, routine);
-            InterfaceControl.InterfaceLoader(InterfaceEnum.AddRoutineInterface, CurrentMainWindows);
-            CurrentMainWindows.RoutineIndexLabel.Content = routine.Index;
-            CurrentMainWindows.RoutineNameTextBox.Text = routine.Name;
+            InterfaceControl.LoadProgramsListBox(Manager.Programs, Window, routine);
+            InterfaceControl.InterfaceLoader(InterfaceEnum.AddRoutineInterface, Window);
+            Window.RoutineIndexLabel.Content = routine.Index;
+            Window.RoutineNameTextBox.Text = routine.Name;
         }
     }
 }

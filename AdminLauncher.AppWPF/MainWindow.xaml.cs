@@ -27,13 +27,14 @@ namespace AdminLauncher.AppWPF
     public partial class MainWindow : Window
     {
         readonly ProgramManager ProgramManager = new();
+        readonly ButtonGenerator buttonGenerator = new();
         public MainWindow()
         {
             InitializeComponent();
 
             InterfaceControl.PositionWindowInBottomRight(this);
             ProgramManager.Load();
-            ButtonGenerator.GenerateButtons(ProgramManager, this);
+            buttonGenerator.GenerateButtons(ProgramManager, this);
             NotifyIcon notifyIcon = NotifyIconUtility.InitializeNotifyIcon(this);
 
 #if DEBUG
@@ -98,7 +99,7 @@ namespace AdminLauncher.AppWPF
             ProgramManager.Save();
 
             InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
-            ButtonGenerator.GenerateButtons(ProgramManager, this);
+            buttonGenerator.GenerateButtons(ProgramManager, this);
         }
         private void CancelRoutine_Click(object sender, RoutedEventArgs e) =>
             InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
@@ -121,7 +122,7 @@ namespace AdminLauncher.AppWPF
 
             ProgramManager.AddProgram(newProgram);
             ProgramManager.Save();
-            ButtonGenerator.GenerateButtons(ProgramManager, this);
+            buttonGenerator.GenerateButtons(ProgramManager, this);
 
             InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
         }
