@@ -4,7 +4,7 @@
 
 ## Main Features ✨
 
-- **Run with administrator privileges** 🔑: Easily execute programs with admin rights without having to interact with the UAC confirmation window every time.
+- **Run with administrator privileges** 🔑: Easily execute programs with admin rights without having to interact with the UAC confirmation window or login with admin user every time.
 - **Launch routines** 🛠️: Configure groups of programs to launch together, such as a set of work tools or favorite applications.
 - **Quick Run** ⚡: Quickly launch a single program or executable (e.g., a setup file) without needing to configure a routine.
 - **Simple and intuitive interface** 🎨: Built on WPF, the interface is designed to be user-friendly, ensuring smooth navigation and an optimal user experience.
