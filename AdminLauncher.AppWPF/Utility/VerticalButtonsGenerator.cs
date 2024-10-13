@@ -17,7 +17,7 @@ namespace AdminLauncher.AppWPF.Utility
 {
     public class VerticalButtonsGenerator : ButtonsGenerator
     {
-        public VerticalButtonsGenerator(ProgramManager programManager, MainWindow mainWindow) : base(programManager, mainWindow)
+        public VerticalButtonsGenerator(Manager manager, MainWindow mainWindow) : base(manager, mainWindow)
         {
         }
 

@@ -8,13 +8,13 @@ namespace AdminLauncher.BusinessLibrary
 {
     public class SettingsManager
     {
-        public string DataFilePath { get; set; }
-        public void LoadSettings()
-        {
+        //public string DataFilePath { get; set; }
+        public OrientationsButtonEnum ButtonsOrientation { get; set; }
 
-        }
-        public void SaveSettings() { }
-
-
+    }
+    public enum OrientationsButtonEnum
+    {
+        Vertical,
+        Horizontal
     }
 }

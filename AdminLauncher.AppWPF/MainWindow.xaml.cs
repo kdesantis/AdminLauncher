@@ -26,15 +26,18 @@ namespace AdminLauncher.AppWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        readonly ProgramManager ProgramManager = new();
+        readonly Manager manager = new();
         readonly ButtonsGenerator buttonGenerator;
         public MainWindow()
         {
             InitializeComponent();
 
             InterfaceControl.PositionWindowInBottomRight(this);
-            ProgramManager.Load();
-            buttonGenerator = new(ProgramManager,this);
+
+            if (!manager.Load())
+                DialogUtility.LoadFailure();
+
+            buttonGenerator = new(manager, this);
             buttonGenerator.GenerateButtons();
             NotifyIcon notifyIcon = NotifyIconUtility.InitializeNotifyIcon(this);
 
@@ -47,6 +50,8 @@ namespace AdminLauncher.AppWPF
         {
             var updateInformation = await UpdateUtility.CheckUpdateAsync(false);
             InterfaceControl.UpdateVersionText(updateInformation, this);
+
+            InterfaceControl.LoadButtonsOrienationComboBox(this, manager);
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -61,13 +66,15 @@ namespace AdminLauncher.AppWPF
         }
         private void Home_Click(object sender, RoutedEventArgs e) =>
             InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
+        private void Settings_Click(object sender, RoutedEventArgs e) =>
+            InterfaceControl.InterfaceLoader(InterfaceEnum.Settings, this);
         private void AddProgram_Click(object sender, RoutedEventArgs e) =>
             InterfaceControl.InterfaceLoader(InterfaceEnum.AddProgramInterface, this);
 
         private void AddRoutine_Click(object sender, RoutedEventArgs e)
         {
             InterfaceControl.InterfaceLoader(InterfaceEnum.AddRoutineInterface, this);
-            InterfaceControl.LoadProgramsListBox(ProgramManager.Programs, this);
+            InterfaceControl.LoadProgramsListBox(manager.programManager.Programs, this);
         }
         private void QuickRun_Click(object sender, RoutedEventArgs e)
         {
@@ -91,13 +98,13 @@ namespace AdminLauncher.AppWPF
 
             foreach (var selectedProgram in ProgramsListBox.SelectedItems)
             {
-                var program = ProgramManager.FindProgramByName(selectedProgram.ToString());
+                var program = manager.programManager.FindProgramByName(selectedProgram.ToString());
                 if (program != null)
                     newRoutine.AddProgram(program);
             }
 
-            ProgramManager.AddRoutine(newRoutine);
-            ProgramManager.Save();
+            manager.programManager.AddRoutine(newRoutine);
+            manager.Save();
 
             InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
             buttonGenerator.GenerateButtons();
@@ -121,8 +128,8 @@ namespace AdminLauncher.AppWPF
                 IsFavorite = FavoriteCheckBox.IsChecked == true
             };
 
-            ProgramManager.AddProgram(newProgram);
-            ProgramManager.Save();
+            manager.programManager.AddProgram(newProgram);
+            manager.Save();
             buttonGenerator.GenerateButtons();
 
             InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
@@ -135,5 +142,11 @@ namespace AdminLauncher.AppWPF
             e.Handled = true;
         }
 
+        private void ButtonsOrientationCombobox_Selected(object sender, RoutedEventArgs e)
+        {
+            manager.settingsManager.ButtonsOrientation = (OrientationsButtonEnum)ButtonsOrientationCombobox.SelectedItem;
+            buttonGenerator.GenerateButtons();
+            manager.Save();
+        }
     }
 }

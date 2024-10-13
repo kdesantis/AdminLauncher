@@ -19,7 +19,7 @@ namespace AdminLauncher.AppWPF.Utility
 {
     public class HorizontalButtonsGenerator : ButtonsGenerator
     {
-        public HorizontalButtonsGenerator(ProgramManager programManager, MainWindow mainWindow) : base(programManager, mainWindow)
+        public HorizontalButtonsGenerator(Manager manager, MainWindow mainWindow) : base(manager, mainWindow)
         {
         }
 

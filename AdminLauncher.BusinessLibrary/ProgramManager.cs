@@ -57,24 +57,5 @@ namespace AdminLauncher.BusinessLibrary
         {
             return Programs.FirstOrDefault(program => program.Name == name);
         }
-        public void Save()
-        {
-            PersistenceManager persistenceManager = new();
-            persistenceManager.SaveData(this);
-        }
-        public void Load()
-        {
-            try
-            {
-                var savedProgramManager = new PersistenceManager().LoadData();
-                Programs = savedProgramManager.Programs;
-                Routines = savedProgramManager.Routines;
-                CurrIndex = savedProgramManager.CurrIndex;
-            }
-            catch (Exception)
-            {
-                //Ignore configuration File
-            }
-        }
     }
 }

@@ -45,34 +45,32 @@ namespace AdminLauncher.AppWPF.Utility
         /// <param name="mainWindow"></param>
         public static void InterfaceLoader(InterfaceEnum mode, MainWindow mainWindow)
         {
+            mainWindow.MainScrollViewer.Visibility = Visibility.Collapsed;
+            mainWindow.SettingsPanel.Visibility = Visibility.Collapsed;
+            mainWindow.AddProgramPanel.Visibility = Visibility.Collapsed;
+            mainWindow.AddRoutinePanel.Visibility = Visibility.Collapsed;
+            mainWindow.AbountPanel.Visibility = Visibility.Collapsed;
+
             switch (mode)
             {
                 case InterfaceEnum.Home:
-                    mainWindow.AddProgramPanel.Visibility = Visibility.Collapsed;
                     mainWindow.MainScrollViewer.Visibility = Visibility.Visible;
-                    mainWindow.AddRoutinePanel.Visibility = Visibility.Collapsed;
-                    mainWindow.AbountPanel.Visibility = Visibility.Collapsed;
                     ClearAddProgramData(mainWindow);
                     ClearRoutineData(mainWindow);
                     break;
+                case InterfaceEnum.Settings:
+                    mainWindow.SettingsPanel.Visibility = Visibility.Visible;
+                    break;
                 case InterfaceEnum.AddProgramInterface:
                     mainWindow.AddProgramPanel.Visibility = Visibility.Visible;
-                    mainWindow.MainScrollViewer.Visibility = Visibility.Collapsed;
-                    mainWindow.AddRoutinePanel.Visibility = Visibility.Collapsed;
-                    mainWindow.AbountPanel.Visibility = Visibility.Collapsed;
                     break;
                 case InterfaceEnum.AddRoutineInterface:
-                    mainWindow.MainScrollViewer.Visibility = Visibility.Collapsed;
-                    mainWindow.AddProgramPanel.Visibility = Visibility.Collapsed;
                     mainWindow.AddRoutinePanel.Visibility = Visibility.Visible;
-                    mainWindow.AbountPanel.Visibility = Visibility.Collapsed;
                     break;
                 case InterfaceEnum.About:
-                    mainWindow.MainScrollViewer.Visibility = Visibility.Collapsed;
-                    mainWindow.AddProgramPanel.Visibility = Visibility.Collapsed;
-                    mainWindow.AddRoutinePanel.Visibility = Visibility.Collapsed;
                     mainWindow.AbountPanel.Visibility = Visibility.Visible;
                     break;
+
             }
         }
         /// <summary>
@@ -109,6 +107,12 @@ namespace AdminLauncher.AppWPF.Utility
                 mainWindow.CheckUpdateLink.Visibility = Visibility.Visible;
             }
         }
+
+        public static void LoadButtonsOrienationComboBox(MainWindow mainWindow,Manager manager)
+        {
+            mainWindow.ButtonsOrientationCombobox.ItemsSource = Enum.GetValues(typeof(OrientationsButtonEnum));
+            mainWindow.ButtonsOrientationCombobox.SelectedItem = manager.settingsManager.ButtonsOrientation;
+        }
     }
     /// <summary>
     /// Indentifies the various tabs in the ui
@@ -116,6 +120,7 @@ namespace AdminLauncher.AppWPF.Utility
     public enum InterfaceEnum
     {
         Home,
+        Settings,
         AddProgramInterface,
         AddRoutineInterface,
         About
