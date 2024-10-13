@@ -1,17 +1,9 @@
 ﻿using AdminLauncher.BusinessLibrary;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using Button = System.Windows.Controls.Button;
 using Image = System.Windows.Controls.Image;
-using MessageBox = System.Windows.MessageBox;
-using System.IO;
-using HorizontalAlignment = System.Windows.HorizontalAlignment;
-using Orientation = System.Windows.Controls.Orientation;
 
 namespace AdminLauncher.AppWPF.Utility
 {

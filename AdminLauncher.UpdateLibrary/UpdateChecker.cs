@@ -1,7 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Diagnostics;
-using System.Text.Json;
+﻿using System.Text.Json;
 namespace AdminLauncher.UpdateLibrary
 {
     public class UpdateChecker(string pasteBinUrl)

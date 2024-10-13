@@ -1,17 +1,5 @@
 ﻿using AdminLauncher.BusinessLibrary;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
-using System.Windows;
-using Button = System.Windows.Controls.Button;
-using Image = System.Windows.Controls.Image;
-using MessageBox = System.Windows.MessageBox;
-using System.IO;
-using HorizontalAlignment = System.Windows.HorizontalAlignment;
-using Orientation = System.Windows.Controls.Orientation;
 
 namespace AdminLauncher.AppWPF.Utility
 {
@@ -69,24 +57,12 @@ namespace AdminLauncher.AppWPF.Utility
 
         protected void OnDeleteClicked(GenericItem item)
         {
-            if (ConfirmDeletion(item.Name))
+            if (DialogUtility.ConfirmDeletion(item.Name))
             {
                 RemoveItem(item);
                 Manager.Save();
                 GenerateButtons();
             }
-        }
-
-        private bool ConfirmDeletion(string itemName)
-        {
-            MessageBoxResult result = MessageBox.Show(
-                $"Are you sure you want to delete {itemName}?",
-                "Confirm Deletion",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Warning
-            );
-
-            return result == MessageBoxResult.Yes;
         }
 
         private void RemoveItem(GenericItem item)

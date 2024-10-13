@@ -1,23 +1,9 @@
 ﻿using AdminLauncher.AppWPF.Utility;
 using AdminLauncher.BusinessLibrary;
-using AdminLauncher.UpdateLibrary;
-using Microsoft.Win32;
-using System.Configuration;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using Application = System.Windows.Application;
-using Button = System.Windows.Controls.Button;
-using DataFormats = System.Windows.DataFormats;
-using DragDropEffects = System.Windows.DragDropEffects;
-using DragEventArgs = System.Windows.DragEventArgs;
-using Image = System.Windows.Controls.Image;
-using MessageBox = System.Windows.MessageBox;
-using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace AdminLauncher.AppWPF
 {

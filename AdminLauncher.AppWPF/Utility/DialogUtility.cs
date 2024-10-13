@@ -1,11 +1,6 @@
 ﻿using AdminLauncher.BusinessLibrary;
 using AdminLauncher.UpdateLibrary;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
@@ -79,6 +74,17 @@ namespace AdminLauncher.AppWPF.Utility
         {
             var message = $"Attention, the data upload has failed! The application will be reinitialized and the saved data will be lost on the next save";
             MessageBox.Show(message, "Loading Failure", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+        public static bool ConfirmDeletion(string itemName)
+        {
+            MessageBoxResult result = MessageBox.Show(
+                $"Are you sure you want to delete {itemName}?",
+                "Confirm Deletion",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning
+            );
+
+            return result == MessageBoxResult.Yes;
         }
     }
 }
