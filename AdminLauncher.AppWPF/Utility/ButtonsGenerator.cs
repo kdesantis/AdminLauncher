@@ -19,6 +19,7 @@ namespace AdminLauncher.AppWPF.Utility
     {
         protected ProgramManager? Manager { get; set; }
         protected MainWindow? Window { get; set; }
+        public OrientationsButtonEnum oritation { get; set; } = OrientationsButtonEnum.Vertical;
 
         public ButtonsGenerator(ProgramManager programManager, MainWindow mainWindow)
         {
@@ -33,8 +34,15 @@ namespace AdminLauncher.AppWPF.Utility
         /// <param name="mainWindow"></param>
         public void GenerateButtons()
         {
-            new VerticalButtonsGenerator(Manager, Window).GenerateVerticalButtons();
-            //new HorizontalButtonsGenerator(Manager, Window).GenerateHorizontalButtons();
+            if (oritation == OrientationsButtonEnum.Horizontal)
+            {
+                new HorizontalButtonsGenerator(Manager, Window).GenerateHorizontalButtons();
+            }
+            else if (oritation == OrientationsButtonEnum.Vertical)
+            {
+                new VerticalButtonsGenerator(Manager, Window).GenerateVerticalButtons();
+            }
+
         }
         protected List<GenericItem> GetSortedGenericItems()
         {
@@ -114,5 +122,10 @@ namespace AdminLauncher.AppWPF.Utility
             Window.RoutineIndexLabel.Content = routine.Index;
             Window.RoutineNameTextBox.Text = routine.Name;
         }
+    }
+    public enum OrientationsButtonEnum
+    {
+        Vertical,
+        Horizontal
     }
 }

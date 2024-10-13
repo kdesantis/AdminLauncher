@@ -28,6 +28,7 @@ namespace AdminLauncher.AppWPF
     {
         readonly ProgramManager ProgramManager = new();
         readonly ButtonsGenerator buttonGenerator;
+        readonly OrientationsButtonEnum buttonsOrientation = OrientationsButtonEnum.Vertical;
         public MainWindow()
         {
             InitializeComponent();
@@ -47,6 +48,9 @@ namespace AdminLauncher.AppWPF
         {
             var updateInformation = await UpdateUtility.CheckUpdateAsync(false);
             InterfaceControl.UpdateVersionText(updateInformation, this);
+
+            ButtonsOrientationCombobox.ItemsSource = Enum.GetValues(typeof(OrientationsButtonEnum));
+            ButtonsOrientationCombobox.SelectedIndex = 0;
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -61,6 +65,8 @@ namespace AdminLauncher.AppWPF
         }
         private void Home_Click(object sender, RoutedEventArgs e) =>
             InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
+        private void Settings_Click(object sender, RoutedEventArgs e) =>
+            InterfaceControl.InterfaceLoader(InterfaceEnum.Settings, this);
         private void AddProgram_Click(object sender, RoutedEventArgs e) =>
             InterfaceControl.InterfaceLoader(InterfaceEnum.AddProgramInterface, this);
 
@@ -135,5 +141,10 @@ namespace AdminLauncher.AppWPF
             e.Handled = true;
         }
 
+        private void ButtonsOrientationCombobox_Selected(object sender, RoutedEventArgs e)
+        {
+            buttonGenerator.oritation = (OrientationsButtonEnum)ButtonsOrientationCombobox.SelectedItem;
+            buttonGenerator.GenerateButtons();
+        }
     }
 }
