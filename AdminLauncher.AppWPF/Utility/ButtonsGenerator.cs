@@ -72,6 +72,7 @@ namespace AdminLauncher.AppWPF.Utility
             if (ConfirmDeletion(item.Name))
             {
                 RemoveItem(item);
+                Manager.Save();
                 GenerateButtons();
             }
         }

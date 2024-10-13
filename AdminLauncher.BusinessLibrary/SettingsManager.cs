@@ -8,7 +8,6 @@ namespace AdminLauncher.BusinessLibrary
 {
     public class SettingsManager
     {
-        //public string DataFilePath { get; set; }
         public OrientationsButtonEnum ButtonsOrientation { get; set; }
 
     }

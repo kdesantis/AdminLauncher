@@ -70,7 +70,6 @@ namespace AdminLauncher.AppWPF.Utility
                 case InterfaceEnum.About:
                     mainWindow.AbountPanel.Visibility = Visibility.Visible;
                     break;
-
             }
         }
         /// <summary>

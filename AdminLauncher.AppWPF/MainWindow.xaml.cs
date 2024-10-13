@@ -115,7 +115,11 @@ namespace AdminLauncher.AppWPF
         {
             var filePath = DialogUtility.ShowOpenFileDialog();
             if (filePath is not null)
+            {
                 ProgramPathTextBox.Text = filePath;
+                if (string.IsNullOrEmpty(ProgramNameTextBox.Text))
+                    ProgramNameTextBox.Text = Path.GetFileNameWithoutExtension(filePath);
+            }
         }
         private void SaveProgram_Click(object sender, RoutedEventArgs e)
         {
