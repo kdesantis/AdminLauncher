@@ -107,6 +107,12 @@ namespace AdminLauncher.AppWPF.Utility
                 mainWindow.CheckUpdateLink.Visibility = Visibility.Visible;
             }
         }
+
+        public static void LoadButtonsOrienationComboBox(MainWindow mainWindow,Manager manager)
+        {
+            mainWindow.ButtonsOrientationCombobox.ItemsSource = Enum.GetValues(typeof(OrientationsButtonEnum));
+            mainWindow.ButtonsOrientationCombobox.SelectedItem = manager.settingsManager.ButtonsOrientation;
+        }
     }
     /// <summary>
     /// Indentifies the various tabs in the ui

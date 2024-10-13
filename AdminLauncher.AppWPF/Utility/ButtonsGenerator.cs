@@ -17,13 +17,12 @@ namespace AdminLauncher.AppWPF.Utility
 {
     public class ButtonsGenerator
     {
-        protected ProgramManager? Manager { get; set; }
+        protected Manager? Manager { get; set; }
         protected MainWindow? Window { get; set; }
-        public OrientationsButtonEnum oritation { get; set; } = OrientationsButtonEnum.Vertical;
 
-        public ButtonsGenerator(ProgramManager programManager, MainWindow mainWindow)
+        public ButtonsGenerator(Manager manager, MainWindow mainWindow)
         {
-            this.Manager = programManager;
+            this.Manager = manager;
             this.Window = mainWindow;
         }
 
@@ -34,11 +33,11 @@ namespace AdminLauncher.AppWPF.Utility
         /// <param name="mainWindow"></param>
         public void GenerateButtons()
         {
-            if (oritation == OrientationsButtonEnum.Horizontal)
+            if (Manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Horizontal)
             {
                 new HorizontalButtonsGenerator(Manager, Window).GenerateHorizontalButtons();
             }
-            else if (oritation == OrientationsButtonEnum.Vertical)
+            else if (Manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Vertical)
             {
                 new VerticalButtonsGenerator(Manager, Window).GenerateVerticalButtons();
             }
@@ -48,8 +47,8 @@ namespace AdminLauncher.AppWPF.Utility
         {
             return
             [
-                .. Manager.Routines.OrderBy(e => e.Name),
-                .. Manager.Programs.OrderBy(e => e.Name).OrderByDescending(e => e.IsFavorite),
+                .. Manager.programManager.Routines.OrderBy(e => e.Name),
+                .. Manager.programManager.Programs.OrderBy(e => e.Name).OrderByDescending(e => e.IsFavorite),
             ];
         }
 
@@ -73,7 +72,6 @@ namespace AdminLauncher.AppWPF.Utility
             if (ConfirmDeletion(item.Name))
             {
                 RemoveItem(item);
-                Manager.Save();
                 GenerateButtons();
             }
         }
@@ -93,9 +91,9 @@ namespace AdminLauncher.AppWPF.Utility
         private void RemoveItem(GenericItem item)
         {
             if (item is ProgramItem program)
-                Manager.RemoveProgram(program);
+                Manager.programManager.RemoveProgram(program);
             else if (item is RoutineItem routine)
-                Manager.RemoveRoutine(routine);
+                Manager.programManager.RemoveRoutine(routine);
         }
         private void OnEditClicked(GenericItem item)
         {
@@ -117,15 +115,11 @@ namespace AdminLauncher.AppWPF.Utility
 
         private void EditRoutine(RoutineItem routine)
         {
-            InterfaceControl.LoadProgramsListBox(Manager.Programs, Window, routine);
+            InterfaceControl.LoadProgramsListBox(Manager.programManager.Programs, Window, routine);
             InterfaceControl.InterfaceLoader(InterfaceEnum.AddRoutineInterface, Window);
             Window.RoutineIndexLabel.Content = routine.Index;
             Window.RoutineNameTextBox.Text = routine.Name;
         }
     }
-    public enum OrientationsButtonEnum
-    {
-        Vertical,
-        Horizontal
-    }
+
 }
