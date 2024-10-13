@@ -16,8 +16,9 @@ namespace AdminLauncher.BusinessLibrary
             PersistenceManager persistenceManager = new();
             persistenceManager.SaveData(this);
         }
-        public void Load()
+        public bool Load()
         {
+            bool succes = true;
             try
             {
                 var savedData = new PersistenceManager().LoadData();
@@ -30,7 +31,9 @@ namespace AdminLauncher.BusinessLibrary
             catch (Exception)
             {
                 //Ignore configuration File
+                succes = false;
             }
+            return succes;
         }
     }
 }

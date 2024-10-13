@@ -74,5 +74,11 @@ namespace AdminLauncher.AppWPF.Utility
                 return openFileDialog.FileName;
             return null;
         }
+
+        public static void LoadFailure()
+        {
+            var message = $"Attention, the data upload has failed! The application will be reinitialized and the saved data will be lost on the next save";
+            MessageBox.Show(message, "Loading Failure", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
     }
 }

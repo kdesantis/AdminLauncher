@@ -26,7 +26,10 @@ namespace AdminLauncher.AppWPF.Utility
             if (result)
                 DialogUtility.NotifyUserForUpdate(updater.UpdateInformation);
             else if (updater.Error != null)
+            {
                 DialogUtility.ErrorToSearchUpdate();
+                return new ReleaseInformation() { Version = currVersion.ToString() };
+            }
             else if (showNegativeEsit)
                 DialogUtility.UpdateNotAvailable();
 

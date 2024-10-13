@@ -33,7 +33,10 @@ namespace AdminLauncher.AppWPF
             InitializeComponent();
 
             InterfaceControl.PositionWindowInBottomRight(this);
-            manager.Load();
+
+            if (!manager.Load())
+                DialogUtility.LoadFailure();
+
             buttonGenerator = new(manager, this);
             buttonGenerator.GenerateButtons();
             NotifyIcon notifyIcon = NotifyIconUtility.InitializeNotifyIcon(this);
