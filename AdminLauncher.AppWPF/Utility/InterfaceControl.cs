@@ -80,10 +80,10 @@ namespace AdminLauncher.AppWPF.Utility
         /// <param name="routineToUpdate"></param>
         public static void LoadProgramsListBox(List<ProgramItem> programs, MainWindow mainWindow, RoutineItem routineToUpdate = null)
         {
-            mainWindow.ProgramsListBox.Items.Clear();
-            foreach (var program in programs.OrderBy(e => e.Name))
-                mainWindow.ProgramsListBox.Items.Add(program.Name);
-            routineToUpdate?.Programs.ForEach(program => { mainWindow.ProgramsListBox.SelectedItems.Add(program.Name); });
+            mainWindow.ProgramsListBox.ItemsSource = programs;
+            if (routineToUpdate != null)
+                programs.Where(e => routineToUpdate.Programs.Select(e => e.Index).Contains(e.Index)).ToList()
+                    .ForEach(program => mainWindow.ProgramsListBox.SelectedItems.Add(program));
         }
         /// <summary>
         /// Manages the display of items regarding version and updates in the AboutTab
@@ -107,7 +107,7 @@ namespace AdminLauncher.AppWPF.Utility
             }
         }
 
-        public static void LoadButtonsOrienationComboBox(MainWindow mainWindow,Manager manager)
+        public static void LoadButtonsOrienationComboBox(MainWindow mainWindow, Manager manager)
         {
             mainWindow.ButtonsOrientationCombobox.ItemsSource = Enum.GetValues(typeof(OrientationsButtonEnum));
             mainWindow.ButtonsOrientationCombobox.SelectedItem = manager.settingsManager.ButtonsOrientation;

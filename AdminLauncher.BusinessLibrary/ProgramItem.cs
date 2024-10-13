@@ -60,6 +60,5 @@ namespace AdminLauncher.BusinessLibrary
             IWshShortcut link = (IWshShortcut)shell.CreateShortcut(shortcutPath);
             return link.TargetPath;
         }
-
     }
 }

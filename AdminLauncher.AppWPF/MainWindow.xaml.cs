@@ -97,11 +97,7 @@ namespace AdminLauncher.AppWPF
             };
 
             foreach (var selectedProgram in ProgramsListBox.SelectedItems)
-            {
-                var program = manager.programManager.FindProgramByName(selectedProgram.ToString());
-                if (program != null)
-                    newRoutine.AddProgram(program);
-            }
+                newRoutine.AddProgram((ProgramItem)selectedProgram);
 
             manager.programManager.AddRoutine(newRoutine);
             manager.Save();

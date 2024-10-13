@@ -21,12 +21,9 @@ namespace AdminLauncher.BusinessLibrary
             bool succes = true;
             try
             {
-                var savedData = new PersistenceManager().LoadData();
-                programManager.Programs = savedData.programManager.Programs;
-                programManager.Routines = savedData.programManager.Routines;
-                programManager.CurrIndex = savedData.programManager.CurrIndex;
-
-                settingsManager.ButtonsOrientation = savedData.settingsManager.ButtonsOrientation;
+                var savedManager = new PersistenceManager().LoadData();
+                programManager = (ProgramManager)savedManager.programManager.Clone();
+                settingsManager = (SettingsManager)savedManager.settingsManager.Clone();
             }
             catch (Exception)
             {

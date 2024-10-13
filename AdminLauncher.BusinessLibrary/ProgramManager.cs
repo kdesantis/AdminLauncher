@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AdminLauncher.BusinessLibrary
 {
-    public class ProgramManager
+    public class ProgramManager : ICloneable
     {
         public List<ProgramItem> Programs { get; set; } = [];
         public List<RoutineItem> Routines { get; set; } = [];
@@ -56,6 +56,19 @@ namespace AdminLauncher.BusinessLibrary
         public ProgramItem FindProgramByName(string name)
         {
             return Programs.FirstOrDefault(program => program.Name == name);
+        }
+        public GenericItem? FindItemByIndex(int index)
+        {
+            if (Programs.Any(program => program.Index == index))
+                return Programs.FirstOrDefault(e => e.Index == index);
+            else if (Routines.Any(routine => routine.Index == index))
+                return Routines.FirstOrDefault(e => e.Index == index);
+            else
+                return null;
+        }
+        public object Clone()
+        {
+            return new ProgramManager() { CurrIndex = CurrIndex, Programs = new List<ProgramItem>(Programs), Routines = new List<RoutineItem>(Routines) };
         }
     }
 }

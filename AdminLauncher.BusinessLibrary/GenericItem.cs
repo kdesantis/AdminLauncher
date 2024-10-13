@@ -21,5 +21,7 @@ namespace AdminLauncher.BusinessLibrary
 
         public abstract LaunchResult Launch();
         public abstract string GetIconPath();
+
+        public override string ToString() => name;
     }
 }
