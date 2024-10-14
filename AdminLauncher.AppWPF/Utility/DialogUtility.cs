@@ -86,5 +86,20 @@ namespace AdminLauncher.AppWPF.Utility
 
             return result == MessageBoxResult.Yes;
         }
+
+        public static void ShowBalloonTipAppHided(NotifyIcon notifyIcon)
+        {
+            notifyIcon.BalloonTipText = "You can view it by double-clicking on the icon in the taskbar at the bottom right of the screen.\r\n" +
+                "If you want to close it, right-click on the icon and select the “Close” option from the drop-down menu.";
+            notifyIcon.BalloonTipIcon = ToolTipIcon.Info;
+            notifyIcon.BalloonTipTitle = "Admin Launcher hided";
+            notifyIcon.ShowBalloonTip(3000);
+        }
+        public static void MultipleSessionOfApplication()
+        {
+            MessageBox.Show("Another instance of this application is already running. " +
+                "You can open it by double-clicking on the icon in the taskbar. " +
+                "This session will be closed.", "Non-unique session", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
     }
 }

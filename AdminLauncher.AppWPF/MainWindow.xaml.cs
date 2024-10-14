@@ -3,6 +3,7 @@ using AdminLauncher.BusinessLibrary;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Navigation;
 
 namespace AdminLauncher.AppWPF
@@ -12,11 +13,16 @@ namespace AdminLauncher.AppWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        readonly Manager manager = new();
-        readonly ButtonsGenerator buttonGenerator;
+        private Manager manager = new();
+        private ButtonsGenerator buttonGenerator;
+        private NotifyIconUtility notifyIconUtility;
+        public bool firstClosure = true;
+        private static Mutex _mutex;
         public MainWindow()
         {
             InitializeComponent();
+
+            CheckExistsOtherSession();
 
             InterfaceControl.PositionWindowInBottomRight(this);
 
@@ -25,12 +31,25 @@ namespace AdminLauncher.AppWPF
 
             buttonGenerator = new(manager, this);
             buttonGenerator.GenerateButtons();
-            NotifyIcon notifyIcon = NotifyIconUtility.InitializeNotifyIcon(this);
-
+            notifyIconUtility = new(this);
 #if DEBUG
             ProgramIndexLabel.Visibility = Visibility.Visible;
             RoutineIndexLabel.Visibility = Visibility.Visible;
 #endif
+        }
+        private void CheckExistsOtherSession()
+        {
+            const string appUniqueName = "AdminLauncher";
+            bool isNewInstance;
+
+            _mutex = new Mutex(true, appUniqueName, out isNewInstance);
+
+            if (!isNewInstance)
+            {
+                firstClosure = false;
+                DialogUtility.MultipleSessionOfApplication();
+                System.Windows.Application.Current.Shutdown();
+            }
         }
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -39,12 +58,21 @@ namespace AdminLauncher.AppWPF
 
             InterfaceControl.LoadButtonsOrienationComboBox(this, manager);
         }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
             this.Hide();
+            if (firstClosure)
+            {
+                DialogUtility.ShowBalloonTipAppHided(notifyIconUtility.AppNotifyIcon);
+                firstClosure = false;
+            }
         }
-
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            _mutex?.ReleaseMutex();
+        }
         private async void CheckUpdateHyperLinl_Click(object sender, RoutedEventArgs e)
         {
             var updateInformation = await UpdateUtility.CheckUpdateAsync(true);

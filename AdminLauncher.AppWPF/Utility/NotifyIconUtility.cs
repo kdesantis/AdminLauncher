@@ -1,23 +1,24 @@
 ﻿using System.IO;
+using System.Threading;
 using System.Windows;
 using Application = System.Windows.Application;
 
 namespace AdminLauncher.AppWPF.Utility
 {
-    public static class NotifyIconUtility
+    public class NotifyIconUtility
     {
-        /// <summary>
-        /// Initialize the NotifyIcon of the application
-        /// </summary>
-        /// <param name="mainWindow"></param>
-        /// <returns></returns>
-        public static NotifyIcon InitializeNotifyIcon(MainWindow mainWindow)
+        private MainWindow window;
+        public NotifyIcon AppNotifyIcon { get; set; }
+        public NotifyIconUtility(MainWindow mainWindow)
         {
+            window = mainWindow;
+
+            window = mainWindow;
             var icon = new Icon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocket.ico"));
 #if DEBUG
             icon = new Icon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocketDebug.ico"));
 #endif
-            NotifyIcon notifyIcon = new()
+            AppNotifyIcon = new()
             {
                 Icon = icon,
                 Visible = true,
@@ -26,20 +27,21 @@ namespace AdminLauncher.AppWPF.Utility
 
             var contextMenu = new System.Windows.Forms.ContextMenuStrip();
             contextMenu.Items.Add("Close", null, OnCloseClick);
-            notifyIcon.ContextMenuStrip = contextMenu;
+            AppNotifyIcon.ContextMenuStrip = contextMenu;
 
-            notifyIcon.DoubleClick += (s, e) => ShowWindow(mainWindow);
-            return notifyIcon;
+            AppNotifyIcon.DoubleClick += (s, e) => ShowWindow(mainWindow);
         }
-        private static void ShowWindow(MainWindow mainWindow)
+
+        private void ShowWindow(MainWindow mainWindow)
         {
             InterfaceControl.PositionWindowInBottomRight(mainWindow);
             mainWindow.Show();
             mainWindow.WindowState = WindowState.Normal;
         }
-        private static void OnCloseClick(object sender, EventArgs e) =>
+        private void OnCloseClick(object sender, EventArgs e)
+        {
+            window.firstClosure = false;
             Application.Current.Shutdown();
-
-
+        }
     }
 }
