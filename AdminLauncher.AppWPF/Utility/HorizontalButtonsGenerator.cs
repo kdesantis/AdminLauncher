@@ -28,7 +28,7 @@ namespace AdminLauncher.AppWPF.Utility
             {
                 Orientation = Orientation.Horizontal,
                 ItemWidth = (Window.Width - 20) / 2,
-                ItemHeight = 150,
+                ItemHeight = 100,
                 HorizontalAlignment = HorizontalAlignment.Center,
             };
 
@@ -78,8 +78,8 @@ namespace AdminLauncher.AppWPF.Utility
             Image iconImage = new()
             {
                 Source = IconUtility.LoadIcon(item.GetIconPath()),
-                Width = 64, // Dimensione dell'icona aumentata
-                Height = 64,
+                Width = 32, // Dimensione dell'icona aumentata
+                Height = 32,
                 HorizontalAlignment = HorizontalAlignment.Center, // Centra l'icona orizzontalmente
                 Margin = new Thickness(0, 5, 0, 5) // Margini sopra e sotto
             };
