@@ -87,6 +87,8 @@ namespace AdminLauncher.AppWPF.Utility
         /// <param name="mainWindow"></param>
         public static void UpdateVersionText(ReleaseInformation updateInfo, MainWindow mainWindow)
         {
+            mainWindow.UpdateLink.Visibility = Visibility.Collapsed;
+            mainWindow.CheckUpdateLink.Visibility = Visibility.Collapsed;
             var currVersion = new Version(ConfigurationManager.AppSettings["CurrVersion"]);
             mainWindow.CurrentVersionText.Text = currVersion.ToString();
             mainWindow.LastVersionText.Text = updateInfo.Version.ToString();
@@ -96,10 +98,7 @@ namespace AdminLauncher.AppWPF.Utility
                 mainWindow.UpdateLinkHyperLink.NavigateUri = new Uri(updateInfo.Url);
             }
             else
-            {
-                mainWindow.UpdateLink.Visibility = Visibility.Collapsed;
                 mainWindow.CheckUpdateLink.Visibility = Visibility.Visible;
-            }
         }
 
         public static void LoadButtonsOrienationComboBox(MainWindow mainWindow, Manager manager)
