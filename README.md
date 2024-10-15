@@ -18,7 +18,9 @@
 
 1. Download the latest release of AdminLauncher from the [releases page](https://github.com/kdesantis/AdminLauncher/releases).
 2. Extract the contents of the zip file into a folder on your computer.
-3. Run the `AdminLauncher.exe` file to start the application.
+3. Run the executable file to start the application.
+
+- Read UserGuide [HERE](UserGuide.md) if you need help.
 
 ## License 📜
 
