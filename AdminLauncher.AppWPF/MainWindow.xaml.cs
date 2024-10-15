@@ -1,5 +1,6 @@
 ﻿using AdminLauncher.AppWPF.Utility;
 using AdminLauncher.BusinessLibrary;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -110,8 +111,11 @@ namespace AdminLauncher.AppWPF
                 Programs = []
             };
 
-            foreach (var selectedProgram in ProgramsListBox.SelectedItems)
-                newRoutine.AddProgram((ProgramItem)selectedProgram);
+            foreach (var selectedProgram in ProgramsListBox.ItemsSource as IEnumerable<ProgramItemForListbox>)
+            {
+                if (selectedProgram.IsChecked)
+                    newRoutine.AddProgram(selectedProgram.Program);
+            }
 
             manager.programManager.AddRoutine(newRoutine);
             manager.Save();

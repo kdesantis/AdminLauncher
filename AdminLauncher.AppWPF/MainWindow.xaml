@@ -72,7 +72,12 @@
             <TextBox x:Name="RoutineNameTextBox" Margin="5" />
 
             <Label Content="Select Programs" />
-            <ListBox x:Name="ProgramsListBox" Margin="5" SelectionMode="Multiple">
+            <ListBox x:Name="ProgramsListBox" ItemsSource="{Binding Programs}" Margin="5" SelectionMode="Multiple">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Content="{Binding Program.Name}" IsChecked="{Binding IsChecked, Mode=TwoWay}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
             </ListBox>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">

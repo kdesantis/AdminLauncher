@@ -75,10 +75,12 @@ namespace AdminLauncher.AppWPF.Utility
         /// <param name="routineToUpdate"></param>
         public static void LoadProgramsListBox(List<ProgramItem> programs, MainWindow mainWindow, RoutineItem routineToUpdate = null)
         {
-            mainWindow.ProgramsListBox.ItemsSource = programs;
-            if (routineToUpdate != null)
-                programs.Where(e => routineToUpdate.Programs.Select(e => e.Index).Contains(e.Index)).ToList()
-                    .ForEach(program => mainWindow.ProgramsListBox.SelectedItems.Add(program));
+            var ProgramForListbox = programs.Select(e => new ProgramItemForListbox() { Program = e, IsChecked = false }).ToList();
+            if (routineToUpdate != null) { 
+                ProgramForListbox.Where(e => routineToUpdate.Programs.Select(e => e.Index).Contains(e.Program.Index)).ToList()
+                    .ForEach(program => ProgramForListbox.First(e => e.Program.Index == program.Program.Index).IsChecked = true);
+            }
+            mainWindow.ProgramsListBox.ItemsSource = ProgramForListbox;
         }
         /// <summary>
         /// Manages the display of items regarding version and updates in the AboutTab
