@@ -22,8 +22,10 @@ namespace AdminLauncher.AppWPF
         public MainWindow()
         {
             InitializeComponent();
-
+#if DEBUG
+#else
             CheckExistsOtherSession();
+#endif
 
             InterfaceControl.PositionWindowInBottomRight(this);
 
@@ -72,7 +74,8 @@ namespace AdminLauncher.AppWPF
         }
         private void Window_Closed(object sender, EventArgs e)
         {
-            _mutex?.ReleaseMutex();
+            if (_mutex is not null)
+                _mutex?.ReleaseMutex();
         }
         private async void CheckUpdateHyperLinl_Click(object sender, RoutedEventArgs e)
         {

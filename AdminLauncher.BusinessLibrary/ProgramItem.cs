@@ -29,13 +29,12 @@ namespace AdminLauncher.BusinessLibrary
         /// <returns></returns>
         public override string GetIconPath()
         {
-            var iconPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), $"{Index}-{Name}.ico");
+            var iconPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), $"{Index}-{Path.GetFileName(ExecutablePath)}.ico");
             if (File.Exists(ExecutablePath))
             {
-                var s = File.Create(iconPath);
+                using var s = File.Create(iconPath);
                 IconExtractor.Extract1stIconTo(ExecutablePath, s);
                 bool valid = s.Length > 0;
-                s.Close();
                 return valid ? iconPath : null;
             }
             return null;
