@@ -94,14 +94,9 @@ namespace AdminLauncher.AppWPF
             InterfaceControl.InterfaceLoader(InterfaceEnum.AddRoutineInterface, this);
             InterfaceControl.LoadProgramsListBox(manager.programManager.Programs, this);
         }
-        private void QuickRun_Click(object sender, RoutedEventArgs e)
+        public void QuickRun_Click(object sender, RoutedEventArgs e)
         {
-            var filePath = DialogUtility.ShowOpenFileDialog();
-            if (filePath is not null)
-            {
-                var result = (new ProgramItem { Name = "Quick Run", ExecutablePath = filePath }).Launch();
-                DialogUtility.LaunchInformatinError(result);
-            }
+            QuickRunUtils.LaunchQuickRun();
         }
         private void About_Click(object sender, RoutedEventArgs e) =>
             InterfaceControl.InterfaceLoader(InterfaceEnum.About, this);

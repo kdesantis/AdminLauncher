@@ -1,6 +1,8 @@
-﻿using System.IO;
+﻿using AdminLauncher.BusinessLibrary;
+using System.IO;
 using System.Threading;
 using System.Windows;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Application = System.Windows.Application;
 
 namespace AdminLauncher.AppWPF.Utility
@@ -26,6 +28,7 @@ namespace AdminLauncher.AppWPF.Utility
             };
 
             var contextMenu = new System.Windows.Forms.ContextMenuStrip();
+            contextMenu.Items.Add("Quick Run", null, OnQuickRunClick);
             contextMenu.Items.Add("Close", null, OnCloseClick);
             AppNotifyIcon.ContextMenuStrip = contextMenu;
 
@@ -43,5 +46,7 @@ namespace AdminLauncher.AppWPF.Utility
             window.firstClosure = false;
             Application.Current.Shutdown();
         }
+        private void OnQuickRunClick(object sender, EventArgs e) =>
+            QuickRunUtils.LaunchQuickRun();
     }
 }
