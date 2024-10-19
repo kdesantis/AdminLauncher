@@ -63,7 +63,7 @@ namespace AdminLauncher.AppWPF.Utility
         {
             OpenFileDialog openFileDialog = new()
             {
-                Filter = "Executable Files (*.exe)(*.bat)(*.cmd)|*.exe;*.bat;*.cmd|All Files (*.*)|*.*"
+                Filter = "Supported Executable Files|*.exe;*.bat;*.cmd;*.msc;*.msi;*.ps1;*.vbs|All Files (*.*)|*.*"
             };
             if (openFileDialog.ShowDialog() == true)
                 return openFileDialog.FileName;
