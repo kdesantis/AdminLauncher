@@ -22,6 +22,8 @@ namespace AdminLauncher.AppWPF
         public MainWindow()
         {
             InitializeComponent();
+
+            IconUtility.DeleteTempIcon();
 #if DEBUG
 #else
             CheckExistsOtherSession();

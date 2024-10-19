@@ -1,4 +1,7 @@
-﻿using System.Windows.Media.Imaging;
+﻿using AdminLauncher.BusinessLibrary;
+using System.Configuration;
+using System.IO;
+using System.Windows.Media.Imaging;
 
 namespace AdminLauncher.AppWPF.Utility
 {
@@ -20,6 +23,13 @@ namespace AdminLauncher.AppWPF.Utility
                 bitmap.EndInit();
             }
             return bitmap;
+        }
+
+        public static void DeleteTempIcon()
+        {
+            var iconDirectoryPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), ConfigurationManager.AppSettings["IconTempDirectoryName"]);
+            if (Directory.Exists(iconDirectoryPath))
+                Directory.Delete(iconDirectoryPath, true);
         }
 
     }
