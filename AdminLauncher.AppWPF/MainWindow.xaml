@@ -10,7 +10,7 @@
         ResizeMode="NoResize"
         WindowStyle="SingleBorderWindow"
         Topmost="True"
-        Closing="Window_Closing" Icon="/rocket.png" Loaded="Window_Loaded"
+        Closing="Window_Closing" Icon="Resources/rocket.png" Loaded="Window_Loaded"
         Closed="Window_Closed">
     <Grid>
 

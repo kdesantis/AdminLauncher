@@ -61,7 +61,7 @@ namespace AdminLauncher.AppWPF.Utility
             {
                 RemoveItem(item);
                 Manager.Save();
-                GenerateButtons();
+                Window.ReloadPrograms();
             }
         }
 

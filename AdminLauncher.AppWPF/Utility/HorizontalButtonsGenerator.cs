@@ -23,18 +23,15 @@ namespace AdminLauncher.AppWPF.Utility
 
             List<GenericItem> genericItems = GetSortedGenericItems();
 
-            // Creiamo un WrapPanel per gestire la griglia con due colonne
             WrapPanel gridPanel = new()
             {
                 Orientation = Orientation.Horizontal,
                 ItemWidth = (Window.Width - 20) / 2,
-                ItemHeight = 100,
                 HorizontalAlignment = HorizontalAlignment.Center,
             };
 
             foreach (var item in genericItems)
             {
-                // Crea un pulsante con il layout desiderato
                 Button productButton = CreateProductButton(item);
                 gridPanel.Children.Add(productButton);
             }
@@ -59,48 +56,41 @@ namespace AdminLauncher.AppWPF.Utility
 
         private static Grid CreateProductGrid(GenericItem item)
         {
-            // Griglia per ogni prodotto con 2 righe: icona e nome
             Grid productGrid = new();
 
-            // Prima riga: aggiungiamo l'icona del prodotto
             RowDefinition iconRow = new() { Height = GridLength.Auto };
             productGrid.RowDefinitions.Add(iconRow);
 
-            // Seconda riga: aggiungiamo il nome del prodotto
             RowDefinition nameRow = new() { Height = GridLength.Auto };
             productGrid.RowDefinitions.Add(nameRow);
 
-            // Colonna per l'icona del preferito (in alto a destra)
             productGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             productGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
-            // Immagine dell'icona
             Image iconImage = new()
             {
                 Source = IconUtility.LoadIcon(item.GetIconPath()),
-                Width = 32, // Dimensione dell'icona aumentata
+                Width = 32, 
                 Height = 32,
-                HorizontalAlignment = HorizontalAlignment.Center, // Centra l'icona orizzontalmente
-                Margin = new Thickness(0, 5, 0, 5) // Margini sopra e sotto
+                HorizontalAlignment = HorizontalAlignment.Center, 
+                Margin = new Thickness(0, 5, 0, 5) 
             };
-            Grid.SetRow(iconImage, 0); // Prima riga
-            Grid.SetColumn(iconImage, 0); // Colonna principale
-            Grid.SetColumnSpan(iconImage, 2); // Span su due colonne per essere centrato
+            Grid.SetRow(iconImage, 0);
+            Grid.SetColumn(iconImage, 0);
+            Grid.SetColumnSpan(iconImage, 2); 
             productGrid.Children.Add(iconImage);
 
-            // Nome del prodotto
             TextBlock textBlock = new()
             {
                 Text = item.Name,
-                HorizontalAlignment = HorizontalAlignment.Center, // Centra il testo orizzontalmente
-                Margin = new Thickness(0, 5, 0, 0) // Margine superiore per distanziare dal bordo
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Margin = new Thickness(0, 5, 0, 0) 
             };
-            Grid.SetRow(textBlock, 1); // Seconda riga
+            Grid.SetRow(textBlock, 1); 
             Grid.SetColumn(textBlock, 0);
-            Grid.SetColumnSpan(textBlock, 2); // Span su due colonne per essere centrato
+            Grid.SetColumnSpan(textBlock, 2); 
             productGrid.Children.Add(textBlock);
 
-            // Icona del preferito (se è un preferito)
             if (item is ProgramItem programItem && programItem.IsFavorite)
             {
                 Image favoriteIcon = new()
@@ -108,11 +98,11 @@ namespace AdminLauncher.AppWPF.Utility
                     Source = IconUtility.LoadIcon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "favorite.png")),
                     Width = 24,
                     Height = 24,
-                    HorizontalAlignment = HorizontalAlignment.Right, // Allineato a destra
-                    VerticalAlignment = VerticalAlignment.Top // In alto a destra
+                    HorizontalAlignment = HorizontalAlignment.Right, 
+                    VerticalAlignment = VerticalAlignment.Top 
                 };
-                Grid.SetRow(favoriteIcon, 0); // Nella prima riga con l'icona principale
-                Grid.SetColumn(favoriteIcon, 1); // In alto a destra (seconda colonna)
+                Grid.SetRow(favoriteIcon, 0); 
+                Grid.SetColumn(favoriteIcon, 1); 
                 productGrid.Children.Add(favoriteIcon);
             }
 

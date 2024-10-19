@@ -16,7 +16,7 @@ namespace AdminLauncher.AppWPF
     {
         private Manager manager = new();
         private ButtonsGenerator buttonGenerator;
-        private NotifyIconUtility notifyIconUtility;
+        public NotifyIconUtility notifyIconUtility;
         public bool firstClosure = true;
         private static Mutex _mutex;
         public MainWindow()
@@ -33,8 +33,8 @@ namespace AdminLauncher.AppWPF
                 DialogUtility.LoadFailure();
 
             buttonGenerator = new(manager, this);
-            buttonGenerator.GenerateButtons();
-            notifyIconUtility = new(this);
+            notifyIconUtility = new(this,manager.programManager);
+            ReloadPrograms();
 #if DEBUG
             ProgramIndexLabel.Visibility = Visibility.Visible;
             RoutineIndexLabel.Visibility = Visibility.Visible;
@@ -98,6 +98,11 @@ namespace AdminLauncher.AppWPF
         {
             QuickRunUtils.LaunchQuickRun();
         }
+        public void ReloadPrograms()
+        {
+            buttonGenerator.GenerateButtons();
+            notifyIconUtility.AddContextMenu(manager.programManager);
+        }
         private void About_Click(object sender, RoutedEventArgs e) =>
             InterfaceControl.InterfaceLoader(InterfaceEnum.About, this);
         private void SaveRoutine_Click(object sender, RoutedEventArgs e)
@@ -119,7 +124,7 @@ namespace AdminLauncher.AppWPF
             manager.Save();
 
             InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
-            buttonGenerator.GenerateButtons();
+            ReloadPrograms();
         }
         private void CancelRoutine_Click(object sender, RoutedEventArgs e) =>
             InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
@@ -146,7 +151,7 @@ namespace AdminLauncher.AppWPF
 
             manager.programManager.AddProgram(newProgram);
             manager.Save();
-            buttonGenerator.GenerateButtons();
+            ReloadPrograms();
 
             InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
         }
@@ -161,7 +166,7 @@ namespace AdminLauncher.AppWPF
         private void ButtonsOrientationCombobox_Selected(object sender, RoutedEventArgs e)
         {
             manager.settingsManager.ButtonsOrientation = (OrientationsButtonEnum)ButtonsOrientationCombobox.SelectedItem;
-            buttonGenerator.GenerateButtons();
+            ReloadPrograms();
             manager.Save();
         }
     }

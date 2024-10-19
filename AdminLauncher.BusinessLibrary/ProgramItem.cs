@@ -32,6 +32,8 @@ namespace AdminLauncher.BusinessLibrary
             var iconPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), $"{Index}-{Path.GetFileName(ExecutablePath)}.ico");
             if (File.Exists(ExecutablePath))
             {
+                if(File.Exists(iconPath))
+                    return iconPath;
                 using var s = File.Create(iconPath);
                 IconExtractor.Extract1stIconTo(ExecutablePath, s);
                 bool valid = s.Length > 0;

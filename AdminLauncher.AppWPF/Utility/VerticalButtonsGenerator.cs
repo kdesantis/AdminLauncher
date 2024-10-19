@@ -75,7 +75,7 @@ namespace AdminLauncher.AppWPF.Utility
             {
                 Image favoriteIcon = new()
                 {
-                    Source = IconUtility.LoadIcon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "favorite.png")),
+                    Source = IconUtility.LoadIcon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"favorite.png")),
                     Width = 32,
                     Height = 32,
                     Margin = new Thickness(0, 0, 5, 0),
