@@ -23,10 +23,10 @@ namespace AdminLauncher.AppWPF
         {
             InitializeComponent();
 
-            IconUtility.DeleteTempIcon();
 #if DEBUG
 #else
             CheckExistsOtherSession();
+            IconUtility.DeleteTempIcon();
 #endif
 
             InterfaceControl.PositionWindowInBottomRight(this);
