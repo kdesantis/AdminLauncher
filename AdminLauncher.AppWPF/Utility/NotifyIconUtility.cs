@@ -29,7 +29,7 @@ namespace AdminLauncher.AppWPF.Utility
 
             AddContextMenu(programManager);
 
-            AppNotifyIcon.DoubleClick += (s, e) => ShowWindow(mainWindow);
+            AppNotifyIcon.DoubleClick += (s, e) => ShowWindow();
         }
 
         public void AddContextMenu(ProgramManager programManager)
@@ -53,11 +53,11 @@ namespace AdminLauncher.AppWPF.Utility
             contextMenu.Items.Add("Close", Properties.Resources.OnOff, OnCloseClick);
             AppNotifyIcon.ContextMenuStrip = contextMenu;
         }
-        private void ShowWindow(MainWindow mainWindow)
+        private void ShowWindow()
         {
-            InterfaceControl.PositionWindowInBottomRight(mainWindow);
-            mainWindow.Show();
-            mainWindow.WindowState = WindowState.Normal;
+            InterfaceControl.PositionWindowInBottomRight(window);
+            window.Show();
+            window.WindowState = WindowState.Normal;
         }
         private void OnCloseClick(object sender, EventArgs e)
         {
