@@ -1,6 +1,7 @@
 ﻿using AdminLauncher.AppWPF.Utility;
 using AdminLauncher.BusinessLibrary;
 using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -191,7 +192,7 @@ namespace AdminLauncher.AppWPF
         private void KoFi_Click(object sender, RoutedEventArgs e)
         {
             // URL del tuo account Ko-fi
-            string koFiUrl = "https://ko-fi.com/kdesantis";
+            string koFiUrl = ConfigurationManager.AppSettings["kofiUrl"];
             // Apri l'URL nel browser predefinito
             Process.Start(new ProcessStartInfo
             {

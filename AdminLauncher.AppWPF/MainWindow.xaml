@@ -88,7 +88,7 @@
             <TextBox x:Name="RoutineNameTextBox" Margin="5" />
 
             <Label Content="Select Programs" />
-            <ListBox x:Name="ProgramsListBox" ItemsSource="{Binding Programs}" Margin="5" SelectionMode="Multiple">
+            <ListBox x:Name="ProgramsListBox" ItemsSource="{Binding Programs}" Margin="5" SelectionMode="Single">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <CheckBox Content="{Binding Program.Name}" IsChecked="{Binding IsChecked, Mode=TwoWay}"/>
