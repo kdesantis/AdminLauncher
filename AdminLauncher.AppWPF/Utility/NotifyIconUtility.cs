@@ -10,12 +10,13 @@ namespace AdminLauncher.AppWPF.Utility
     public class NotifyIconUtility
     {
         private MainWindow window;
+        private Manager manager;
         public NotifyIcon AppNotifyIcon { get; set; }
-        public NotifyIconUtility(MainWindow mainWindow, ProgramManager programManager)
+        public NotifyIconUtility(MainWindow mainWindow, Manager manager)
         {
             window = mainWindow;
 
-            window = mainWindow;
+            this.manager = manager;
             var icon = new Icon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocket.ico"));
 #if DEBUG
             icon = new Icon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocketDebug.ico"));
@@ -27,7 +28,7 @@ namespace AdminLauncher.AppWPF.Utility
                 Text = "Admin Launcher"
             };
 
-            AddContextMenu(programManager);
+            AddContextMenu(this.manager.programManager);
 
             AppNotifyIcon.DoubleClick += (s, e) => ShowWindow();
         }
@@ -65,6 +66,6 @@ namespace AdminLauncher.AppWPF.Utility
             Application.Current.Shutdown();
         }
         private void OnQuickRunClick(object sender, EventArgs e) =>
-            QuickRunUtils.LaunchQuickRun();
+            QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath);
     }
 }

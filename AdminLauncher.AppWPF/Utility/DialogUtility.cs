@@ -1,6 +1,8 @@
 ﻿using AdminLauncher.BusinessLibrary;
 using AdminLauncher.UpdateLibrary;
+using Microsoft.Win32;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
@@ -59,14 +61,26 @@ namespace AdminLauncher.AppWPF.Utility
         /// Launches a dialog box for selecting an executable. If selected it returns the path to the selected file, otherwise null
         /// </summary>
         /// <returns></returns>
-        public static string ShowOpenFileDialog()
+        public static string ShowOpenFileDialog(string initialPath)
         {
             OpenFileDialog openFileDialog = new()
             {
-                Filter = "Supported Executable Files|*.exe;*.bat;*.cmd;*.msc;*.msi;*.ps1;*.vbs|All Files (*.*)|*.*"
+                Filter = "Supported Executable Files|*.exe;*.bat;*.cmd;*.msc;*.msi;*.ps1;*.vbs|All Files (*.*)|*.*",
+                AddToRecent = true
             };
+            if (Directory.Exists(initialPath))
+                openFileDialog.InitialDirectory = initialPath;
             if (openFileDialog.ShowDialog() == true)
                 return openFileDialog.FileName;
+            return null;
+        }
+
+        public static string ShowOpenFolderDialog()
+        {
+            OpenFolderDialog openFileDialog = new()
+            ;
+            if (openFileDialog.ShowDialog() == true)
+                return openFileDialog.FolderName;
             return null;
         }
 

@@ -32,7 +32,17 @@
             
             <Label Content="Buttons Orientation" />
             <ComboBox x:Name="ButtonsOrientationCombobox" Margin="5" SelectionChanged="ButtonsOrientationCombobox_Selected"/>
-            
+            <Label Content="File dialog initial path" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80*" />
+                    <ColumnDefinition Width="20*" />
+                    <ColumnDefinition Width="20*" />
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="InitialPathTextBox" Grid.Column="0" Margin="5" IsReadOnly="True" />
+                <Button Content="Browse..." Click="InitialPathButton_Click" Grid.Column="1" Margin="5,5,2,5" />
+                <Button Content="Erase" Click="EraseInitialPath_Click" Grid.Column="2" Margin="0,5,0,5" />
+            </Grid>
         </StackPanel>
 
         <StackPanel x:Name="AddProgramPanel" Visibility="Collapsed" Margin="0,30,0,0">

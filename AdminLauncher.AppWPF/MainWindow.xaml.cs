@@ -30,12 +30,12 @@ namespace AdminLauncher.AppWPF
 #endif
 
             InterfaceControl.PositionWindowInBottomRight(this);
-
             if (!manager.Load())
                 DialogUtility.LoadFailure();
 
             buttonGenerator = new(manager, this);
-            notifyIconUtility = new(this,manager.programManager);
+            notifyIconUtility = new(this, manager);
+            InitialPathTextBox.Text = manager.settingsManager.InitialFileDialogPath;
             ReloadPrograms();
 #if DEBUG
             ProgramIndexLabel.Visibility = Visibility.Visible;
@@ -98,7 +98,7 @@ namespace AdminLauncher.AppWPF
         }
         public void QuickRun_Click(object sender, RoutedEventArgs e)
         {
-            QuickRunUtils.LaunchQuickRun();
+            QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath);
         }
         public void ReloadPrograms()
         {
@@ -132,7 +132,7 @@ namespace AdminLauncher.AppWPF
             InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
-            var filePath = DialogUtility.ShowOpenFileDialog();
+            var filePath = DialogUtility.ShowOpenFileDialog(manager.settingsManager.InitialFileDialogPath);
             if (filePath is not null)
             {
                 ProgramPathTextBox.Text = filePath;
@@ -169,6 +169,23 @@ namespace AdminLauncher.AppWPF
         {
             manager.settingsManager.ButtonsOrientation = (OrientationsButtonEnum)ButtonsOrientationCombobox.SelectedItem;
             ReloadPrograms();
+            manager.Save();
+        }
+
+        private void InitialPathButton_Click(object sender, RoutedEventArgs e)
+        {
+            var directoryPath = DialogUtility.ShowOpenFolderDialog();
+            if (directoryPath is not null)
+            {
+                InitialPathTextBox.Text = directoryPath;
+                manager.settingsManager.InitialFileDialogPath = directoryPath;
+                manager.Save();
+            }
+        }
+        private void EraseInitialPath_Click(object sender, RoutedEventArgs e)
+        {
+            InitialPathTextBox.Text = string.Empty;
+            manager.settingsManager.InitialFileDialogPath = null;
             manager.Save();
         }
     }

@@ -11,9 +11,9 @@ using Orientation = System.Windows.Controls.Orientation;
 
 namespace AdminLauncher.AppWPF.Utility
 {
-    public class HorizontalButtonsGenerator : ButtonsGenerator
+    public class MosaicButtonsGenerator : ButtonsGenerator
     {
-        public HorizontalButtonsGenerator(Manager manager, MainWindow mainWindow) : base(manager, mainWindow)
+        public MosaicButtonsGenerator(Manager manager, MainWindow mainWindow) : base(manager, mainWindow)
         {
         }
 

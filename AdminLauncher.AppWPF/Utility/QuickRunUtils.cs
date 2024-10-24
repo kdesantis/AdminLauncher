@@ -10,9 +10,9 @@ namespace AdminLauncher.AppWPF.Utility
 {
     public static class QuickRunUtils
     {
-        public static void LaunchQuickRun()
+        public static void LaunchQuickRun(string initialPath)
         {
-            var filePath = DialogUtility.ShowOpenFileDialog();
+            var filePath = DialogUtility.ShowOpenFileDialog(initialPath);
             if (filePath is not null)
             {
                 var result = (new ProgramItem { Name = "Quick Run", ExecutablePath = filePath }).Launch();
