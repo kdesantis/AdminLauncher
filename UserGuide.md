@@ -3,6 +3,8 @@ You can download the application from the [Release tab](https://github.com/kdesa
 Choose the one that's right for you (Framework-dependent dependent framework requires installation of .net 8, others are self-contained). 
 Once you have downloaded the archive,
 extract it to a directory and run the executable **“AdminLauncher.AppWPF.exe”**
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Q5Q61561LT)
 # Home
 ![image](https://github.com/user-attachments/assets/2b92301b-eaf1-453e-a89e-7a7a2027c0e4)
 
