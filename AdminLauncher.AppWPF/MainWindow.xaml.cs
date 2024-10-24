@@ -188,5 +188,16 @@ namespace AdminLauncher.AppWPF
             manager.settingsManager.InitialFileDialogPath = null;
             manager.Save();
         }
+        private void KoFi_Click(object sender, RoutedEventArgs e)
+        {
+            // URL del tuo account Ko-fi
+            string koFiUrl = "https://ko-fi.com/kdesantis";
+            // Apri l'URL nel browser predefinito
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = koFiUrl,
+                UseShellExecute = true
+            });
+        }
     }
 }
