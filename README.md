@@ -34,3 +34,5 @@ This project is licensed under the **GNU General Public License v3.0**. See the 
 
 - The latest release of AdminLauncher is always available on the [GitHub page](https://github.com/kdesantis/AdminLauncher/releases).
 - To report bugs 🐞 or request new features ✨, use the [Issues](https://github.com/kdesantis/AdminLauncher/issues) section.
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Q5Q61561LT)
