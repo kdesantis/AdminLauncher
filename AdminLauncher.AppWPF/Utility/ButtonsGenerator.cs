@@ -21,9 +21,9 @@ namespace AdminLauncher.AppWPF.Utility
         /// <param name="mainWindow"></param>
         public void GenerateButtons()
         {
-            if (Manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Horizontal)
+            if (Manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Mosaic)
             {
-                new HorizontalButtonsGenerator(Manager, Window).GenerateHorizontalButtons();
+                new MosaicButtonsGenerator(Manager, Window).GenerateHorizontalButtons();
             }
             else if (Manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Vertical)
             {
@@ -61,7 +61,7 @@ namespace AdminLauncher.AppWPF.Utility
             {
                 RemoveItem(item);
                 Manager.Save();
-                GenerateButtons();
+                Window.ReloadPrograms();
             }
         }
 

@@ -1,5 +1,7 @@
 ﻿using AdminLauncher.AppWPF.Utility;
 using AdminLauncher.BusinessLibrary;
+using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -15,23 +17,27 @@ namespace AdminLauncher.AppWPF
     {
         private Manager manager = new();
         private ButtonsGenerator buttonGenerator;
-        private NotifyIconUtility notifyIconUtility;
+        public NotifyIconUtility notifyIconUtility;
         public bool firstClosure = true;
         private static Mutex _mutex;
         public MainWindow()
         {
             InitializeComponent();
 
+#if DEBUG
+#else
             CheckExistsOtherSession();
+            IconUtility.DeleteTempIcon();
+#endif
 
             InterfaceControl.PositionWindowInBottomRight(this);
-
             if (!manager.Load())
                 DialogUtility.LoadFailure();
 
             buttonGenerator = new(manager, this);
-            buttonGenerator.GenerateButtons();
-            notifyIconUtility = new(this);
+            notifyIconUtility = new(this, manager);
+            InitialPathTextBox.Text = manager.settingsManager.InitialFileDialogPath;
+            ReloadPrograms();
 #if DEBUG
             ProgramIndexLabel.Visibility = Visibility.Visible;
             RoutineIndexLabel.Visibility = Visibility.Visible;
@@ -71,7 +77,8 @@ namespace AdminLauncher.AppWPF
         }
         private void Window_Closed(object sender, EventArgs e)
         {
-            _mutex?.ReleaseMutex();
+            if (_mutex is not null)
+                _mutex?.ReleaseMutex();
         }
         private async void CheckUpdateHyperLinl_Click(object sender, RoutedEventArgs e)
         {
@@ -90,14 +97,14 @@ namespace AdminLauncher.AppWPF
             InterfaceControl.InterfaceLoader(InterfaceEnum.AddRoutineInterface, this);
             InterfaceControl.LoadProgramsListBox(manager.programManager.Programs, this);
         }
-        private void QuickRun_Click(object sender, RoutedEventArgs e)
+        public void QuickRun_Click(object sender, RoutedEventArgs e)
         {
-            var filePath = DialogUtility.ShowOpenFileDialog();
-            if (filePath is not null)
-            {
-                var result = (new ProgramItem { Name = "Quick Run", ExecutablePath = filePath }).Launch();
-                DialogUtility.LaunchInformatinError(result);
-            }
+            QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath);
+        }
+        public void ReloadPrograms()
+        {
+            buttonGenerator.GenerateButtons();
+            notifyIconUtility.AddContextMenu(manager.programManager);
         }
         private void About_Click(object sender, RoutedEventArgs e) =>
             InterfaceControl.InterfaceLoader(InterfaceEnum.About, this);
@@ -110,20 +117,23 @@ namespace AdminLauncher.AppWPF
                 Programs = []
             };
 
-            foreach (var selectedProgram in ProgramsListBox.SelectedItems)
-                newRoutine.AddProgram((ProgramItem)selectedProgram);
+            foreach (var selectedProgram in ProgramsListBox.ItemsSource as IEnumerable<ProgramItemForListbox>)
+            {
+                if (selectedProgram.IsChecked)
+                    newRoutine.AddProgram(selectedProgram.Program);
+            }
 
             manager.programManager.AddRoutine(newRoutine);
             manager.Save();
 
             InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
-            buttonGenerator.GenerateButtons();
+            ReloadPrograms();
         }
         private void CancelRoutine_Click(object sender, RoutedEventArgs e) =>
             InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
-            var filePath = DialogUtility.ShowOpenFileDialog();
+            var filePath = DialogUtility.ShowOpenFileDialog(manager.settingsManager.InitialFileDialogPath);
             if (filePath is not null)
             {
                 ProgramPathTextBox.Text = filePath;
@@ -144,7 +154,7 @@ namespace AdminLauncher.AppWPF
 
             manager.programManager.AddProgram(newProgram);
             manager.Save();
-            buttonGenerator.GenerateButtons();
+            ReloadPrograms();
 
             InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
         }
@@ -159,8 +169,36 @@ namespace AdminLauncher.AppWPF
         private void ButtonsOrientationCombobox_Selected(object sender, RoutedEventArgs e)
         {
             manager.settingsManager.ButtonsOrientation = (OrientationsButtonEnum)ButtonsOrientationCombobox.SelectedItem;
-            buttonGenerator.GenerateButtons();
+            ReloadPrograms();
             manager.Save();
+        }
+
+        private void InitialPathButton_Click(object sender, RoutedEventArgs e)
+        {
+            var directoryPath = DialogUtility.ShowOpenFolderDialog();
+            if (directoryPath is not null)
+            {
+                InitialPathTextBox.Text = directoryPath;
+                manager.settingsManager.InitialFileDialogPath = directoryPath;
+                manager.Save();
+            }
+        }
+        private void EraseInitialPath_Click(object sender, RoutedEventArgs e)
+        {
+            InitialPathTextBox.Text = string.Empty;
+            manager.settingsManager.InitialFileDialogPath = null;
+            manager.Save();
+        }
+        private void KoFi_Click(object sender, RoutedEventArgs e)
+        {
+            // URL del tuo account Ko-fi
+            string koFiUrl = ConfigurationManager.AppSettings["kofiUrl"];
+            // Apri l'URL nel browser predefinito
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = koFiUrl,
+                UseShellExecute = true
+            });
         }
     }
 }

@@ -29,14 +29,25 @@ namespace AdminLauncher.BusinessLibrary
         /// <returns></returns>
         public override string GetIconPath()
         {
-            var iconPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), $"{Index}-{Name}.ico");
+            var directoryPath = Path.Combine(Path.GetTempPath(), "AdminLauncherTempIcon");
+            var iconPath = Path.Combine(directoryPath, $"{Index}-{Path.GetFileName(ExecutablePath)}.ico");
+
+            if (!Directory.Exists(iconPath))
+                Directory.CreateDirectory(directoryPath);
+
             if (File.Exists(ExecutablePath))
             {
-                var s = File.Create(iconPath);
+                if (File.Exists(iconPath) && new FileInfo(iconPath).Length > 0)
+                    return iconPath;
+                using var s = File.Create(iconPath);
                 IconExtractor.Extract1stIconTo(ExecutablePath, s);
                 bool valid = s.Length > 0;
-                s.Close();
-                return valid ? iconPath : null;
+                if (!valid)
+                {
+                    s.Close();
+                    File.Copy(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocket.ico"), iconPath, true);
+                }
+                return iconPath;
             }
             return null;
         }

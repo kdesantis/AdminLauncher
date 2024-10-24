@@ -1,4 +1,6 @@
-﻿namespace AdminLauncher.BusinessLibrary
+﻿using System.Diagnostics;
+
+namespace AdminLauncher.BusinessLibrary
 {
     public static class ProcessLauncher
     {
@@ -13,7 +15,24 @@
             try
             {
                 if (File.Exists(program.ExecutablePath))
-                    System.Diagnostics.Process.Start(program.ExecutablePath, program.Arguments);
+                    switch (Path.GetExtension(program.ExecutablePath).ToLower())
+                    {
+                        case ".msc":
+                            Process.Start("mmc.exe", program.ExecutablePath);
+                            break;
+                        case ".msi":
+                            Process.Start("msiexec.exe", $"/i \"{program.ExecutablePath}\"");
+                            break;
+                        case ".ps1":
+                            Process.Start("powershell.exe", $"-ExecutionPolicy Bypass -File \"{program.ExecutablePath}\"");
+                            break;
+                        case ".vbs":
+                            Process.Start("wscript.exe", $"\"{program.ExecutablePath}\"");
+                            break;
+                        default:
+                            Process.Start(program.ExecutablePath, program.Arguments);
+                            break;
+                    }
                 else
                     result = new LaunchResult() { LaunchState = LaunchStateEnum.Error, Message = $"{program.ExecutablePath} not exist", GenericItem = program };
             }
