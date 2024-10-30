@@ -5,8 +5,10 @@ using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Navigation;
+using TabControl = System.Windows.Controls.TabControl;
 
 namespace AdminLauncher.AppWPF
 {
@@ -20,6 +22,8 @@ namespace AdminLauncher.AppWPF
         public NotifyIconUtility notifyIconUtility;
         public bool firstClosure = true;
         private static Mutex _mutex;
+
+        public bool UIOperation = true;
         public MainWindow()
         {
             InitializeComponent();
@@ -80,6 +84,35 @@ namespace AdminLauncher.AppWPF
             if (_mutex is not null)
                 _mutex?.ReleaseMutex();
         }
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.Source is TabControl && UIOperation)
+            {
+                TabControl tabControl = (TabControl)sender;
+                TabItem selectedTab = (TabItem)tabControl.SelectedItem;
+
+                switch (selectedTab.Header.ToString())
+                {
+                    case "Home":
+                        Home_Click(sender, e);
+                        break;
+                    case "Settings":
+                        Settings_Click(sender, e);
+                        break;
+                    case "Add Program":
+                        AddProgram_Click(sender, e);
+                        break;
+                    case "Add Routine":
+                        AddRoutine_Click(sender, e);
+                        break;
+                    case "About":
+                        About_Click(sender, e);
+                        break;
+                }
+            }
+            UIOperation = true;
+        }
+
         private async void CheckUpdateHyperLinl_Click(object sender, RoutedEventArgs e)
         {
             var updateInformation = await UpdateUtility.CheckUpdateAsync(true);

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AdminLauncher.AppWPF"
         mc:Ignorable="d"
-        Title="Admin Launcher" Height="800" Width="450"
+        Title="Admin Launcher" Height="800" Width="400"
         WindowStartupLocation="Manual"
         ResizeMode="NoResize"
         WindowStyle="SingleBorderWindow"
@@ -13,14 +13,12 @@
         Closing="Window_Closing" Icon="Resources/rocket.png" Loaded="Window_Loaded"
         Closed="Window_Closed">
     <Grid>
-
-        <Menu VerticalAlignment="Top">
-            <MenuItem Header="Home" Click="Home_Click"/>
-            <MenuItem Header="Settings" Click="Settings_Click"/>
-            <MenuItem Header="Add Program" Click="AddProgram_Click"/>
-            <MenuItem Header="Add Routine" Click="AddRoutine_Click"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Menu VerticalAlignment="Top" Grid.Row="0">
             <MenuItem Header="Quick Run" Click="QuickRun_Click"/>
-            <MenuItem Header="?" Click="About_Click"/>
             <MenuItem Click="KoFi_Click">
                 <MenuItem.Icon>
                     <Image Source="pack://application:,,,/Resources/kofi_symbol.png" Width="16" Height="16"/>
@@ -28,146 +26,152 @@
                 <MenuItem.Header>Donate</MenuItem.Header>
             </MenuItem>
         </Menu>
+        <!-- TabControl per organizzare le diverse sezioni -->
+        <TabControl x:Name="MainTabControl" Grid.Row="1" Margin="5" SelectionChanged="TabControl_SelectionChanged">
+            <!-- Tab Home -->
+            <TabItem Header="Home" x:Name="HomeTab">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel x:Name="ButtonPanel" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                </ScrollViewer>
+            </TabItem>
 
-        <ScrollViewer x:Name="MainScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,30,0,0">
-            <StackPanel x:Name="ButtonPanel" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
-        </ScrollViewer>
+            <!-- Tab Settings -->
+            <TabItem Header="Settings" x:Name="SettingsTab">
+                <StackPanel>
+                    <TextBlock Text="Settings" FontWeight="Bold" FontSize="16" Margin="10"/>
+                    <Label Content="Buttons Orientation"/>
+                    <ComboBox x:Name="ButtonsOrientationCombobox" Margin="5" SelectionChanged="ButtonsOrientationCombobox_Selected"/>
+                    <Label Content="File dialog initial path"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80*"/>
+                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="20*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="InitialPathTextBox" Grid.Column="0" Margin="5" IsReadOnly="True"/>
+                        <Button Content="Browse..." Click="InitialPathButton_Click" Grid.Column="1" Margin="5,5,2,5"/>
+                        <Button Content="Erase" Click="EraseInitialPath_Click" Grid.Column="2" Margin="0,5,0,5"/>
+                    </Grid>
+                </StackPanel>
+            </TabItem>
 
-        <StackPanel x:Name="SettingsPanel" Visibility="Collapsed" Margin="0,30,0,0">
-            <TextBlock Text="Settings" FontWeight="Bold" FontSize="16" Margin="10" />
+            <!-- Tab Add Program -->
+            <TabItem Header="Add Program" x:Name="AddProgramTab">
+                <StackPanel>
+                    <TextBlock Text="Add New Program" FontWeight="Bold" FontSize="16" Margin="10"/>
+                    <Label x:Name="ProgramIndexLabel" Visibility="Collapsed" Content="-1"/>
+                    <Label Content="Name"/>
+                    <TextBox x:Name="ProgramNameTextBox" Margin="5"/>
+                    <Label Content="Path"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80*"/>
+                            <ColumnDefinition Width="20*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="ProgramPathTextBox" Grid.Column="0" Margin="5"/>
+                        <Button Content="Browse..." Click="BrowseButton_Click" Grid.Column="1" Margin="5"/>
+                    </Grid>
+                    <Label Content="Arguments"/>
+                    <TextBox x:Name="ProgramArgumentsTextBox" Margin="5"/>
+                    <CheckBox x:Name="FavoriteCheckBox" Content="Is Favorite" Margin="5"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+                        <Button Content="Save" Click="SaveProgram_Click" Width="100" Margin="5"/>
+                        <Button Content="Cancel" Click="CancelProgram_Click" Width="100" Margin="5"/>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
 
-            <Label Content="Buttons Orientation" />
-            <ComboBox x:Name="ButtonsOrientationCombobox" Margin="5" SelectionChanged="ButtonsOrientationCombobox_Selected"/>
-            <Label Content="File dialog initial path" />
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80*" />
-                    <ColumnDefinition Width="20*" />
-                    <ColumnDefinition Width="20*" />
-                </Grid.ColumnDefinitions>
-                <TextBox x:Name="InitialPathTextBox" Grid.Column="0" Margin="5" IsReadOnly="True" />
-                <Button Content="Browse..." Click="InitialPathButton_Click" Grid.Column="1" Margin="5,5,2,5" />
-                <Button Content="Erase" Click="EraseInitialPath_Click" Grid.Column="2" Margin="0,5,0,5" />
-            </Grid>
-        </StackPanel>
+            <!-- Tab Add Routine -->
+            <TabItem Header="Add Routine" x:Name="AddRoutineTab">
+                <StackPanel>
+                    <TextBlock Text="Add New Routine" FontWeight="Bold" FontSize="16" Margin="10"/>
+                    <Label x:Name="RoutineIndexLabel" Visibility="Collapsed" Content="-1"/>
+                    <Label Content="Routine Name"/>
+                    <TextBox x:Name="RoutineNameTextBox" Margin="5"/>
+                    <Label Content="Select Programs"/>
+                    <ListBox x:Name="ProgramsListBox" ItemsSource="{Binding Programs}" Margin="5" SelectionMode="Single">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox Content="{Binding Program.Name}" IsChecked="{Binding IsChecked, Mode=TwoWay}"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+                        <Button Content="Save" Click="SaveRoutine_Click" Width="100" Margin="5"/>
+                        <Button Content="Cancel" Click="CancelRoutine_Click" Width="100" Margin="5"/>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
 
-        <StackPanel x:Name="AddProgramPanel" Visibility="Collapsed" Margin="0,30,0,0">
-            <TextBlock Text="Add New Program" FontWeight="Bold" FontSize="16" Margin="10" />
-
-            <Label x:Name="ProgramIndexLabel" Visibility="Collapsed" Content="-1"/>
-            <Label Content="Name" />
-            <TextBox x:Name="ProgramNameTextBox" Margin="5" />
-
-            <Label Content="Path" />
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80*" />
-                    <ColumnDefinition Width="20*" />
-                </Grid.ColumnDefinitions>
-                <TextBox x:Name="ProgramPathTextBox" Grid.Column="0" Margin="5" />
-                <Button Content="Browse..." Click="BrowseButton_Click" Grid.Column="1" Margin="5" />
-            </Grid>
-
-            <Label Content="Arguments" />
-            <TextBox x:Name="ProgramArgumentsTextBox" Margin="5" />
-
-            <CheckBox x:Name="FavoriteCheckBox" Content="Is Favorite" Margin="5" />
-
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
-                <Button Content="Save" Click="SaveProgram_Click" Width="100" Margin="5" />
-                <Button Content="Cancel" Click="CancelProgram_Click" Width="100" Margin="5" />
-            </StackPanel>
-        </StackPanel>
-
-        <StackPanel x:Name="AddRoutinePanel" Visibility="Collapsed" Margin="0,30,0,0">
-            <TextBlock Text="Add New Routine" FontWeight="Bold" FontSize="16" Margin="10" />
-
-            <Label x:Name="RoutineIndexLabel" Visibility="Collapsed" Content="-1"/>
-
-            <Label Content="Routine Name" />
-            <TextBox x:Name="RoutineNameTextBox" Margin="5" />
-
-            <Label Content="Select Programs" />
-            <ListBox x:Name="ProgramsListBox" ItemsSource="{Binding Programs}" Margin="5" SelectionMode="Single">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <CheckBox Content="{Binding Program.Name}" IsChecked="{Binding IsChecked, Mode=TwoWay}"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
-                <Button Content="Save" Click="SaveRoutine_Click" Width="100" Margin="5" />
-                <Button Content="Cancel" Click="CancelRoutine_Click" Width="100" Margin="5" />
-            </StackPanel>
-        </StackPanel>
-        <StackPanel x:Name="AbountPanel" Visibility="Collapsed" Margin="5,30,5,0">
-
-
-            <Grid HorizontalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" FontSize="24" FontWeight="Bold" Text="Admin Launcher " Margin="0,10,0,0"/>
-                <TextBlock x:Name="CurrentVersionText" Grid.Column="1" FontSize="24" FontWeight="Bold" Text="0.0.0"  Margin="0,10,0,0"/>
-            </Grid>
-            <Grid HorizontalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" FontSize="14"  Text="Last version: " HorizontalAlignment="Left" />
-                <TextBlock x:Name="LastVersionText" Grid.Column="1" FontSize="14"  Text="0.0.0" HorizontalAlignment="Left" Margin="0,0,10,0"/>
-                <TextBlock x:Name="UpdateLink" Grid.Column="2" FontSize="14" TextWrapping="Wrap" Visibility="Collapsed" Margin="0,0,0,10">
+            <!-- Tab About -->
+            <TabItem Header="About" x:Name="AboutTab">
+                <StackPanel Margin="5">
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" FontSize="24" FontWeight="Bold" Text="Admin Launcher " Margin="0,10,0,0"/>
+                        <TextBlock x:Name="CurrentVersionText" Grid.Column="1" FontSize="24" FontWeight="Bold" Text="0.0.0"  Margin="0,10,0,0"/>
+                    </Grid>
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" FontSize="14"  Text="Last version: " HorizontalAlignment="Left" />
+                        <TextBlock x:Name="LastVersionText" Grid.Column="1" FontSize="14"  Text="0.0.0" HorizontalAlignment="Left" Margin="0,0,10,0"/>
+                        <TextBlock x:Name="UpdateLink" Grid.Column="2" FontSize="14" TextWrapping="Wrap" Visibility="Collapsed" Margin="0,0,0,10">
                     <Hyperlink x:Name="UpdateLinkHyperLink" NavigateUri="https://github.com/kdesantis/AdminLauncher/releases" RequestNavigate="Hyperlink_RequestNavigate">Download Now!</Hyperlink>
-                </TextBlock>
-                <TextBlock x:Name="CheckUpdateLink" Grid.Column="2" FontSize="12" TextWrapping="Wrap" Visibility="Collapsed" Margin="0,0,0,10">
+                        </TextBlock>
+                        <TextBlock x:Name="CheckUpdateLink" Grid.Column="2" FontSize="12" TextWrapping="Wrap" Visibility="Collapsed" Margin="0,0,0,10">
                     <Hyperlink x:Name="CheckUpdateHyperLinl" Click="CheckUpdateHyperLinl_Click">Check Update</Hyperlink>
 
-                </TextBlock>
-            </Grid>
+                        </TextBlock>
+                    </Grid>
 
-            <!-- Authors/Developers -->
+                    <!-- Authors/Developers -->
 
-            <TextBlock FontSize="16" FontWeight="Bold" Text="Developed by" Margin="0,10,0,10"/>
-            <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
+                    <TextBlock FontSize="16" FontWeight="Bold" Text="Developed by" Margin="0,10,0,10"/>
+                    <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
             De Santis Kevin
-            </TextBlock>
-            <Button Width="200" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Click="KoFi_Click">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <!-- Icona Ko-fi dalla risorsa -->
-                    <Image Source="pack://application:,,,/Resources/kofi_symbol.png" Width="24" Height="24" Margin="0,0,10,0"/>
-                    <!-- Testo del pulsante -->
-                    <TextBlock VerticalAlignment="Center" FontSize="14" Text="Support Me on Ko-fi"/>
-                </StackPanel>
-            </Button>
-            <!-- License -->
-            <TextBlock FontSize="16" FontWeight="Bold" Text="License" Margin="0,10,0,10"/>
-            <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
+                    </TextBlock>
+                    <Button Width="200" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Click="KoFi_Click">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <!-- Icona Ko-fi dalla risorsa -->
+                            <Image Source="pack://application:,,,/Resources/kofi_symbol.png" Width="24" Height="24" Margin="0,0,10,0"/>
+                            <!-- Testo del pulsante -->
+                            <TextBlock VerticalAlignment="Center" FontSize="14" Text="Support Me on Ko-fi"/>
+                        </StackPanel>
+                    </Button>
+                    <!-- License -->
+                    <TextBlock FontSize="16" FontWeight="Bold" Text="License" Margin="0,10,0,10"/>
+                    <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
             This software is distributed under the GNU General Public License v3.0.
-            </TextBlock>
+                    </TextBlock>
 
-            <!-- Useful Links -->
-            <TextBlock FontSize="16" FontWeight="Bold" Text="Useful Links" Margin="0,10,0,10"/>
-            <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
+                    <!-- Useful Links -->
+                    <TextBlock FontSize="16" FontWeight="Bold" Text="Useful Links" Margin="0,10,0,10"/>
+                    <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
             <Hyperlink NavigateUri="https://github.com/kdesantis/AdminLauncher" RequestNavigate="Hyperlink_RequestNavigate">GitHub repository</Hyperlink>
-            </TextBlock>
+                    </TextBlock>
 
-            <!-- Credits -->
-            <TextBlock FontSize="16" FontWeight="Bold" Text="Credits" Margin="0,10,0,10"/>
-            <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
+                    <!-- Credits -->
+                    <TextBlock FontSize="16" FontWeight="Bold" Text="Credits" Margin="0,10,0,10"/>
+                    <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
             IconExtractor by jsakamoto <Hyperlink NavigateUri="https://github.com/jsakamoto/iconextractor" RequestNavigate="Hyperlink_RequestNavigate">ProjectSite</Hyperlink>
-            </TextBlock>
+                    </TextBlock>
 
-            <!-- Support and contact -->
-            <TextBlock FontSize="16" FontWeight="Bold" Text="Support" Margin="0,10,0,10"/>
-            <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
+                    <!-- Support and contact -->
+                    <TextBlock FontSize="16" FontWeight="Bold" Text="Support" Margin="0,10,0,10"/>
+                    <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
             To report bugs or request assistance, open a issue:
             <Hyperlink NavigateUri="https://github.com/kdesantis/AdminLauncher/issues" RequestNavigate="Hyperlink_RequestNavigate">GitHub issue</Hyperlink>
-            </TextBlock>
+                    </TextBlock>
 
-        </StackPanel>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
