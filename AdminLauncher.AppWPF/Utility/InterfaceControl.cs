@@ -81,7 +81,7 @@ namespace AdminLauncher.AppWPF.Utility
         /// <param name="routineToUpdate"></param>
         public static void LoadProgramsListBox(List<ProgramItem> programs, MainWindow mainWindow, RoutineItem routineToUpdate = null)
         {
-            var ProgramForListbox = programs.Select(e => new ProgramItemForListbox() { Program = e, IsChecked = false }).ToList();
+            var ProgramForListbox = programs.Select(e => new ProgramItemForListbox() { Program = e, IsChecked = false }).OrderBy(e => e.Program.Name).ToList();
             if (routineToUpdate != null)
             {
                 ProgramForListbox.Where(e => routineToUpdate.Programs.Select(e => e.Index).Contains(e.Program.Index)).ToList()
