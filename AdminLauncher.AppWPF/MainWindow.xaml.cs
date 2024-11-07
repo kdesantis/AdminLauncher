@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Navigation;
 using TabControl = System.Windows.Controls.TabControl;
-
+using ControlzEx.Theming;
 namespace AdminLauncher.AppWPF
 {
     /// <summary>
@@ -27,7 +27,8 @@ namespace AdminLauncher.AppWPF
         public MainWindow()
         {
             InitializeComponent();
-
+            //https://mahapps.com/docs/themes/usage
+            ThemeManager.Current.ChangeTheme(this, "Light.Green");
 #if DEBUG
 #else
             CheckExistsOtherSession();

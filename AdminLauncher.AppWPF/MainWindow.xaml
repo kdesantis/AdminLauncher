@@ -28,7 +28,7 @@
             </MenuItem>
         </Menu>
         <!-- TabControl per organizzare le diverse sezioni -->
-        <TabControl x:Name="MainTabControl" Grid.Row="1" Margin="5" SelectionChanged="TabControl_SelectionChanged">
+        <TabControl x:Name="MainTabControl" Grid.Row="1" Margin="5" SelectionChanged="TabControl_SelectionChanged"  mah:HeaderedControlHelper.HeaderFontSize="15" mah:HeaderedControlHelper.HeaderFontWeight="Medium" Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
             <!-- Tab Home -->
             <TabItem Header="Home" x:Name="HomeTab">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
