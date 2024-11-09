@@ -27,8 +27,10 @@
                 <MenuItem.Header>Donate</MenuItem.Header>
             </MenuItem>
         </Menu>
-        <!-- TabControl per organizzare le diverse sezioni -->
-        <TabControl x:Name="MainTabControl" Grid.Row="1" Margin="5" SelectionChanged="TabControl_SelectionChanged"  mah:HeaderedControlHelper.HeaderFontSize="15" mah:HeaderedControlHelper.HeaderFontWeight="Medium" Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
+        <!-- TabControl To organize the different sections -->
+        <TabControl x:Name="MainTabControl" Grid.Row="1" Margin="5" SelectionChanged="TabControl_SelectionChanged"  
+                    mah:HeaderedControlHelper.HeaderFontSize="15" mah:HeaderedControlHelper.HeaderFontWeight="Medium" 
+                    Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
             <!-- Tab Home -->
             <TabItem Header="Home" x:Name="HomeTab">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
@@ -53,6 +55,60 @@
                         <Button Content="Browse..." Click="InitialPathButton_Click" Grid.Column="1" Margin="5,5,2,5"/>
                         <Button Content="Erase" Click="EraseInitialPath_Click" Grid.Column="2" Margin="0,5,0,5"/>
                     </Grid>
+                    <UniformGrid Grid.Row="2" Margin="5" Columns="2" Rows="2">
+                        <TextBlock Text="Accents" Margin="0 0 2 0" VerticalAlignment="Center" />
+                        <TextBlock Text="Colors" Margin="2 0 0 0" VerticalAlignment="Center" />
+
+                        <ComboBox x:Name="ThemeBaseSelector" Margin="0 0 2 0" VerticalAlignment="Center" IsSynchronizedWithCurrentItem="False" SelectionChanged="ThemeBaseSelectionChanged"/>
+
+                        <ComboBox x:Name="ColorsSelector" Margin="2 0 0 0" VerticalAlignment="Center" SelectionChanged="ColorsSelectorOnSelectionChanged" />
+                    </UniformGrid>
+                    <!-- Theme preview -->
+                    <GroupBox Header="Theme Preview" Margin="5" Padding="5">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Width="165" Height="100" Margin="0,0,10,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+                                        <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="App 1" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                    <Button.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Edit Program"/>
+                                            <MenuItem Header="Delete Program"/>
+                                        </ContextMenu>
+                                    </Button.ContextMenu>
+                                </Button>
+
+                                <Button Width="165" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="App 2" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                    <Button.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Edit Program"/>
+                                            <MenuItem Header="Delete Program"/>
+                                        </ContextMenu>
+                                    </Button.ContextMenu>
+                                </Button>
+                            </StackPanel>
+                            <Button Width="auto" Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5">
+                                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Orientation="Horizontal">
+                                    <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                    <!-->Use insane margin for align the content to the left <-->
+                                    <TextBlock Text="App 3" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,600,0"/>
+                                </StackPanel>
+                                <Button.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Edit Program"/>
+                                        <MenuItem Header="Delete Program"/>
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                            </Button>
+                        </StackPanel>
+                    </GroupBox>
+
                 </StackPanel>
             </TabItem>
 

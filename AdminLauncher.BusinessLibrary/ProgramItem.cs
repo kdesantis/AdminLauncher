@@ -32,7 +32,7 @@ namespace AdminLauncher.BusinessLibrary
             var directoryPath = Path.Combine(Path.GetTempPath(), "AdminLauncherTempIcon");
             var iconPath = Path.Combine(directoryPath, $"{Index}-{Path.GetFileName(ExecutablePath)}.ico");
 
-            if (!Directory.Exists(iconPath))
+            if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);
 
             if (File.Exists(ExecutablePath))

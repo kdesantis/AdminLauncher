@@ -27,17 +27,16 @@ namespace AdminLauncher.AppWPF
         public MainWindow()
         {
             InitializeComponent();
-            //https://mahapps.com/docs/themes/usage
-            ThemeManager.Current.ChangeTheme(this, "Light.Green");
 #if DEBUG
 #else
             CheckExistsOtherSession();
             IconUtility.DeleteTempIcon();
 #endif
-
             InterfaceControl.PositionWindowInBottomRight(this);
             if (!manager.Load())
                 DialogUtility.LoadFailure();
+
+            InterfaceControl.PopolateThemeCombo(this,manager.settingsManager.Theme);
 
             buttonGenerator = new(manager, this);
             notifyIconUtility = new(this, manager);
@@ -225,14 +224,33 @@ namespace AdminLauncher.AppWPF
         }
         private void KoFi_Click(object sender, RoutedEventArgs e)
         {
-            // URL del tuo account Ko-fi
             string koFiUrl = ConfigurationManager.AppSettings["kofiUrl"];
-            // Apri l'URL nel browser predefinito
             Process.Start(new ProcessStartInfo
             {
                 FileName = koFiUrl,
                 UseShellExecute = true
             });
+        }
+        private void ThemeBaseSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ThemeBaseSelector.SelectedItem != null && ColorsSelector.SelectedItem != null)
+            {
+                var theme = $"{ThemeBaseSelector.SelectedItem.ToString()}.{ColorsSelector.SelectedItem.ToString()}";
+                InterfaceControl.SetTheme(this, theme);
+                manager.settingsManager.Theme = theme;
+                manager.Save();
+            }
+        }
+
+        private void ColorsSelectorOnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ThemeBaseSelector.SelectedItem != null && ColorsSelector.SelectedItem != null)
+            {
+                var theme = $"{ThemeBaseSelector.SelectedItem.ToString()}.{ColorsSelector.SelectedItem.ToString()}";
+                InterfaceControl.SetTheme(this, theme);
+                manager.settingsManager.Theme = theme;
+                manager.Save();
+            }
         }
     }
 }

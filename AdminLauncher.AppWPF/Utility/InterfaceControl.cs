@@ -1,5 +1,6 @@
 ﻿using AdminLauncher.BusinessLibrary;
 using AdminLauncher.UpdateLibrary;
+using ControlzEx.Theming;
 using System.Configuration;
 using System.Windows;
 using System.Windows.Controls;
@@ -114,6 +115,29 @@ namespace AdminLauncher.AppWPF.Utility
         {
             mainWindow.ButtonsOrientationCombobox.ItemsSource = Enum.GetValues(typeof(OrientationsButtonEnum));
             mainWindow.ButtonsOrientationCombobox.SelectedItem = manager.settingsManager.ButtonsOrientation;
+        }
+
+        public static void PopolateThemeCombo(MainWindow mainWindow, string theme)
+        {
+            mainWindow.ThemeBaseSelector.ItemsSource = ConfigurationManager.AppSettings["BaseTheme"].Split(",").ToList().OrderBy(e => e);
+            mainWindow.ColorsSelector.ItemsSource = ConfigurationManager.AppSettings["ColorsTheme"].Split(",").ToList().OrderBy(e => e);
+            if (theme != null)
+            {
+                SetTheme(mainWindow, theme);
+                mainWindow.ThemeBaseSelector.SelectedItem = theme.Split('.')[0];
+                mainWindow.ColorsSelector.SelectedItem = theme.Split('.')[1];
+            }
+            else
+            {
+                mainWindow.ThemeBaseSelector.SelectedIndex = 0;
+                mainWindow.ColorsSelector.SelectedIndex = 0;
+            }
+
+        }
+
+        public static void SetTheme(MainWindow mainWindow, string theme)
+        {
+            ThemeManager.Current.ChangeTheme(mainWindow, theme);
         }
     }
     /// <summary>
