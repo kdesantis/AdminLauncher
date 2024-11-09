@@ -129,8 +129,8 @@ namespace AdminLauncher.AppWPF.Utility
             }
             else
             {
-                mainWindow.ThemeBaseSelector.SelectedIndex = 0;
-                mainWindow.ColorsSelector.SelectedIndex = 0;
+                mainWindow.ThemeBaseSelector.SelectedItem = "Light";
+                mainWindow.ColorsSelector.SelectedItem = "Cobalt";
             }
 
         }
