@@ -12,13 +12,12 @@
 ## System Requirements 💻
 
 - **Windows 7** or higher
-- **.NET Core 8** or later
+- **Priviledges of administration**
 
 ## Installation 🛠️
 
 1. Download the latest release of AdminLauncher from the [releases page](https://github.com/kdesantis/AdminLauncher/releases).
-2. Extract the contents of the zip file into a folder on your computer.
-3. Run the `AdminLauncher.exe` file to start the application.
+2. Run the installer, nothing simpler😊
 
 ## License 📜
 
