@@ -36,7 +36,7 @@ namespace AdminLauncher.AppWPF
             if (!manager.Load())
                 DialogUtility.LoadFailure();
 
-            InterfaceControl.PopolateThemeCombo(this,manager.settingsManager.Theme);
+            InterfaceControl.PopolateThemeCombo(this, manager.settingsManager.Theme);
 
             buttonGenerator = new(manager, this);
             notifyIconUtility = new(this, manager);

@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminLauncher.AppWPF", "Adm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminLauncher.BusinessLibrary", "AdminLauncher.BusinessLibrary\AdminLauncher.BusinessLibrary.csproj", "{59FE7E82-5AB2-4AC5-8B7D-452F84A8BED3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminLauncher.UpdateLibrary", "AdminLauncher.UpdateLibrary\AdminLauncher.UpdateLibrary.csproj", "{F70C4B23-F5E7-46FA-B09E-0E50113700E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminLauncher.UpdateLibrary", "AdminLauncher.UpdateLibrary\AdminLauncher.UpdateLibrary.csproj", "{F70C4B23-F5E7-46FA-B09E-0E50113700E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
