@@ -204,6 +204,13 @@ namespace AdminLauncher.AppWPF
             manager.settingsManager.ButtonsOrientation = (OrientationsButtonEnum)ButtonsOrientationCombobox.SelectedItem;
             ReloadPrograms();
             manager.Save();
+            
+            MosaicPreviewGroupBox.Visibility = Visibility.Collapsed;
+            VerticalPreviewGroupBox.Visibility = Visibility.Collapsed;
+            if(manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Mosaic)
+                MosaicPreviewGroupBox.Visibility = Visibility.Visible;
+            else if (manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Vertical)
+                VerticalPreviewGroupBox.Visibility = Visibility.Visible;
         }
 
         private void InitialPathButton_Click(object sender, RoutedEventArgs e)

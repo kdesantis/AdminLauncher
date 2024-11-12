@@ -66,66 +66,61 @@
                     <!-- Theme preview -->
                     <GroupBox Header="Theme Preview" Margin="5" Padding="5">
                         <StackPanel Orientation="Vertical">
-                            <GroupBox Header="Mosaic">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <Button Width="165" Height="100" Margin="0,0,10,0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
-                                            <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                            <TextBlock Text="App 1" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                        </StackPanel>
-                                        <Button.ContextMenu>
-                                            <ContextMenu>
-                                                <MenuItem Header="Edit Program"/>
-                                                <MenuItem Header="Delete Program"/>
-                                            </ContextMenu>
-                                        </Button.ContextMenu>
-                                    </Button>
+                            <StackPanel  x:Name="MosaicPreviewGroupBox" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Width="165" Height="100" Margin="0,0,10,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+                                        <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="App 1" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                    <Button.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Edit Program"/>
+                                            <MenuItem Header="Delete Program"/>
+                                        </ContextMenu>
+                                    </Button.ContextMenu>
+                                </Button>
 
-                                    <Button Width="165" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                            <TextBlock Text="App 2" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                        </StackPanel>
-                                        <Button.ContextMenu>
-                                            <ContextMenu>
-                                                <MenuItem Header="Edit Program"/>
-                                                <MenuItem Header="Delete Program"/>
-                                            </ContextMenu>
-                                        </Button.ContextMenu>
-                                    </Button>
-                                </StackPanel>
-                            </GroupBox>
-                            <GroupBox Header="Vertical">
-                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-
-                                    <Button Width="auto" Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5">
-                                        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Orientation="Horizontal">
-                                            <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,5,0"/>
-                                            <!-->Use insane margin for align the content to the left <-->
-                                            <TextBlock Text="App 1" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,600,0"/>
-                                        </StackPanel>
-                                        <Button.ContextMenu>
-                                            <ContextMenu>
-                                                <MenuItem Header="Edit Program"/>
-                                                <MenuItem Header="Delete Program"/>
-                                            </ContextMenu>
-                                        </Button.ContextMenu>
-                                    </Button>
-                                    <Button Width="auto" Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5">
-                                        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Orientation="Horizontal">
-                                            <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,5,0"/>
-                                            <!-->Use insane margin for align the content to the left <-->
-                                            <TextBlock Text="App 2" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,600,0"/>
-                                        </StackPanel>
-                                        <Button.ContextMenu>
-                                            <ContextMenu>
-                                                <MenuItem Header="Edit Program"/>
-                                                <MenuItem Header="Delete Program"/>
-                                            </ContextMenu>
-                                        </Button.ContextMenu>
-                                    </Button>
-                                </StackPanel>
-                            </GroupBox>
+                                <Button Width="165" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="App 2" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                    <Button.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Edit Program"/>
+                                            <MenuItem Header="Delete Program"/>
+                                        </ContextMenu>
+                                    </Button.ContextMenu>
+                                </Button>
+                            </StackPanel>
+                            <StackPanel  x:Name="VerticalPreviewGroupBox" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Width="auto" Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,10,0">
+                                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Orientation="Horizontal">
+                                        <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,5,0"/>
+                                        <!-->Use insane margin for align the content to the left <-->
+                                        <TextBlock Text="App 1" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,600,0"/>
+                                    </StackPanel>
+                                    <Button.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Edit Program"/>
+                                            <MenuItem Header="Delete Program"/>
+                                        </ContextMenu>
+                                    </Button.ContextMenu>
+                                </Button>
+                                <Button Width="auto" Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,5,10,0">
+                                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Orientation="Horizontal">
+                                        <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,5,0"/>
+                                        <!-->Use insane margin for align the content to the left <-->
+                                        <TextBlock Text="App 2" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,600,0"/>
+                                    </StackPanel>
+                                    <Button.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Edit Program"/>
+                                            <MenuItem Header="Delete Program"/>
+                                        </ContextMenu>
+                                    </Button.ContextMenu>
+                                </Button>
+                            </StackPanel>
                         </StackPanel>
                     </GroupBox>
 
