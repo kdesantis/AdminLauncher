@@ -209,12 +209,12 @@
                     <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
             De Santis Kevin
                     </TextBlock>
-                    <Button Width="200" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Click="KoFi_Click">
+                    <Button Width="auto" Height="auto" HorizontalAlignment="Left" VerticalAlignment="Center" Click="KoFi_Click">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <!-- Icona Ko-fi dalla risorsa -->
-                            <Image Source="pack://application:,,,/Resources/kofi_symbol.png" Width="24" Height="24" Margin="0,0,10,0"/>
+                            <Image Source="pack://application:,,,/Resources/kofi_symbol.png" Width="24" Height="24" Margin="10,0,10,0"/>
                             <!-- Testo del pulsante -->
-                            <TextBlock VerticalAlignment="Center" FontSize="14" Text="Support Me on Ko-fi"/>
+                            <TextBlock VerticalAlignment="Center" FontSize="14" Text="Support Me on Ko-fi" Margin="0,0,10,0"/>
                         </StackPanel>
                     </Button>
                     <!-- License -->
