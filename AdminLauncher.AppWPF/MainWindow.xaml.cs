@@ -205,12 +205,12 @@ namespace AdminLauncher.AppWPF
             ReloadPrograms();
             manager.Save();
             
-            MosaicPreviewGroupBox.Visibility = Visibility.Collapsed;
-            VerticalPreviewGroupBox.Visibility = Visibility.Collapsed;
+            MosaicPreviewStackPanel.Visibility = Visibility.Collapsed;
+            VerticalPreviewStackPanel.Visibility = Visibility.Collapsed;
             if(manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Mosaic)
-                MosaicPreviewGroupBox.Visibility = Visibility.Visible;
+                MosaicPreviewStackPanel.Visibility = Visibility.Visible;
             else if (manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Vertical)
-                VerticalPreviewGroupBox.Visibility = Visibility.Visible;
+                VerticalPreviewStackPanel.Visibility = Visibility.Visible;
         }
 
         private void InitialPathButton_Click(object sender, RoutedEventArgs e)

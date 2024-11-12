@@ -66,8 +66,8 @@
                     <!-- Theme preview -->
                     <GroupBox Header="Theme Preview" Margin="5" Padding="5">
                         <StackPanel Orientation="Vertical">
-                            <StackPanel  x:Name="MosaicPreviewGroupBox" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Button Width="165" Height="100" Margin="0,0,10,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <StackPanel  x:Name="MosaicPreviewStackPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Width="165" Height="75" Margin="0,0,10,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
                                         <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                         <TextBlock Text="App 1" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -80,7 +80,7 @@
                                     </Button.ContextMenu>
                                 </Button>
 
-                                <Button Width="165" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Width="165" Height="75" HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                         <TextBlock Text="App 2" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -93,8 +93,8 @@
                                     </Button.ContextMenu>
                                 </Button>
                             </StackPanel>
-                            <StackPanel  x:Name="VerticalPreviewGroupBox" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Button Width="auto" Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,10,0">
+                            <StackPanel  x:Name="VerticalPreviewStackPanel" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Width="auto" Height="45" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,0,0">
                                     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Orientation="Horizontal">
                                         <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,5,0"/>
                                         <!-->Use insane margin for align the content to the left <-->
@@ -107,7 +107,7 @@
                                         </ContextMenu>
                                     </Button.ContextMenu>
                                 </Button>
-                                <Button Width="auto" Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,5,10,0">
+                                <Button Width="auto" Height="45" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,7.5,0,0">
                                     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Orientation="Horizontal">
                                         <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,5,0"/>
                                         <!-->Use insane margin for align the content to the left <-->
