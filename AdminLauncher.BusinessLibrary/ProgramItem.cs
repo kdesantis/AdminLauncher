@@ -32,7 +32,15 @@ namespace AdminLauncher.BusinessLibrary
             var directoryPath = Path.Combine(Path.GetTempPath(), "AdminLauncherTempIcon");
             var iconPath = Path.Combine(directoryPath, $"{Index}-{Path.GetFileName(ExecutablePath)}.ico");
 
-            if (!Directory.Exists(iconPath))
+            //Generic icon for script
+            if (new List<string>() { ".vbs", ".cmd", ".bat", "ps1" }.Contains(Path.GetExtension(ExecutablePath).ToLower()))
+            {
+                iconPath = Path.Combine(directoryPath, $"99999-genericPromptIcon.png");
+                if (!File.Exists(iconPath))
+                    File.Copy(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PowerShellIcon.png"), iconPath, true);
+            }
+
+            if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);
 
             if (File.Exists(ExecutablePath))

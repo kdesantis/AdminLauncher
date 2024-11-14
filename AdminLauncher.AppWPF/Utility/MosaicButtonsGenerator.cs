@@ -26,7 +26,7 @@ namespace AdminLauncher.AppWPF.Utility
             WrapPanel gridPanel = new()
             {
                 Orientation = Orientation.Horizontal,
-                ItemWidth = (Window.Width - 20) / 2,
+                ItemWidth = (Window.Width - 35) / 2,
                 HorizontalAlignment = HorizontalAlignment.Center,
             };
 
@@ -69,7 +69,7 @@ namespace AdminLauncher.AppWPF.Utility
 
             Image iconImage = new()
             {
-                Source = IconUtility.LoadIcon(item.GetIconPath()),
+                Source = IconUtility.GetBitmapImageIcon(item.GetIconPath()),
                 Width = 32, 
                 Height = 32,
                 HorizontalAlignment = HorizontalAlignment.Center, 
@@ -95,7 +95,7 @@ namespace AdminLauncher.AppWPF.Utility
             {
                 Image favoriteIcon = new()
                 {
-                    Source = IconUtility.LoadIcon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "favorite.png")),
+                    Source = IconUtility.GetBitmapImageIcon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "favorite.png")),
                     Width = 24,
                     Height = 24,
                     HorizontalAlignment = HorizontalAlignment.Right, 

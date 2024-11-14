@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <None Remove="list.png" />
+    <None Remove="PowerShellIcon.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +29,12 @@
 
   <ItemGroup>
     <Content Include="list.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="PowerShellIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

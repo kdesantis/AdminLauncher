@@ -1,7 +1,9 @@
 ﻿using AdminLauncher.BusinessLibrary;
 using AdminLauncher.UpdateLibrary;
+using ControlzEx.Theming;
 using System.Configuration;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace AdminLauncher.AppWPF.Utility
 {
@@ -31,7 +33,17 @@ namespace AdminLauncher.AppWPF.Utility
         {
             mainWindow.RoutineIndexLabel.Content = -1;
             mainWindow.RoutineNameTextBox.Clear();
-            mainWindow.ProgramsListBox.UnselectAll();
+
+            if (mainWindow.ProgramsListBox.ItemsSource is not null)
+            {
+                var items = mainWindow.ProgramsListBox.ItemsSource as List<ProgramItemForListbox>;
+                if (items != null)
+                {
+                    foreach (var item in items)
+                        item.IsChecked = false;
+                    mainWindow.ProgramsListBox.Items.Refresh();
+                }
+            }
         }
         /// <summary>
         /// Makes the desired StackPanel visible
@@ -40,30 +52,25 @@ namespace AdminLauncher.AppWPF.Utility
         /// <param name="mainWindow"></param>
         public static void InterfaceLoader(InterfaceEnum mode, MainWindow mainWindow)
         {
-            mainWindow.MainScrollViewer.Visibility = Visibility.Collapsed;
-            mainWindow.SettingsPanel.Visibility = Visibility.Collapsed;
-            mainWindow.AddProgramPanel.Visibility = Visibility.Collapsed;
-            mainWindow.AddRoutinePanel.Visibility = Visibility.Collapsed;
-            mainWindow.AbountPanel.Visibility = Visibility.Collapsed;
 
             switch (mode)
             {
                 case InterfaceEnum.Home:
-                    mainWindow.MainScrollViewer.Visibility = Visibility.Visible;
+                    mainWindow.MainTabControl.SelectedItem = mainWindow.HomeTab;
                     ClearAddProgramData(mainWindow);
                     ClearRoutineData(mainWindow);
                     break;
                 case InterfaceEnum.Settings:
-                    mainWindow.SettingsPanel.Visibility = Visibility.Visible;
+                    mainWindow.MainTabControl.SelectedItem = mainWindow.SettingsTab;
                     break;
                 case InterfaceEnum.AddProgramInterface:
-                    mainWindow.AddProgramPanel.Visibility = Visibility.Visible;
+                    mainWindow.MainTabControl.SelectedItem = mainWindow.AddProgramTab;
                     break;
                 case InterfaceEnum.AddRoutineInterface:
-                    mainWindow.AddRoutinePanel.Visibility = Visibility.Visible;
+                    mainWindow.MainTabControl.SelectedItem = mainWindow.AddRoutineTab;
                     break;
                 case InterfaceEnum.About:
-                    mainWindow.AbountPanel.Visibility = Visibility.Visible;
+                    mainWindow.MainTabControl.SelectedItem = mainWindow.AboutTab;
                     break;
             }
         }
@@ -75,8 +82,9 @@ namespace AdminLauncher.AppWPF.Utility
         /// <param name="routineToUpdate"></param>
         public static void LoadProgramsListBox(List<ProgramItem> programs, MainWindow mainWindow, RoutineItem routineToUpdate = null)
         {
-            var ProgramForListbox = programs.Select(e => new ProgramItemForListbox() { Program = e, IsChecked = false }).ToList();
-            if (routineToUpdate != null) { 
+            var ProgramForListbox = programs.Select(e => new ProgramItemForListbox() { Program = e, IsChecked = false }).OrderBy(e => e.Program.Name).ToList();
+            if (routineToUpdate != null)
+            {
                 ProgramForListbox.Where(e => routineToUpdate.Programs.Select(e => e.Index).Contains(e.Program.Index)).ToList()
                     .ForEach(program => ProgramForListbox.First(e => e.Program.Index == program.Program.Index).IsChecked = true);
             }
@@ -107,6 +115,29 @@ namespace AdminLauncher.AppWPF.Utility
         {
             mainWindow.ButtonsOrientationCombobox.ItemsSource = Enum.GetValues(typeof(OrientationsButtonEnum));
             mainWindow.ButtonsOrientationCombobox.SelectedItem = manager.settingsManager.ButtonsOrientation;
+        }
+
+        public static void PopolateThemeCombo(MainWindow mainWindow, string theme)
+        {
+            mainWindow.ThemeBaseSelector.ItemsSource = ConfigurationManager.AppSettings["BaseTheme"].Split(",").ToList().OrderBy(e => e);
+            mainWindow.ColorsSelector.ItemsSource = ConfigurationManager.AppSettings["ColorsTheme"].Split(",").ToList().OrderBy(e => e);
+            if (theme != null)
+            {
+                SetTheme(mainWindow, theme);
+                mainWindow.ThemeBaseSelector.SelectedItem = theme.Split('.')[0];
+                mainWindow.ColorsSelector.SelectedItem = theme.Split('.')[1];
+            }
+            else
+            {
+                mainWindow.ThemeBaseSelector.SelectedItem = "Light";
+                mainWindow.ColorsSelector.SelectedItem = "Cobalt";
+            }
+
+        }
+
+        public static void SetTheme(MainWindow mainWindow, string theme)
+        {
+            ThemeManager.Current.ChangeTheme(mainWindow, theme);
         }
     }
     /// <summary>

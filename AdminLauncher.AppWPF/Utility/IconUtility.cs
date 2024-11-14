@@ -12,7 +12,7 @@ namespace AdminLauncher.AppWPF.Utility
         /// </summary>
         /// <param name="iconPath"></param>
         /// <returns></returns>
-        public static BitmapImage LoadIcon(string iconPath)
+        public static BitmapImage GetBitmapImageIcon(string iconPath)
         {
             BitmapImage bitmap = new();
             if (iconPath != null)
@@ -31,6 +31,37 @@ namespace AdminLauncher.AppWPF.Utility
             if (Directory.Exists(iconDirectoryPath))
                 Directory.Delete(iconDirectoryPath, true);
         }
+        public static Image GetImageIcon(string iconPath)
+        {
+            // test image
+            BitmapImage image = new BitmapImage(new Uri(iconPath));
 
+            // copy to byte array
+            int stride = image.PixelWidth * 4;
+            byte[] buffer = new byte[stride * image.PixelHeight];
+            image.CopyPixels(buffer, stride, 0);
+
+            // create bitmap
+            System.Drawing.Bitmap bitmap =
+                new System.Drawing.Bitmap(
+                    image.PixelWidth,
+                    image.PixelHeight,
+                    System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            // lock bitmap data
+            System.Drawing.Imaging.BitmapData bitmapData =
+                bitmap.LockBits(
+                    new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height),
+                    System.Drawing.Imaging.ImageLockMode.WriteOnly,
+                    bitmap.PixelFormat);
+
+            // copy byte array to bitmap data
+            System.Runtime.InteropServices.Marshal.Copy(
+                buffer, 0, bitmapData.Scan0, buffer.Length);
+
+            // unlock
+            bitmap.UnlockBits(bitmapData);
+            return bitmap;
+        }
     }
 }
