@@ -45,7 +45,6 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\publish\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\Accessibility.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\AdminLauncher.AppWPF.deps.json"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\AdminLauncher.AppWPF.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -60,6 +59,7 @@ Source: "C:\publish\AdminLauncher.UpdateLibrary.pdb"; DestDir: "{app}"; Flags: i
 Source: "C:\publish\clretwrc.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\clrgc.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\clrjit.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\publish\ControlzEx.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\coreclr.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\createdump.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\D3DCompiler_47_cor3.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -69,6 +69,7 @@ Source: "C:\publish\hostfxr.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\hostpolicy.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\IconExtractor.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\list.png"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\publish\MahApps.Metro.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\Microsoft.CSharp.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\Microsoft.DiaSymReader.Native.amd64.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\Microsoft.VisualBasic.Core.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -78,6 +79,7 @@ Source: "C:\publish\Microsoft.Win32.Primitives.dll"; DestDir: "{app}"; Flags: ig
 Source: "C:\publish\Microsoft.Win32.Registry.AccessControl.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\Microsoft.Win32.Registry.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\Microsoft.Win32.SystemEvents.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\publish\Microsoft.Xaml.Behaviors.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\mscordaccore.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\mscordaccore_amd64_amd64_8.0.1024.46610.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\mscordbi.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -86,7 +88,13 @@ Source: "C:\publish\mscorrc.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\msquic.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\netstandard.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\PenImc_cor3.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\publish\PowerShellIcon.png"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\PresentationCore.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\publish\PresentationFramework-SystemCore.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\publish\PresentationFramework-SystemData.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\publish\PresentationFramework-SystemDrawing.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\publish\PresentationFramework-SystemXml.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\publish\PresentationFramework-SystemXmlLinq.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\PresentationFramework.Aero.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\PresentationFramework.Aero2.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\PresentationFramework.AeroLite.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -94,11 +102,6 @@ Source: "C:\publish\PresentationFramework.Classic.dll"; DestDir: "{app}"; Flags:
 Source: "C:\publish\PresentationFramework.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\PresentationFramework.Luna.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\PresentationFramework.Royale.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\publish\PresentationFramework-SystemCore.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\publish\PresentationFramework-SystemData.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\publish\PresentationFramework-SystemDrawing.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\publish\PresentationFramework-SystemXml.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\publish\PresentationFramework-SystemXmlLinq.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\PresentationNative_cor3.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\PresentationUI.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\ReachFramework.dll"; DestDir: "{app}"; Flags: ignoreversion
