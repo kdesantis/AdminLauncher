@@ -19,7 +19,7 @@
 1. Download the latest release of AdminLauncher from the [releases page](https://github.com/kdesantis/AdminLauncher/releases).
 2. Run the installer, nothing simpler😊
 
-- Read UserGuide [HERE](UserGuide.md) if you need help.
+- **Read UserGuide [HERE](UserGuide.md) if you need help.**
 
 ## License 📜
 
