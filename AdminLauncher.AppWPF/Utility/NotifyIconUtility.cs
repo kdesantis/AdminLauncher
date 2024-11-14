@@ -45,7 +45,10 @@ namespace AdminLauncher.AppWPF.Utility
                     contextMenu.Items.Add(new ToolStripSeparator());
 
                 foreach (var program in programManager.Programs.OrderBy(e => e.Name).OrderByDescending(e => e.IsFavorite).ToList())
-                    contextMenu.Items.Add(program.Name, Image.FromFile(program.GetIconPath()), (sender, e) => program.Launch());
+                {
+                    var image = IconUtility.GetImageIcon(program.GetIconPath());
+                    contextMenu.Items.Add(program.Name, image, (sender, e) => program.Launch());
+                }
             }
             if ((programManager.Routines.Count + programManager.Programs.Count) > 0)
                 contextMenu.Items.Add(new ToolStripSeparator());

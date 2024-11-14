@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Navigation;
 using TabControl = System.Windows.Controls.TabControl;
-
+using ControlzEx.Theming;
 namespace AdminLauncher.AppWPF
 {
     /// <summary>
@@ -27,16 +27,16 @@ namespace AdminLauncher.AppWPF
         public MainWindow()
         {
             InitializeComponent();
-
 #if DEBUG
 #else
             CheckExistsOtherSession();
             IconUtility.DeleteTempIcon();
 #endif
-
             InterfaceControl.PositionWindowInBottomRight(this);
             if (!manager.Load())
                 DialogUtility.LoadFailure();
+
+            InterfaceControl.PopolateThemeCombo(this, manager.settingsManager.Theme);
 
             buttonGenerator = new(manager, this);
             notifyIconUtility = new(this, manager);
@@ -204,6 +204,13 @@ namespace AdminLauncher.AppWPF
             manager.settingsManager.ButtonsOrientation = (OrientationsButtonEnum)ButtonsOrientationCombobox.SelectedItem;
             ReloadPrograms();
             manager.Save();
+            
+            MosaicPreviewStackPanel.Visibility = Visibility.Collapsed;
+            VerticalPreviewStackPanel.Visibility = Visibility.Collapsed;
+            if(manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Mosaic)
+                MosaicPreviewStackPanel.Visibility = Visibility.Visible;
+            else if (manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Vertical)
+                VerticalPreviewStackPanel.Visibility = Visibility.Visible;
         }
 
         private void InitialPathButton_Click(object sender, RoutedEventArgs e)
@@ -224,14 +231,33 @@ namespace AdminLauncher.AppWPF
         }
         private void KoFi_Click(object sender, RoutedEventArgs e)
         {
-            // URL del tuo account Ko-fi
             string koFiUrl = ConfigurationManager.AppSettings["kofiUrl"];
-            // Apri l'URL nel browser predefinito
             Process.Start(new ProcessStartInfo
             {
                 FileName = koFiUrl,
                 UseShellExecute = true
             });
+        }
+        private void ThemeBaseSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ThemeBaseSelector.SelectedItem != null && ColorsSelector.SelectedItem != null)
+            {
+                var theme = $"{ThemeBaseSelector.SelectedItem.ToString()}.{ColorsSelector.SelectedItem.ToString()}";
+                InterfaceControl.SetTheme(this, theme);
+                manager.settingsManager.Theme = theme;
+                manager.Save();
+            }
+        }
+
+        private void ColorsSelectorOnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ThemeBaseSelector.SelectedItem != null && ColorsSelector.SelectedItem != null)
+            {
+                var theme = $"{ThemeBaseSelector.SelectedItem.ToString()}.{ColorsSelector.SelectedItem.ToString()}";
+                InterfaceControl.SetTheme(this, theme);
+                manager.settingsManager.Theme = theme;
+                manager.Save();
+            }
         }
     }
 }
