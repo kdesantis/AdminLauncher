@@ -11,8 +11,8 @@
 
 ## System Requirements 💻
 
-- **Windows 7** or higher
-- **Priviledges of administration**
+- **Windows 7** or higher 🪟
+- **Priviledges of administration** 🔏
 
 ## Installation 🛠️
 
