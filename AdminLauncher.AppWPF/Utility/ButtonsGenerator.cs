@@ -92,6 +92,7 @@ namespace AdminLauncher.AppWPF.Utility
 
         private void EditRoutine(RoutineItem routine)
         {
+            Window.UIOperation = false;
             InterfaceControl.LoadProgramsListBox(Manager.programManager.Programs, Window, routine);
             InterfaceControl.InterfaceLoader(InterfaceEnum.AddRoutineInterface, Window);
             Window.RoutineIndexLabel.Content = routine.Index;

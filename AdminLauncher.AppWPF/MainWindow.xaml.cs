@@ -5,9 +5,11 @@ using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Navigation;
-
+using TabControl = System.Windows.Controls.TabControl;
+using ControlzEx.Theming;
 namespace AdminLauncher.AppWPF
 {
     /// <summary>
@@ -20,19 +22,21 @@ namespace AdminLauncher.AppWPF
         public NotifyIconUtility notifyIconUtility;
         public bool firstClosure = true;
         private static Mutex _mutex;
+
+        public bool UIOperation = true;
         public MainWindow()
         {
             InitializeComponent();
-
 #if DEBUG
 #else
             CheckExistsOtherSession();
             IconUtility.DeleteTempIcon();
 #endif
-
             InterfaceControl.PositionWindowInBottomRight(this);
             if (!manager.Load())
                 DialogUtility.LoadFailure();
+
+            InterfaceControl.PopolateThemeCombo(this, manager.settingsManager.Theme);
 
             buttonGenerator = new(manager, this);
             notifyIconUtility = new(this, manager);
@@ -80,6 +84,35 @@ namespace AdminLauncher.AppWPF
             if (_mutex is not null)
                 _mutex?.ReleaseMutex();
         }
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.Source is TabControl && UIOperation)
+            {
+                TabControl tabControl = (TabControl)sender;
+                TabItem selectedTab = (TabItem)tabControl.SelectedItem;
+
+                switch (selectedTab.Header.ToString())
+                {
+                    case "Home":
+                        Home_Click(sender, e);
+                        break;
+                    case "Settings":
+                        Settings_Click(sender, e);
+                        break;
+                    case "Add Program":
+                        AddProgram_Click(sender, e);
+                        break;
+                    case "Add Routine":
+                        AddRoutine_Click(sender, e);
+                        break;
+                    case "About":
+                        About_Click(sender, e);
+                        break;
+                }
+            }
+            UIOperation = true;
+        }
+
         private async void CheckUpdateHyperLinl_Click(object sender, RoutedEventArgs e)
         {
             var updateInformation = await UpdateUtility.CheckUpdateAsync(true);
@@ -171,6 +204,13 @@ namespace AdminLauncher.AppWPF
             manager.settingsManager.ButtonsOrientation = (OrientationsButtonEnum)ButtonsOrientationCombobox.SelectedItem;
             ReloadPrograms();
             manager.Save();
+            
+            MosaicPreviewStackPanel.Visibility = Visibility.Collapsed;
+            VerticalPreviewStackPanel.Visibility = Visibility.Collapsed;
+            if(manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Mosaic)
+                MosaicPreviewStackPanel.Visibility = Visibility.Visible;
+            else if (manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Vertical)
+                VerticalPreviewStackPanel.Visibility = Visibility.Visible;
         }
 
         private void InitialPathButton_Click(object sender, RoutedEventArgs e)
@@ -191,14 +231,33 @@ namespace AdminLauncher.AppWPF
         }
         private void KoFi_Click(object sender, RoutedEventArgs e)
         {
-            // URL del tuo account Ko-fi
             string koFiUrl = ConfigurationManager.AppSettings["kofiUrl"];
-            // Apri l'URL nel browser predefinito
             Process.Start(new ProcessStartInfo
             {
                 FileName = koFiUrl,
                 UseShellExecute = true
             });
+        }
+        private void ThemeBaseSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ThemeBaseSelector.SelectedItem != null && ColorsSelector.SelectedItem != null)
+            {
+                var theme = $"{ThemeBaseSelector.SelectedItem.ToString()}.{ColorsSelector.SelectedItem.ToString()}";
+                InterfaceControl.SetTheme(this, theme);
+                manager.settingsManager.Theme = theme;
+                manager.Save();
+            }
+        }
+
+        private void ColorsSelectorOnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ThemeBaseSelector.SelectedItem != null && ColorsSelector.SelectedItem != null)
+            {
+                var theme = $"{ThemeBaseSelector.SelectedItem.ToString()}.{ColorsSelector.SelectedItem.ToString()}";
+                InterfaceControl.SetTheme(this, theme);
+                manager.settingsManager.Theme = theme;
+                manager.Save();
+            }
         }
     }
 }
