@@ -1,4 +1,5 @@
-﻿<Window x:Class="AdminLauncher.AppWPF.ProgramsConfiguratorWizard"
+﻿<mah:MetroWindow x:Class="AdminLauncher.AppWPF.ProgramsConfiguratorWizard"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,37 +9,43 @@
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- TextBox -->
-            <RowDefinition Height="*"/>
-            <!-- ListBox -->
             <RowDefinition Height="Auto"/>
-            <!-- Button -->
+            <!-- Per la Label -->
+            <RowDefinition Height="*" />
+            <!-- Per la TextBox e ListBox -->
+            <RowDefinition Height="Auto"/>
+            <!-- Per il Button -->
         </Grid.RowDefinitions>
 
-        <!-- TextBox for filter/search -->
-        <TextBox x:Name="SearchBox" Margin="5" VerticalAlignment="Top" 
-                  TextChanged="SearchBox_TextChanged"/>
+       
 
-        <!-- ListBox for program list -->
-        <ListBox x:Name="ProgramListBox" Grid.Row="1" ItemsSource="{Binding FilteredProgramList}">
+        <!-- TextBox per la ricerca -->
+        <TextBox x:Name="SearchBox" Grid.Row="1" Margin="5" VerticalAlignment="Top" 
+         TextChanged="SearchBox_TextChanged" 
+         ToolTip="Enter a program name to filter the list"/>
+        <!-- Label posizionata nella prima riga -->
+        <Label Content="Select the programmes you want to import into Home" 
+        Grid.Row="0" Margin="5"/>
+        <!-- ListBox per la lista dei programmi -->
+        <ListBox x:Name="ProgramListBox" Grid.Row="2" ItemsSource="{Binding FilteredProgramList}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <!-- Checkbox -->
                         <CheckBox IsChecked="{Binding IsChecked}" Margin="5" VerticalAlignment="Center"/>
 
-                        <!-- Icon -->
+                        <!-- Icona -->
                         <Image Width="32" Height="32" Source="{Binding Icon}" Margin="5"/>
 
-                        <!-- Program Name -->
+                        <!-- Nome del programma -->
                         <TextBlock Text="{Binding Program.Name}" VerticalAlignment="Center" Margin="5"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <!-- Button to process selected programs -->
-        <Button Content="Process Selected" Grid.Row="2" HorizontalAlignment="Right" 
-                Margin="5" Width="150" Click="ProcessSelectedPrograms"/>
+        <!-- Bottone per processare i programmi selezionati -->
+        <Button Content="Import to Home" Grid.Row="3" HorizontalAlignment="Right" 
+            Margin="5" Width="150" Click="ProcessSelectedPrograms"/>
     </Grid>
-</Window>
+</mah:MetroWindow>

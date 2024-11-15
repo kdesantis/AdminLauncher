@@ -1,5 +1,6 @@
 ﻿using AdminLauncher.AppWPF.Utility;
 using AdminLauncher.BusinessLibrary;
+using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,7 +21,7 @@ namespace AdminLauncher.AppWPF
     /// <summary>
     /// Interaction logic for ProgramsConfiguratorWizard.xaml
     /// </summary>
-    public partial class ProgramsConfiguratorWizard : Window
+    public partial class ProgramsConfiguratorWizard : MetroWindow
     {
         public ObservableCollection<ProgramItemForListbox> ProgramList { get; set; }
         public ObservableCollection<ProgramItemForListbox> FilteredProgramList { get; set; }
