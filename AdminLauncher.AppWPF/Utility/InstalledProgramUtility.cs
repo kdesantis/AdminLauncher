@@ -2,10 +2,13 @@
 using IWshRuntimeLibrary;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 
 namespace AdminLauncher.AppWPF.Utility
 {
@@ -14,12 +17,13 @@ namespace AdminLauncher.AppWPF.Utility
 
         public static List<ProgramItem> GetInstalledProgram()
         {
-            return GetProgramsFromStartMenu();
+            return GetProgramsFromStartMenu()
+                .Select(e => new ProgramItem() { Name = e.Name, Arguments = e.Arguments, ExecutablePath = e.ExecutablePath }).ToList();
         }
 
-        private static List<ProgramItem> GetProgramsFromStartMenu()
+        private static List<InstalledProgram> GetProgramsFromStartMenu()
         {
-            List<ProgramItem> programs = new List<ProgramItem>();
+            List<InstalledProgram> programs = new List<InstalledProgram>();
 
             string[] startMenuPaths = new string[]
             {
@@ -49,14 +53,14 @@ namespace AdminLauncher.AppWPF.Utility
             return programs;
         }
 
-        private static ProgramItem GetShortcutDetails(string shortcutPath)
+        private static InstalledProgram GetShortcutDetails(string shortcutPath)
         {
             try
             {
                 WshShell shell = new WshShell();
                 IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutPath);
 
-                return new ProgramItem
+                return new InstalledProgram
                 {
                     Name = Path.GetFileNameWithoutExtension(shortcutPath),
                     ExecutablePath = shortcut.TargetPath,
@@ -65,13 +69,51 @@ namespace AdminLauncher.AppWPF.Utility
             }
             catch
             {
-                return new ProgramItem
+                return new InstalledProgram
                 {
                     Name = Path.GetFileNameWithoutExtension(shortcutPath),
                     ExecutablePath = null,
                     Arguments = null
                 };
             }
+        }
+    }
+    public class InstalledProgram : INotifyPropertyChanged
+    {
+        public string Name { get; set; }
+        public string ExecutablePath { get; set; }
+        public string Arguments { get; set; }
+
+        private bool isSelected;
+
+        public bool IsSelected
+        {
+            get => isSelected;
+            set
+            {
+                isSelected = value;
+                OnPropertyChanged(nameof(IsSelected));
+            }
+        }
+
+        public BitmapSource GetIcon()
+        {
+            if (System.IO.File.Exists(ExecutablePath))
+            {
+                Icon icon = Icon.ExtractAssociatedIcon(ExecutablePath);
+                return Imaging.CreateBitmapSourceFromHIcon(
+                    icon.Handle,
+                    System.Windows.Int32Rect.Empty,
+                    BitmapSizeOptions.FromEmptyOptions());
+            }
+
+            return null;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

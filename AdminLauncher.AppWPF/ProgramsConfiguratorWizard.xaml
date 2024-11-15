@@ -1,0 +1,44 @@
+﻿<Window x:Class="AdminLauncher.AppWPF.ProgramsConfiguratorWizard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Program List" Height="450" Width="800">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- TextBox -->
+            <RowDefinition Height="*"/>
+            <!-- ListBox -->
+            <RowDefinition Height="Auto"/>
+            <!-- Button -->
+        </Grid.RowDefinitions>
+
+        <!-- TextBox for filter/search -->
+        <TextBox x:Name="SearchBox" Margin="5" VerticalAlignment="Top" 
+                  TextChanged="SearchBox_TextChanged"/>
+
+        <!-- ListBox for program list -->
+        <ListBox x:Name="ProgramListBox" Grid.Row="1" ItemsSource="{Binding FilteredProgramList}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <!-- Checkbox -->
+                        <CheckBox IsChecked="{Binding IsChecked}" Margin="5" VerticalAlignment="Center"/>
+
+                        <!-- Icon -->
+                        <Image Width="32" Height="32" Source="{Binding Icon}" Margin="5"/>
+
+                        <!-- Program Name -->
+                        <TextBlock Text="{Binding Program.Name}" VerticalAlignment="Center" Margin="5"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <!-- Button to process selected programs -->
+        <Button Content="Process Selected" Grid.Row="2" HorizontalAlignment="Right" 
+                Margin="5" Width="150" Click="ProcessSelectedPrograms"/>
+    </Grid>
+</Window>
