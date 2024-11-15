@@ -10,12 +10,14 @@ using System.Windows.Forms;
 using System.Windows.Navigation;
 using TabControl = System.Windows.Controls.TabControl;
 using ControlzEx.Theming;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 namespace AdminLauncher.AppWPF
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         private Manager manager = new();
         private ButtonsGenerator buttonGenerator;
