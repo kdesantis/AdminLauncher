@@ -11,15 +11,15 @@
 
 ## System Requirements 💻
 
-- **Windows 7** or higher
-- **Priviledges of administration**
+- **Windows 7** or higher 🪟
+- **Priviledges of administration** 🔏
 
 ## Installation 🛠️
 
 1. Download the latest release of AdminLauncher from the [releases page](https://github.com/kdesantis/AdminLauncher/releases).
 2. Run the installer, nothing simpler😊
 
-- Read UserGuide [HERE](UserGuide.md) if you need help.
+- **Read UserGuide [HERE](UserGuide.md) if you need help.**
 
 ## License 📜
 
