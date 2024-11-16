@@ -264,14 +264,23 @@ namespace AdminLauncher.AppWPF
 
         private void LaunchWizard_Click(object sender, RoutedEventArgs e)
         {
-            // Crea un'istanza della nuova finestra
-            ProgramsConfiguratorWizard secondWindow = new();
+            ProgramsConfiguratorWizard secondWindow = new(manager.programManager.Programs, manager.settingsManager.Theme);
 
-            // Mostra la finestra come non modale
-            secondWindow.ShowDialog();
-
-            // (Opzionale) Se desideri che la finestra principale rimanga inattiva finché la nuova finestra non è chiusa, usa:
-            // secondWindow.ShowDialog();
+            var result = secondWindow.ShowDialog();
+            if (result == true)
+            {
+                List<ProgramItem> selectedPrograms = secondWindow.SelectedProgram;
+                foreach (var program in selectedPrograms)
+                {
+                    if(!manager.programManager.Programs.Any(e => e.ExecutablePath == program.ExecutablePath && e.Arguments == program.Arguments))
+                    {
+                        program.Index = manager.programManager.CurrIndex;
+                        manager.programManager.AddProgram(program);
+                    }
+                    manager.Save();
+                    buttonGenerator.GenerateButtons();
+                }
+            }
         }
     }
 }

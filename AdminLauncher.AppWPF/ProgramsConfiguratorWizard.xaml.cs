@@ -1,5 +1,6 @@
 ﻿using AdminLauncher.AppWPF.Utility;
 using AdminLauncher.BusinessLibrary;
+using ControlzEx.Theming;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
@@ -25,9 +26,11 @@ namespace AdminLauncher.AppWPF
     {
         public ObservableCollection<ProgramItemForListbox> ProgramList { get; set; }
         public ObservableCollection<ProgramItemForListbox> FilteredProgramList { get; set; }
-        public ProgramsConfiguratorWizard()
+        public List<ProgramItem> SelectedProgram { get; private set; }
+        public ProgramsConfiguratorWizard(List<ProgramItem> currentProgramList, string theme)
         {
             InitializeComponent();
+            ThemeManager.Current.ChangeTheme(this, theme);
             DataContext = this;
 
             // Recupera i programmi installati e crea la lista di ProgramItemForListbox
@@ -36,7 +39,7 @@ namespace AdminLauncher.AppWPF
                 ProgramsInstalled.Select(p => new ProgramItemForListbox
                 {
                     Program = p,
-                    IsChecked = false
+                    IsChecked = currentProgramList.Any(e => e.ExecutablePath == p.ExecutablePath && e.Arguments == p.Arguments)
                 })
             );
             ProgramList = new ObservableCollection<ProgramItemForListbox>(ProgramList);
@@ -45,13 +48,10 @@ namespace AdminLauncher.AppWPF
         private void ProcessSelectedPrograms(object sender, RoutedEventArgs e)
         {
             // Filtra i programmi selezionati
-            var selectedPrograms = FilteredProgramList.Where(p => p.IsChecked).Select(p => p.Program).ToList();
+            SelectedProgram = FilteredProgramList.Where(p => p.IsChecked).Select(p => p.Program).ToList();
 
-            // Esegui la logica con la lista selezionata
-            foreach (var program in selectedPrograms)
-            {
-                int i = 0;
-            }
+            DialogResult = true;
+            Close();
         }
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {

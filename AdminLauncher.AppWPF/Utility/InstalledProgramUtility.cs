@@ -18,7 +18,7 @@ namespace AdminLauncher.AppWPF.Utility
         public static List<ProgramItem> GetInstalledProgram()
         {
             return GetProgramsFromStartMenu()
-                .Select(e => new ProgramItem() { Name = e.Name, Arguments = e.Arguments, ExecutablePath = e.ExecutablePath }).ToList();
+                .Select(e => new ProgramItem() { Name = e.Name, Arguments = e.Arguments, ExecutablePath = e.ExecutablePath }).OrderBy(e=> e.Name).ToList();
         }
 
         private static List<InstalledProgram> GetProgramsFromStartMenu()
