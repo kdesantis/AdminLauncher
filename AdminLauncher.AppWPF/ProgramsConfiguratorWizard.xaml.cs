@@ -33,7 +33,7 @@ namespace AdminLauncher.AppWPF
             ThemeManager.Current.ChangeTheme(this, theme);
             DataContext = this;
 
-            // Recupera i programmi installati e crea la lista di ProgramItemForListbox
+            // Retrieves the installed programs and creates the ProgramItemForListbox list
             var ProgramsInstalled = Utility.InstalledProgramUtility.GetInstalledProgram();
             ProgramList = new ObservableCollection<ProgramItemForListbox>(
                 ProgramsInstalled.Select(p => new ProgramItemForListbox
@@ -47,7 +47,7 @@ namespace AdminLauncher.AppWPF
         }
         private void ProcessSelectedPrograms(object sender, RoutedEventArgs e)
         {
-            // Filtra i programmi selezionati
+            // Filter selected programs
             SelectedProgram = FilteredProgramList.Where(p => p.IsChecked).Select(p => p.Program).ToList();
 
             DialogResult = true;
@@ -57,7 +57,7 @@ namespace AdminLauncher.AppWPF
         {
             string filterText = SearchBox.Text.ToLower();
 
-            // Aggiorna la lista filtrata
+            // Update filtered list
             FilteredProgramList.Clear();
             foreach (var program in ProgramList)
             {

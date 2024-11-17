@@ -5,28 +5,30 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Program List" Height="450" Width="800">
+        Topmost="True"
+        Title="Installed Programs List" Height="450" Width="800">
     <Grid Margin="10">
         <Grid.RowDefinitions>
+            <!-- Label -->
             <RowDefinition Height="Auto"/>
+            <!-- TextBox -->
             <RowDefinition Height="Auto"/>
-            <!-- Per la Label -->
+            <!-- ListBox -->
             <RowDefinition Height="*" />
-            <!-- Per la TextBox e ListBox -->
+            <!-- Button -->
             <RowDefinition Height="Auto"/>
-            <!-- Per il Button -->
         </Grid.RowDefinitions>
 
-       
 
-        <!-- TextBox per la ricerca -->
+
+        <!-- Textbox for search -->
         <TextBox x:Name="SearchBox" Grid.Row="1" Margin="5" VerticalAlignment="Top" 
          TextChanged="SearchBox_TextChanged" 
          ToolTip="Enter a program name to filter the list"/>
-        <!-- Label posizionata nella prima riga -->
+        <!-- Label with instruction -->
         <Label Content="Select the programmes you want to import into Home" 
         Grid.Row="0" Margin="5"/>
-        <!-- ListBox per la lista dei programmi -->
+        <!-- Listbox with installed programs -->
         <ListBox x:Name="ProgramListBox" Grid.Row="2" ItemsSource="{Binding FilteredProgramList}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -34,17 +36,17 @@
                         <!-- Checkbox -->
                         <CheckBox IsChecked="{Binding IsChecked}" Margin="5" VerticalAlignment="Center"/>
 
-                        <!-- Icona -->
+                        <!-- Icon -->
                         <Image Width="32" Height="32" Source="{Binding Icon}" Margin="5"/>
 
-                        <!-- Nome del programma -->
+                        <!-- Program name -->
                         <TextBlock Text="{Binding Program.Name}" VerticalAlignment="Center" Margin="5"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <!-- Bottone per processare i programmi selezionati -->
+        <!-- Button import -->
         <Button Content="Import to Home" Grid.Row="3" HorizontalAlignment="Right" 
             Margin="5" Width="150" Click="ProcessSelectedPrograms"/>
     </Grid>

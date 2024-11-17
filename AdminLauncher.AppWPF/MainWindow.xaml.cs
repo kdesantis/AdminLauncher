@@ -278,7 +278,7 @@ namespace AdminLauncher.AppWPF
                         manager.programManager.AddProgram(program);
                     }
                     manager.Save();
-                    buttonGenerator.GenerateButtons();
+                    ReloadPrograms();
                 }
             }
         }
