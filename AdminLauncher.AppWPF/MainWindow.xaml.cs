@@ -69,6 +69,12 @@ namespace AdminLauncher.AppWPF
             InterfaceControl.UpdateVersionText(updateInformation, this);
 
             InterfaceControl.LoadButtonsOrienationComboBox(this, manager);
+
+            if (manager.programManager.Programs.Count < 1) 
+            {
+                LaunchWizard_Click(sender, e);
+            }
+
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

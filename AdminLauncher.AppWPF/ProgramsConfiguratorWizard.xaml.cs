@@ -48,7 +48,7 @@ namespace AdminLauncher.AppWPF
         private void ProcessSelectedPrograms(object sender, RoutedEventArgs e)
         {
             // Filter selected programs
-            SelectedProgram = FilteredProgramList.Where(p => p.IsChecked).Select(p => p.Program).ToList();
+            SelectedProgram = ProgramList.Where(p => p.IsChecked).Select(p => p.Program).ToList();
 
             DialogResult = true;
             Close();
