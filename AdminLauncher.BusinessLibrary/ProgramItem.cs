@@ -33,7 +33,7 @@ namespace AdminLauncher.BusinessLibrary
             var iconPath = Path.Combine(directoryPath, $"{Index}-{Path.GetFileName(ExecutablePath)}.ico");
 
             //Generic icon for script
-            if (new List<string>() { ".vbs", ".cmd", ".bat", "ps1" }.Contains(Path.GetExtension(ExecutablePath).ToLower()))
+            if (new List<string>() { ".vbs", ".cmd", ".bat", ".ps1" }.Contains(Path.GetExtension(ExecutablePath).ToLower()))
             {
                 iconPath = Path.Combine(directoryPath, $"99999-genericPromptIcon.png");
                 if (!File.Exists(iconPath))
@@ -43,20 +43,30 @@ namespace AdminLauncher.BusinessLibrary
             if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);
 
-            if (File.Exists(ExecutablePath))
+            //Add this to avoid crashes in the event of an inability to recover
+            try
             {
-                if (File.Exists(iconPath) && new FileInfo(iconPath).Length > 0)
-                    return iconPath;
-                using var s = File.Create(iconPath);
-                IconExtractor.Extract1stIconTo(ExecutablePath, s);
-                bool valid = s.Length > 0;
-                if (!valid)
+                if (File.Exists(ExecutablePath))
                 {
-                    s.Close();
-                    File.Copy(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocket.ico"), iconPath, true);
+                    if (File.Exists(iconPath) && new FileInfo(iconPath).Length > 0)
+                        return iconPath;
+                    using var s = File.Create(iconPath);
+                    IconExtractor.Extract1stIconTo(ExecutablePath, s);
+                    bool valid = s.Length > 0;
+                    if (!valid)
+                    {
+                        s.Close();
+                        File.Copy(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocket.ico"), iconPath, true);
+                    }
+                    return iconPath;
                 }
+            }
+            catch (Exception)
+            {
+                File.Copy(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocket.ico"), iconPath, true);
                 return iconPath;
             }
+
             return null;
         }
 

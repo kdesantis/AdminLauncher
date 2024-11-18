@@ -46,7 +46,15 @@ namespace AdminLauncher.AppWPF.Utility
 
                 foreach (var program in programManager.Programs.OrderBy(e => e.Name).OrderByDescending(e => e.IsFavorite).ToList())
                 {
-                    var image = IconUtility.GetImageIcon(program.GetIconPath());
+                    Image image;
+                    try
+                    {
+                        image = IconUtility.GetImageIcon(program.GetIconPath());
+                    }
+                    catch (Exception)
+                    {
+                        image = IconUtility.GetImageIcon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocket.ico"));
+                    }
                     contextMenu.Items.Add(program.Name, image, (sender, e) => program.Launch());
                 }
             }

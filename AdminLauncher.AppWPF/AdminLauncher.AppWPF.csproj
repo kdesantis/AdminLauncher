@@ -41,6 +41,9 @@
     <Content Include="favorite.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Reference Include="Interop.IWshRuntimeLibrary">
+      <HintPath>..\AdminLauncher.BusinessLibrary\obj\Debug\net8.0\Interop.IWshRuntimeLibrary.dll</HintPath>
+    </Reference>
     <Resource Include="Resources\kofi_symbol.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

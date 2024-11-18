@@ -261,5 +261,26 @@ namespace AdminLauncher.AppWPF
                 manager.Save();
             }
         }
+
+        private void LaunchWizard_Click(object sender, RoutedEventArgs e)
+        {
+            ProgramsConfiguratorWizard secondWindow = new(manager.programManager.Programs, manager.settingsManager.Theme);
+
+            var result = secondWindow.ShowDialog();
+            if (result == true)
+            {
+                List<ProgramItem> selectedPrograms = secondWindow.SelectedProgram;
+                foreach (var program in selectedPrograms)
+                {
+                    if(!manager.programManager.Programs.Any(e => e.ExecutablePath == program.ExecutablePath && e.Arguments == program.Arguments))
+                    {
+                        program.Index = manager.programManager.CurrIndex;
+                        manager.programManager.AddProgram(program);
+                    }
+                    manager.Save();
+                    ReloadPrograms();
+                }
+            }
+        }
     }
 }

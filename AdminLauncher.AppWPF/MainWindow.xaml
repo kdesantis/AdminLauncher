@@ -20,6 +20,7 @@
         </Grid.RowDefinitions>
         <Menu VerticalAlignment="Top" Grid.Row="0">
             <MenuItem Header="Quick Run" Click="QuickRun_Click"/>
+            <MenuItem Header="Programs Wizard" Click="LaunchWizard_Click"/>
             <MenuItem Click="KoFi_Click">
                 <MenuItem.Icon>
                     <Image Source="pack://application:,,,/Resources/kofi_symbol.png" Width="16" Height="16"/>
