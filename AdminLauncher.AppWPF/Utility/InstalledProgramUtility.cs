@@ -14,11 +14,11 @@ namespace AdminLauncher.AppWPF.Utility
 {
     public class InstalledProgramUtility
     {
-
+        private static List<string> EXECUTABLEEXTENSION = new() { ".exe", ".cmd", ".bat", ".vbs", ".msc", ".msi", ".ps1" };
         public static List<ProgramItem> GetInstalledProgram()
         {
             return GetProgramsFromStartMenu()
-                .Select(e => new ProgramItem() { Name = e.Name, Arguments = e.Arguments, ExecutablePath = e.ExecutablePath }).OrderBy(e=> e.Name).ToList();
+                .Select(e => new ProgramItem() { Name = e.Name, Arguments = e.Arguments, ExecutablePath = e.ExecutablePath }).OrderBy(e => e.Name).ToList();
         }
 
         private static List<InstalledProgram> GetProgramsFromStartMenu()
@@ -43,7 +43,9 @@ namespace AdminLauncher.AppWPF.Utility
                     {
                         var shortcutDetails = GetShortcutDetails(shortcut);
 
-                        if (!string.IsNullOrEmpty(shortcutDetails.ExecutablePath) && System.IO.File.Exists(shortcutDetails.ExecutablePath))
+                        if (!string.IsNullOrEmpty(shortcutDetails.ExecutablePath)
+                            && System.IO.File.Exists(shortcutDetails.ExecutablePath)
+                            && EXECUTABLEEXTENSION.Contains(Path.GetExtension(shortcutDetails.ExecutablePath).ToLower()))
                         {
                             programs.Add(shortcutDetails);
                         }

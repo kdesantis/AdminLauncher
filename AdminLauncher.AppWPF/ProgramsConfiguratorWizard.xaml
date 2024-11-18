@@ -6,7 +6,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Topmost="True"
-        Title="Installed Programs List" Height="450" Width="800">
+        Title="Installed Programs List" Height="450" Width="800"
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="NoResize">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <!-- Label -->
