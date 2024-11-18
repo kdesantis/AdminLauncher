@@ -269,12 +269,16 @@ namespace AdminLauncher.AppWPF
 
         private void LaunchWizard_Click(object sender, RoutedEventArgs e)
         {
-            ProgramsConfiguratorWizard secondWindow = new(manager.programManager.Programs, manager.settingsManager.Theme);
-
-            var result = secondWindow.ShowDialog();
+            ProgramsConfiguratorWizard wizardWindow = new(manager.programManager.Programs, manager.settingsManager.Theme);
+            double mainLeft = this.Left;
+            double mainTop = this.Top;
+            double mainWidth = this.Width;
+            wizardWindow.Left = mainLeft - wizardWindow.Width; ;
+            wizardWindow.Top = mainTop;
+            var result = wizardWindow.ShowDialog();
             if (result == true)
             {
-                List<ProgramItem> selectedPrograms = secondWindow.SelectedProgram;
+                List<ProgramItem> selectedPrograms = wizardWindow.SelectedProgram;
                 foreach (var program in selectedPrograms)
                 {
                     if(!manager.programManager.Programs.Any(e => e.ExecutablePath == program.ExecutablePath && e.Arguments == program.Arguments))
