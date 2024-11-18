@@ -248,16 +248,15 @@ namespace AdminLauncher.AppWPF
         }
         private void ThemeBaseSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ThemeBaseSelector.SelectedItem != null && ColorsSelector.SelectedItem != null)
-            {
-                var theme = $"{ThemeBaseSelector.SelectedItem.ToString()}.{ColorsSelector.SelectedItem.ToString()}";
-                InterfaceControl.SetTheme(this, theme);
-                manager.settingsManager.Theme = theme;
-                manager.Save();
-            }
+            SelectTheme();
         }
 
         private void ColorsSelectorOnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectTheme();
+        }
+
+        private void SelectTheme()
         {
             if (ThemeBaseSelector.SelectedItem != null && ColorsSelector.SelectedItem != null)
             {
