@@ -1,0 +1,5 @@
+{
+  "Version": "1.2",
+  "Url": "https://github.com/kdesantis/AdminLauncher/releases/tag/1.2",
+  "ReleaseNotes": "-Replaced panel with TabControl\n-Modernized the interface and added themes\n-Minor Fix"
+}
