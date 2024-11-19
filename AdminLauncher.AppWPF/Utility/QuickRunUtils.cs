@@ -10,8 +10,10 @@ namespace AdminLauncher.AppWPF.Utility
 {
     public static class QuickRunUtils
     {
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         public static void LaunchQuickRun(string initialPath)
         {
+            logger.Info("Start QuickRun");
             var filePath = DialogUtility.ShowOpenFileDialog(initialPath);
             if (filePath is not null)
             {

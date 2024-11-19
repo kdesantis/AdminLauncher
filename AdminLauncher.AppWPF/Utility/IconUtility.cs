@@ -8,6 +8,7 @@ namespace AdminLauncher.AppWPF.Utility
 {
     public static class IconUtility
     {
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         /// <summary>
         /// Restores the BitMapImage version of the icon to the indexed path
         /// </summary>
@@ -15,6 +16,7 @@ namespace AdminLauncher.AppWPF.Utility
         /// <returns></returns>
         public static BitmapImage GetBitmapImageIcon(string iconPath)
         {
+            logger.Info($"start GetBitmapImageIcon");
             try
             {
                 BitmapImage bitmap = new();
@@ -27,8 +29,9 @@ namespace AdminLauncher.AppWPF.Utility
                 }
                 return bitmap;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Warn(ex,"path{iconPath}",iconPath);
                 return GetBitmapImageIcon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocket.ico"));
             }
             return null;

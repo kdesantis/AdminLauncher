@@ -5,8 +5,10 @@ namespace AdminLauncher.BusinessLibrary
     public class PersistenceManager
     {
         private readonly string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "AdminLauncherPrograms.json");
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         public void SaveData(Manager Manager)
         {
+            logger.Info($"Save manager into the file. Manager contains: programs{Manager.programManager.Programs.Count};routine{Manager.programManager.Routines.Count}");
             if (File.Exists(path))
                 File.Delete(path);
             File.WriteAllText(path, JsonSerializer.Serialize(Manager));

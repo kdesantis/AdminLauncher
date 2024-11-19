@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <PackageReference Include="IconExtractor" Version="1.0.1" />
+    <PackageReference Include="NLog" Version="5.3.4" />
   </ItemGroup>
 
   <ItemGroup>

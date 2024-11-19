@@ -12,6 +12,7 @@ using TabControl = System.Windows.Controls.TabControl;
 using ControlzEx.Theming;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using NLog;
 namespace AdminLauncher.AppWPF
 {
     /// <summary>
@@ -24,10 +25,12 @@ namespace AdminLauncher.AppWPF
         public NotifyIconUtility notifyIconUtility;
         public bool firstClosure = true;
         private static Mutex _mutex;
-
         public bool UIOperation = true;
+
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         public MainWindow()
         {
+            logger.Info("start application");
             InitializeComponent();
 #if DEBUG
 #else

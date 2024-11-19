@@ -1,13 +1,17 @@
-﻿namespace AdminLauncher.BusinessLibrary
+﻿using NLog;
+
+namespace AdminLauncher.BusinessLibrary
 {
     public class ProgramManager : ICloneable
     {
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         public List<ProgramItem> Programs { get; set; } = [];
         public List<RoutineItem> Routines { get; set; } = [];
         public int CurrIndex { get; set; }
 
         public void AddProgram(ProgramItem program)
         {
+            logger.Info("Add program {program.Name}", program.Name);
             int index;
             var existProgram = Programs.FirstOrDefault(p => p.Index == program.Index);
             if (existProgram != null)
@@ -20,6 +24,7 @@
                 program.Index = CurrIndex;
                 CurrIndex++;
             }
+            logger.Info("Added program {program.Index}.{program.Name}", program.Index, program.Name);
             Programs.Add(program);
         }
         public void RemoveProgram(ProgramItem program)

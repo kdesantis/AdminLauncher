@@ -1,4 +1,5 @@
 ﻿using AdminLauncher.BusinessLibrary;
+using NLog;
 using System.IO;
 using System.Threading;
 using System.Windows;
@@ -9,6 +10,7 @@ namespace AdminLauncher.AppWPF.Utility
 {
     public class NotifyIconUtility
     {
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private MainWindow window;
         private Manager manager;
         public NotifyIcon AppNotifyIcon { get; set; }
@@ -51,8 +53,9 @@ namespace AdminLauncher.AppWPF.Utility
                     {
                         image = IconUtility.GetImageIcon(program.GetIconPath());
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Warn(ex, "CurrentProgram:{program.Index}.{program.Name}", program.Index, program.Name);
                         image = IconUtility.GetImageIcon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocket.ico"));
                     }
                     contextMenu.Items.Add(program.Name, image, (sender, e) => program.Launch());

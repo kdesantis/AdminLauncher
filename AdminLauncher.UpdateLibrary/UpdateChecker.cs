@@ -1,14 +1,17 @@
-﻿using System.Text.Json;
+﻿using NLog;
+using System.Text.Json;
 namespace AdminLauncher.UpdateLibrary
 {
     public class UpdateChecker(string pasteBinUrl)
     {
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly string PastebinUrl = pasteBinUrl;
         public ReleaseInformation? UpdateInformation { get; set; }
         public string? Error { get; set; }
 
         public async Task<bool> CheckForUpdatesAsync(Version currentVersion)
         {
+            logger.Info("start CheckForUpdatesAsync");
             bool result = false;
             try
             {
@@ -20,6 +23,7 @@ namespace AdminLauncher.UpdateLibrary
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 Error = ex.Message;
             }
             return result;

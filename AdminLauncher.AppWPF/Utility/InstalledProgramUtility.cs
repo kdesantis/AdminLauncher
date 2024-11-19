@@ -1,5 +1,6 @@
 ﻿using AdminLauncher.BusinessLibrary;
 using IWshRuntimeLibrary;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +15,7 @@ namespace AdminLauncher.AppWPF.Utility
 {
     public class InstalledProgramUtility
     {
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private static List<string> EXECUTABLEEXTENSION = new() { ".exe", ".cmd", ".bat", ".vbs", ".msc", ".msi", ".ps1" };
         public static List<ProgramItem> GetInstalledProgram()
         {
@@ -69,8 +71,9 @@ namespace AdminLauncher.AppWPF.Utility
                     Arguments = shortcut.Arguments
                 };
             }
-            catch
+            catch (Exception ex)
             {
+                logger.Error(ex, "shortcutPath:{shortcutPath}", shortcutPath);
                 return new InstalledProgram
                 {
                     Name = Path.GetFileNameWithoutExtension(shortcutPath),
