@@ -30,7 +30,6 @@ namespace AdminLauncher.AppWPF
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         public MainWindow()
         {
-            logger.Info("start application");
             InitializeComponent();
 #if DEBUG
 #else
@@ -73,7 +72,7 @@ namespace AdminLauncher.AppWPF
 
             InterfaceControl.LoadButtonsOrienationComboBox(this, manager);
 
-            if (manager.programManager.Programs.Count < 1) 
+            if (manager.programManager.Programs.Count < 1)
             {
                 LaunchWizard_Click(sender, e);
             }
@@ -215,10 +214,10 @@ namespace AdminLauncher.AppWPF
             manager.settingsManager.ButtonsOrientation = (OrientationsButtonEnum)ButtonsOrientationCombobox.SelectedItem;
             ReloadPrograms();
             manager.Save();
-            
+
             MosaicPreviewStackPanel.Visibility = Visibility.Collapsed;
             VerticalPreviewStackPanel.Visibility = Visibility.Collapsed;
-            if(manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Mosaic)
+            if (manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Mosaic)
                 MosaicPreviewStackPanel.Visibility = Visibility.Visible;
             else if (manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Vertical)
                 VerticalPreviewStackPanel.Visibility = Visibility.Visible;
@@ -284,7 +283,7 @@ namespace AdminLauncher.AppWPF
                 List<ProgramItem> selectedPrograms = wizardWindow.SelectedProgram;
                 foreach (var program in selectedPrograms)
                 {
-                    if(!manager.programManager.Programs.Any(e => e.ExecutablePath == program.ExecutablePath && e.Arguments == program.Arguments))
+                    if (!manager.programManager.Programs.Any(e => e.ExecutablePath == program.ExecutablePath && e.Arguments == program.Arguments))
                     {
                         program.Index = manager.programManager.CurrIndex;
                         manager.programManager.AddProgram(program);
