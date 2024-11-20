@@ -1,5 +1,5 @@
 {
   "Version": "1.3",
   "Url": "https://github.com/kdesantis/AdminLauncher/releases/tag/1.3",
-  "ReleaseNotes": "-Added wizard setup\n-Log error into a file\n-Bypassed all error when exe icon retrival crash\n-Implemented MahApps.Metro.Dialogs"
+  "ReleaseNotes": "-Added wizard setup\n-Log error into a file\n-Bypassed all error when exe icon retrival crash\n-Replaced MessageBox with MahApps.Metro.Dialogs"
 }
