@@ -40,7 +40,7 @@ namespace AdminLauncher.AppWPF
         private async void StartOperation(object sender, RoutedEventArgs e)
         {
             CurrentDialogUtility = new(this);
-#if (DEBUG)
+#if !(DEBUG)
             CheckExistsOtherSession();
             IconUtility.DeleteTempIcon();
 #endif
