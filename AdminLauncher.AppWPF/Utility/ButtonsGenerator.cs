@@ -55,9 +55,9 @@ namespace AdminLauncher.AppWPF.Utility
             return contextMenu;
         }
 
-        protected void OnDeleteClicked(GenericItem item)
+        protected async void OnDeleteClicked(GenericItem item)
         {
-            if (DialogUtility.ConfirmDeletion(item.Name))
+            if (await Window.CurrentDialogUtility.ConfirmDeletionAsync(item.Name))
             {
                 RemoveItem(item);
                 Manager.Save();

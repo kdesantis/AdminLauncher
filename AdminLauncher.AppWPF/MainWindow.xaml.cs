@@ -26,19 +26,27 @@ namespace AdminLauncher.AppWPF
         public bool firstClosure = true;
         private static Mutex _mutex;
         public bool UIOperation = true;
-
+        public DialogUtility CurrentDialogUtility;
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         public MainWindow()
         {
             InitializeComponent();
-#if DEBUG
-#else
+        }
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            StartOperation(sender, e);
+        }
+
+        private async void StartOperation(object sender, RoutedEventArgs e)
+        {
+            CurrentDialogUtility = new(this);
+#if !(DEBUG)
             CheckExistsOtherSession();
             IconUtility.DeleteTempIcon();
 #endif
             InterfaceControl.PositionWindowInBottomRight(this);
             if (!manager.Load())
-                DialogUtility.LoadFailure();
+                CurrentDialogUtility.LoadFailure();
 
             InterfaceControl.PopolateThemeCombo(this, manager.settingsManager.Theme);
 
@@ -50,7 +58,17 @@ namespace AdminLauncher.AppWPF
             ProgramIndexLabel.Visibility = Visibility.Visible;
             RoutineIndexLabel.Visibility = Visibility.Visible;
 #endif
+            var updateInformation = await UpdateUtility.CheckUpdateAsync(false, CurrentDialogUtility);
+            InterfaceControl.UpdateVersionText(updateInformation, this);
+
+            InterfaceControl.LoadButtonsOrienationComboBox(this, manager);
+
+            if (manager.programManager.Programs.Count < 1)
+            {
+                LaunchWizard_Click(sender, e);
+            }
         }
+
         private void CheckExistsOtherSession()
         {
             const string appUniqueName = "AdminLauncher";
@@ -61,22 +79,10 @@ namespace AdminLauncher.AppWPF
             if (!isNewInstance)
             {
                 firstClosure = false;
-                DialogUtility.MultipleSessionOfApplication();
-                System.Windows.Application.Current.Shutdown();
+                CurrentDialogUtility.MultipleSessionOfApplication();
+                Environment.Exit(0);
+                //System.Windows.Application.Current.Shutdown();
             }
-        }
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            var updateInformation = await UpdateUtility.CheckUpdateAsync(false);
-            InterfaceControl.UpdateVersionText(updateInformation, this);
-
-            InterfaceControl.LoadButtonsOrienationComboBox(this, manager);
-
-            if (manager.programManager.Programs.Count < 1)
-            {
-                LaunchWizard_Click(sender, e);
-            }
-
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -91,8 +97,8 @@ namespace AdminLauncher.AppWPF
         }
         private void Window_Closed(object sender, EventArgs e)
         {
-            if (_mutex is not null)
-                _mutex?.ReleaseMutex();
+            _mutex?.ReleaseMutex();
+            _mutex = null;
         }
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -125,7 +131,7 @@ namespace AdminLauncher.AppWPF
 
         private async void CheckUpdateHyperLinl_Click(object sender, RoutedEventArgs e)
         {
-            var updateInformation = await UpdateUtility.CheckUpdateAsync(true);
+            var updateInformation = await UpdateUtility.CheckUpdateAsync(true, CurrentDialogUtility);
             InterfaceControl.UpdateVersionText(updateInformation, this);
         }
         private void Home_Click(object sender, RoutedEventArgs e) =>
@@ -142,7 +148,7 @@ namespace AdminLauncher.AppWPF
         }
         public void QuickRun_Click(object sender, RoutedEventArgs e)
         {
-            QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath);
+            QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath, CurrentDialogUtility);
         }
         public void ReloadPrograms()
         {
