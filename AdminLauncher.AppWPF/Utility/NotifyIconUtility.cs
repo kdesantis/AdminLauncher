@@ -80,6 +80,6 @@ namespace AdminLauncher.AppWPF.Utility
             Application.Current.Shutdown();
         }
         private void OnQuickRunClick(object sender, EventArgs e) =>
-            QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath);
+            QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath, window.CurrentDialogUtility);
     }
 }
