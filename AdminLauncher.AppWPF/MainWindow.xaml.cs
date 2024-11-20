@@ -39,12 +39,11 @@ namespace AdminLauncher.AppWPF
 
         private async void StartOperation(object sender, RoutedEventArgs e)
         {
-#if DEBUG
-#else
+            CurrentDialogUtility = new(this);
+#if (DEBUG)
             CheckExistsOtherSession();
             IconUtility.DeleteTempIcon();
 #endif
-            CurrentDialogUtility = new(this);
             InterfaceControl.PositionWindowInBottomRight(this);
             if (!manager.Load())
                 CurrentDialogUtility.LoadFailure();
@@ -81,7 +80,8 @@ namespace AdminLauncher.AppWPF
             {
                 firstClosure = false;
                 CurrentDialogUtility.MultipleSessionOfApplication();
-                System.Windows.Application.Current.Shutdown();
+                Environment.Exit(0);
+                //System.Windows.Application.Current.Shutdown();
             }
         }
 
@@ -97,8 +97,8 @@ namespace AdminLauncher.AppWPF
         }
         private void Window_Closed(object sender, EventArgs e)
         {
-            if (_mutex is not null)
-                _mutex?.ReleaseMutex();
+            _mutex?.ReleaseMutex();
+            _mutex = null;
         }
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

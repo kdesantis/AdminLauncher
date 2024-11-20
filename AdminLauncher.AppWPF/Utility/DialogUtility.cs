@@ -5,14 +5,14 @@ using Microsoft.Win32;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using MessageBox = System.Windows.MessageBox;
+
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace AdminLauncher.AppWPF.Utility
 {
     public class DialogUtility
     {
-        private MainWindow MainWindow = new();
+        private MainWindow MainWindow;
         public DialogUtility(MainWindow mainWindow)
         {
             this.MainWindow = mainWindow;
@@ -26,8 +26,7 @@ namespace AdminLauncher.AppWPF.Utility
             if (launchResult.LaunchState != LaunchStateEnum.Success)
             {
                 var message = $"Error in launching {launchResult.GenericItem.Name}: {launchResult.Message}";
-                //MessageBox.Show(message, "Launch Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                 MainWindow.ShowMessageAsync("Launch Error", message);
+                MainWindow.ShowMessageAsync("Launch Error", message, MessageDialogStyle.Affirmative);
             }
         }
         /// <summary>
@@ -37,8 +36,7 @@ namespace AdminLauncher.AppWPF.Utility
         public async void NotifyUserForUpdate(ReleaseInformation update)
         {
             var message = $"A new version ({update.Version}) is available. Do you want to download it?\n\nRelease note:\n{update.ReleaseNotes}";
-            //var result = MessageBox.Show(message, "Update available", MessageBoxButton.YesNo, MessageBoxImage.Information);
-            var result = await MainWindow.ShowMessageAsync("Update available", message, MessageDialogStyle.AffirmativeAndNegative);
+            var result = await MainWindow.ShowMessageAsync("Update available", message, MessageDialogStyle.AffirmativeAndNegative, GetYesNoMetroDialogSettings());
             if (result == MessageDialogResult.Affirmative)
             {
                 Process.Start(new ProcessStartInfo
@@ -54,8 +52,7 @@ namespace AdminLauncher.AppWPF.Utility
         public void ErrorToSearchUpdate()
         {
             var message = $"Error in searching for updates";
-            //MessageBox.Show(message, "Update Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            MainWindow.ShowMessageAsync("Update Error", message);
+            MainWindow.ShowMessageAsync("Update Error", message, MessageDialogStyle.Affirmative);
         }
         /// <summary>
         /// Alerts the user to the absence of available updates
@@ -63,8 +60,7 @@ namespace AdminLauncher.AppWPF.Utility
         public void UpdateNotAvailable()
         {
             var message = $"No update available. This version is the most recent";
-            //MessageBox.Show(message, "Check Update", MessageBoxButton.OK, MessageBoxImage.Information);
-            MainWindow.ShowMessageAsync("Check Update", message, MessageDialogStyle.Affirmative, GetMetroDialogSettingsError());
+            MainWindow.ShowMessageAsync("Check Update", message, MessageDialogStyle.Affirmative);
         }
         /// <summary>
         /// Launches a dialog box for selecting an executable. If selected it returns the path to the selected file, otherwise null
@@ -95,20 +91,12 @@ namespace AdminLauncher.AppWPF.Utility
         public void LoadFailure()
         {
             var message = $"Attention, the data upload has failed! The application will be reinitialized and the saved data will be lost on the next save";
-            MessageBox.Show(message, "Loading Failure", MessageBoxButton.OK, MessageBoxImage.Warning);
             MainWindow.ShowMessageAsync("Loading Failure", message, MessageDialogStyle.Affirmative);
         }
         public async Task<bool> ConfirmDeletionAsync(string itemName)
         {
-            //MessageBoxResult result = MessageBox.Show(
-            //    $"Are you sure you want to delete {itemName}?",
-            //    "Confirm Deletion",
-            //    MessageBoxButton.YesNo,
-            //    MessageBoxImage.Warning
-            //);
-            var result = await MainWindow.ShowMessageAsync("Confirm Deletion", $"Are you sure you want to delete {itemName}?", MessageDialogStyle.AffirmativeAndNegative);
+            var result = await MainWindow.ShowMessageAsync("Confirm Deletion", $"Are you sure you want to delete {itemName}?", MessageDialogStyle.AffirmativeAndNegative, GetYesNoMetroDialogSettings());
             return result == MessageDialogResult.Affirmative;
-            //return result == MessageBoxResult.Yes;
 
         }
 
@@ -122,20 +110,17 @@ namespace AdminLauncher.AppWPF.Utility
         }
         public void MultipleSessionOfApplication()
         {
-            //MessageBox.Show("Another instance of this application is already running. " +
-            //    "You can open it by double-clicking on the icon in the taskbar. " +
-            //    "This session will be closed.", "Non-unique session", MessageBoxButton.OK, MessageBoxImage.Warning);
-
-            MainWindow.ShowMessageAsync("Non-unique session", "Another instance of this application is already running. " +
+            MainWindow.ShowModalMessageExternal("Non-unique session", "Another instance of this application is already running. " +
                 "You can open it by double-clicking on the icon in the taskbar. " +
-                "This session will be closed.");
+                "This session will be closed.", MessageDialogStyle.Affirmative);
         }
 
-        private MetroDialogSettings GetMetroDialogSettingsError()
+        private MetroDialogSettings GetYesNoMetroDialogSettings()
         {
             var settings = new MetroDialogSettings()
             {
-                AnimateShow = true,
+                AffirmativeButtonText = "Yes",
+                NegativeButtonText = "No",
             };
             return settings;
         }
