@@ -62,7 +62,7 @@ namespace AdminLauncher.BusinessLibrary
                     bool valid = s.Length > 0;
                     if (!valid)
                     {
-                        logger.Error("icon extracted is invalid, use rocket.ico");
+                        logger.Error("icon extracted for {ExecutablePath} is invalid, use rocket.ico", ExecutablePath);
                         s.Close();
                         File.Copy(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocket.ico"), iconPath, true);
                     }
