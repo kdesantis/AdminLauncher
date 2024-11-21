@@ -13,7 +13,7 @@ namespace AdminLauncher.BusinessLibrary
             PersistenceManager persistenceManager = new();
             persistenceManager.SaveData(this);
         }
-        public bool Load()
+        public bool Load(out string backupPath)
         {
             logger.Info("Load Manager from file");
             bool succes = true;
@@ -22,9 +22,11 @@ namespace AdminLauncher.BusinessLibrary
                 var savedManager = new PersistenceManager().LoadData();
                 programManager = (ProgramManager)savedManager.programManager.Clone();
                 settingsManager = (SettingsManager)savedManager.settingsManager.Clone();
+                backupPath = null;
             }
             catch (Exception ex)
             {
+                backupPath = new PersistenceManager().CreateBackupManager();
                 logger.Error(ex);
                 //Ignore configuration File
                 succes = false;

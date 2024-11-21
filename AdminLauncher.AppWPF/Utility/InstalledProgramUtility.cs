@@ -65,9 +65,7 @@ namespace AdminLauncher.AppWPF.Utility
                         if (!string.IsNullOrEmpty(shortcutDetails.ExecutablePath)
                             && System.IO.File.Exists(shortcutDetails.ExecutablePath)
                             && EXECUTABLEEXTENSION.Contains(Path.GetExtension(shortcutDetails.ExecutablePath).ToLower()))
-                        {
                             programs.Add(shortcutDetails);
-                        }
                     }
                 }
             }

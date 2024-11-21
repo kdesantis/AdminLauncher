@@ -21,5 +21,16 @@ namespace AdminLauncher.BusinessLibrary
             var x = JsonSerializer.Deserialize<Manager>(jsonText);
             return x;
         }
+        public string CreateBackupManager()
+        {
+            string directoryPathBackup = Path.Combine(Path.GetDirectoryName(path), "AdminLauncherBackup");
+            if (!Directory.Exists(directoryPathBackup))
+                Directory.CreateDirectory(directoryPathBackup);
+            var now = DateTime.Now;
+            string fileNameBackup = Path.Combine(directoryPathBackup, $"BACKUP-{now.Year}-{now.Month}-{now.Day}T{now.Hour}-{now.Minute}-{now.Second}-AdminLauncherPrograms.json");
+
+            File.Copy(path, fileNameBackup);
+            return fileNameBackup;
+        }
     }
 }

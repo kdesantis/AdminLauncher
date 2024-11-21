@@ -88,9 +88,10 @@ namespace AdminLauncher.AppWPF.Utility
             return null;
         }
 
-        public void LoadFailure()
+        public void LoadFailure(string backupPath)
         {
-            var message = $"Attention, the data upload has failed! The application will be reinitialized and the saved data will be lost on the next save";
+            var message = $"Attention, the data upload has failed! The application will be reinitialized and the saved data will be lost on the next save\n" +
+                $"You will find a backup of previous file at path \"{backupPath}\"";
             MainWindow.ShowMessageAsync("Loading Failure", message, MessageDialogStyle.Affirmative);
         }
         public async Task<bool> ConfirmDeletionAsync(string itemName)

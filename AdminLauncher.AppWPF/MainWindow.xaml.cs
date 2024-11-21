@@ -45,8 +45,12 @@ namespace AdminLauncher.AppWPF
             IconUtility.DeleteTempIcon();
 #endif
             InterfaceControl.PositionWindowInBottomRight(this);
-            if (!manager.Load())
-                CurrentDialogUtility.LoadFailure();
+            string backupPath;
+            if (!manager.Load(out backupPath))
+            {
+                CurrentDialogUtility.LoadFailure(backupPath);
+
+            }
 
             InterfaceControl.PopolateThemeCombo(this, manager.settingsManager.Theme);
 
