@@ -27,11 +27,28 @@ namespace AdminLauncher.AppWPF.Utility
         {
             List<InstalledProgram> programs = new List<InstalledProgram>();
 
-            string[] startMenuPaths = new string[]
+            List<string> startMenuPaths = new()
             {
-            Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu),
-            Environment.GetFolderPath(Environment.SpecialFolder.StartMenu)
+                Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu),
             };
+            string currentUserProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
+            string usersFolderPath = Directory.GetParent(currentUserProfile).FullName;
+
+            string[] userDirectories = Directory.GetDirectories(usersFolderPath);
+            foreach (string userDir in userDirectories)
+            {
+                try
+                {
+                    string startMenuPath = Path.Combine(userDir, @"AppData\Roaming\Microsoft\Windows\Start Menu");
+                    if (Directory.Exists(startMenuPath))
+                        startMenuPaths.Add(startMenuPath);
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex, $"Error to access  in the directory {userDir}");
+                }
+            }
 
             foreach (var startMenuPath in startMenuPaths)
             {
@@ -54,7 +71,7 @@ namespace AdminLauncher.AppWPF.Utility
                     }
                 }
             }
-            return programs;
+            return programs.GroupBy(e => e.Name).Select(e => e.First()).ToList();
         }
 
         private static InstalledProgram GetShortcutDetails(string shortcutPath)
