@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Admin Launcher"
-#define MyAppVersion "1.2"
+#define MyAppVersion "1.3"
 #define MyAppPublisher "De Santis Kevin"
 #define MyAppURL "https://github.com/kdesantis/AdminLauncher/"
 #define MyAppExeName "AdminLauncher.AppWPF.exe"
@@ -68,6 +68,7 @@ Source: "C:\publish\favorite.png"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\hostfxr.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\hostpolicy.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\IconExtractor.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\publish\Interop.IWshRuntimeLibrary.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\list.png"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\MahApps.Metro.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\Microsoft.CSharp.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -81,12 +82,14 @@ Source: "C:\publish\Microsoft.Win32.Registry.dll"; DestDir: "{app}"; Flags: igno
 Source: "C:\publish\Microsoft.Win32.SystemEvents.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\Microsoft.Xaml.Behaviors.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\mscordaccore.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\publish\mscordaccore_amd64_amd64_8.0.1024.46610.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\publish\mscordaccore_amd64_amd64_8.0.1124.51707.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\mscordbi.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\mscorlib.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\mscorrc.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\msquic.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\netstandard.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\publish\NLog.config"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\publish\NLog.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\PenImc_cor3.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\PowerShellIcon.png"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\publish\PresentationCore.dll"; DestDir: "{app}"; Flags: ignoreversion
