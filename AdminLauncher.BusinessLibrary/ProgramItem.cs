@@ -7,6 +7,7 @@ namespace AdminLauncher.BusinessLibrary
     public class ProgramItem : GenericItem
     {
         private string executablePath;
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         public string ExecutablePath
         {
             get { return executablePath; }
@@ -29,12 +30,14 @@ namespace AdminLauncher.BusinessLibrary
         /// <returns></returns>
         public override string GetIconPath()
         {
+            logger.Info($"start GetIconPath;{Index};{Name}");
             var directoryPath = Path.Combine(Path.GetTempPath(), "AdminLauncherTempIcon");
             var iconPath = Path.Combine(directoryPath, $"{Index}-{Path.GetFileName(ExecutablePath)}.ico");
 
             //Generic icon for script
-            if (new List<string>() { ".vbs", ".cmd", ".bat", "ps1" }.Contains(Path.GetExtension(ExecutablePath).ToLower()))
+            if (new List<string>() { ".vbs", ".cmd", ".bat", ".ps1" }.Contains(Path.GetExtension(ExecutablePath).ToLower()))
             {
+                logger.Info("Executable file don't have icon; use PowerShellIcon.png icon");
                 iconPath = Path.Combine(directoryPath, $"99999-genericPromptIcon.png");
                 if (!File.Exists(iconPath))
                     File.Copy(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PowerShellIcon.png"), iconPath, true);
@@ -43,20 +46,36 @@ namespace AdminLauncher.BusinessLibrary
             if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);
 
-            if (File.Exists(ExecutablePath))
+            //Add this to avoid crashes in the event of an inability to recover
+            try
             {
-                if (File.Exists(iconPath) && new FileInfo(iconPath).Length > 0)
-                    return iconPath;
-                using var s = File.Create(iconPath);
-                IconExtractor.Extract1stIconTo(ExecutablePath, s);
-                bool valid = s.Length > 0;
-                if (!valid)
+                if (File.Exists(ExecutablePath))
                 {
-                    s.Close();
-                    File.Copy(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocket.ico"), iconPath, true);
+                    if (File.Exists(iconPath) && new FileInfo(iconPath).Length > 0)
+                    {
+                        logger.Info("exit - icon already exists");
+                        return iconPath;
+                    }
+                    logger.Info("start extract icon from exe");
+                    using var s = File.Create(iconPath);
+                    IconExtractor.Extract1stIconTo(ExecutablePath, s);
+                    bool valid = s.Length > 0;
+                    if (!valid)
+                    {
+                        logger.Error("icon extracted for {ExecutablePath} is invalid, use rocket.ico", ExecutablePath);
+                        s.Close();
+                        File.Copy(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocket.ico"), iconPath, true);
+                    }
+                    return iconPath;
                 }
+            }
+            catch (Exception ex)
+            {
+                logger.Warn(ex, "path:{iconPath}", iconPath);
+                File.Copy(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocket.ico"), iconPath, true);
                 return iconPath;
             }
+
             return null;
         }
 

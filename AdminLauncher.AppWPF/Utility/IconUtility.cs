@@ -1,4 +1,5 @@
-﻿using AdminLauncher.BusinessLibrary;
+﻿using AdminLauncher.AppWPF.Properties;
+using AdminLauncher.BusinessLibrary;
 using System.Configuration;
 using System.IO;
 using System.Windows.Media.Imaging;
@@ -7,6 +8,7 @@ namespace AdminLauncher.AppWPF.Utility
 {
     public static class IconUtility
     {
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         /// <summary>
         /// Restores the BitMapImage version of the icon to the indexed path
         /// </summary>
@@ -14,15 +16,25 @@ namespace AdminLauncher.AppWPF.Utility
         /// <returns></returns>
         public static BitmapImage GetBitmapImageIcon(string iconPath)
         {
-            BitmapImage bitmap = new();
-            if (iconPath != null)
+            logger.Info($"start GetBitmapImageIcon");
+            try
             {
-                bitmap.BeginInit();
-                bitmap.UriSource = new Uri(iconPath, UriKind.Absolute);
-                bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                bitmap.EndInit();
+                BitmapImage bitmap = new();
+                if (iconPath != null)
+                {
+                    bitmap.BeginInit();
+                    bitmap.UriSource = new Uri(iconPath, UriKind.Absolute);
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.EndInit();
+                }
+                return bitmap;
             }
-            return bitmap;
+            catch (Exception ex)
+            {
+                logger.Warn(ex,"path{iconPath}",iconPath);
+                return GetBitmapImageIcon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rocket.ico"));
+            }
+            return null;
         }
 
         public static void DeleteTempIcon()

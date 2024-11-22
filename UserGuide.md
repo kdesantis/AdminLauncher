@@ -26,7 +26,18 @@ to show it just **double click** on the icon in the task bar. To close the appli
 permanently right click on the icon in the task bar and select “Close” in the menu.
 
 ![image](https://github.com/user-attachments/assets/7f49544e-a033-4f8c-bcd6-0ebbf5cdecc2)
+# Programs Wizard
+![image](https://github.com/user-attachments/assets/d1306782-7b37-41fe-9cc3-dbed0633db36)
 
+The **Programs Wizard** function is the easiest way to **add programs** to Home.
+
+* You can access it by clicking from the **menu provided**. 
+
+* A new window will open with a list of programs installed on the **machine** and the **current user**. Programs already added to Home will already be selected. 
+
+* Select all the programs you want to add to home and click on the **Import to Home** button to add them.
+
+It is recommended that you use this feature when **first configuring**.
 # Add Program
 ![image](https://github.com/user-attachments/assets/444850c3-51d3-42b7-85f1-228bf2497cea)
 
@@ -40,6 +51,7 @@ or **paste** the path into the textbox
 * Import the program with **Favorite**.
 
 Once defined, click "**Save**"
+
 # Add Routine
 ![image](https://github.com/user-attachments/assets/801addf3-c478-4ef0-a7c5-baa71a888823)
 

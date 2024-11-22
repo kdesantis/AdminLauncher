@@ -10,20 +10,20 @@ namespace AdminLauncher.AppWPF.Utility
         /// </summary>
         /// <param name="showNegativeEsit"></param>
         /// <returns></returns>
-        public static async Task<ReleaseInformation> CheckUpdateAsync(bool showNegativeEsit)
+        public static async Task<ReleaseInformation> CheckUpdateAsync(bool showNegativeEsit, DialogUtility dialogUtility)
         {
             var currVersion = new Version(ConfigurationManager.AppSettings["CurrVersion"]);
             var updater = new UpdateChecker(ConfigurationManager.AppSettings["UrlUpdateChecker"]);
             var result = await updater.CheckForUpdatesAsync(currVersion);
             if (result)
-                DialogUtility.NotifyUserForUpdate(updater.UpdateInformation);
+                dialogUtility.NotifyUserForUpdate(updater.UpdateInformation);
             else if (updater.Error != null)
             {
-                DialogUtility.ErrorToSearchUpdate();
+                dialogUtility.ErrorToSearchUpdate();
                 return new ReleaseInformation() { Version = currVersion.ToString() };
             }
             else if (showNegativeEsit)
-                DialogUtility.UpdateNotAvailable();
+                dialogUtility.UpdateNotAvailable();
 
             return updater.UpdateInformation;
         }

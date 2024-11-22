@@ -1,11 +1,11 @@
-﻿<Window x:Class="AdminLauncher.AppWPF.MainWindow"
+﻿<mah:MetroWindow x:Class="AdminLauncher.AppWPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AdminLauncher.AppWPF"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         Title="Admin Launcher" Height="800" Width="400"
         WindowStartupLocation="Manual"
         ResizeMode="NoResize"
@@ -20,6 +20,7 @@
         </Grid.RowDefinitions>
         <Menu VerticalAlignment="Top" Grid.Row="0">
             <MenuItem Header="Quick Run" Click="QuickRun_Click"/>
+            <MenuItem Header="Programs Wizard" Click="LaunchWizard_Click"/>
             <MenuItem Click="KoFi_Click">
                 <MenuItem.Icon>
                     <Image Source="pack://application:,,,/Resources/kofi_symbol.png" Width="16" Height="16"/>
@@ -246,4 +247,4 @@
             </TabItem>
         </TabControl>
     </Grid>
-</Window>
+</mah:MetroWindow>

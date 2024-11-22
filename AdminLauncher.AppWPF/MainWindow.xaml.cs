@@ -10,31 +10,47 @@ using System.Windows.Forms;
 using System.Windows.Navigation;
 using TabControl = System.Windows.Controls.TabControl;
 using ControlzEx.Theming;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using NLog;
 namespace AdminLauncher.AppWPF
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         private Manager manager = new();
         private ButtonsGenerator buttonGenerator;
         public NotifyIconUtility notifyIconUtility;
         public bool firstClosure = true;
         private static Mutex _mutex;
-
         public bool UIOperation = true;
+        public DialogUtility CurrentDialogUtility;
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         public MainWindow()
         {
             InitializeComponent();
-#if DEBUG
-#else
+        }
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            StartOperation(sender, e);
+        }
+
+        private async void StartOperation(object sender, RoutedEventArgs e)
+        {
+            CurrentDialogUtility = new(this);
+#if !(DEBUG)
             CheckExistsOtherSession();
             IconUtility.DeleteTempIcon();
 #endif
             InterfaceControl.PositionWindowInBottomRight(this);
-            if (!manager.Load())
-                DialogUtility.LoadFailure();
+            string backupPath;
+            if (!manager.Load(out backupPath))
+            {
+                CurrentDialogUtility.LoadFailure(backupPath);
+
+            }
 
             InterfaceControl.PopolateThemeCombo(this, manager.settingsManager.Theme);
 
@@ -46,7 +62,17 @@ namespace AdminLauncher.AppWPF
             ProgramIndexLabel.Visibility = Visibility.Visible;
             RoutineIndexLabel.Visibility = Visibility.Visible;
 #endif
+            var updateInformation = await UpdateUtility.CheckUpdateAsync(false, CurrentDialogUtility);
+            InterfaceControl.UpdateVersionText(updateInformation, this);
+
+            InterfaceControl.LoadButtonsOrienationComboBox(this, manager);
+
+            if (manager.programManager.Programs.Count < 1)
+            {
+                LaunchWizard_Click(sender, e);
+            }
         }
+
         private void CheckExistsOtherSession()
         {
             const string appUniqueName = "AdminLauncher";
@@ -57,16 +83,10 @@ namespace AdminLauncher.AppWPF
             if (!isNewInstance)
             {
                 firstClosure = false;
-                DialogUtility.MultipleSessionOfApplication();
-                System.Windows.Application.Current.Shutdown();
+                CurrentDialogUtility.MultipleSessionOfApplication();
+                Environment.Exit(0);
+                //System.Windows.Application.Current.Shutdown();
             }
-        }
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            var updateInformation = await UpdateUtility.CheckUpdateAsync(false);
-            InterfaceControl.UpdateVersionText(updateInformation, this);
-
-            InterfaceControl.LoadButtonsOrienationComboBox(this, manager);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -81,8 +101,8 @@ namespace AdminLauncher.AppWPF
         }
         private void Window_Closed(object sender, EventArgs e)
         {
-            if (_mutex is not null)
-                _mutex?.ReleaseMutex();
+            _mutex?.ReleaseMutex();
+            _mutex = null;
         }
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -115,7 +135,7 @@ namespace AdminLauncher.AppWPF
 
         private async void CheckUpdateHyperLinl_Click(object sender, RoutedEventArgs e)
         {
-            var updateInformation = await UpdateUtility.CheckUpdateAsync(true);
+            var updateInformation = await UpdateUtility.CheckUpdateAsync(true, CurrentDialogUtility);
             InterfaceControl.UpdateVersionText(updateInformation, this);
         }
         private void Home_Click(object sender, RoutedEventArgs e) =>
@@ -132,7 +152,7 @@ namespace AdminLauncher.AppWPF
         }
         public void QuickRun_Click(object sender, RoutedEventArgs e)
         {
-            QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath);
+            QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath, CurrentDialogUtility);
         }
         public void ReloadPrograms()
         {
@@ -204,10 +224,10 @@ namespace AdminLauncher.AppWPF
             manager.settingsManager.ButtonsOrientation = (OrientationsButtonEnum)ButtonsOrientationCombobox.SelectedItem;
             ReloadPrograms();
             manager.Save();
-            
+
             MosaicPreviewStackPanel.Visibility = Visibility.Collapsed;
             VerticalPreviewStackPanel.Visibility = Visibility.Collapsed;
-            if(manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Mosaic)
+            if (manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Mosaic)
                 MosaicPreviewStackPanel.Visibility = Visibility.Visible;
             else if (manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Vertical)
                 VerticalPreviewStackPanel.Visibility = Visibility.Visible;
@@ -240,6 +260,16 @@ namespace AdminLauncher.AppWPF
         }
         private void ThemeBaseSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            SelectTheme();
+        }
+
+        private void ColorsSelectorOnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectTheme();
+        }
+
+        private void SelectTheme()
+        {
             if (ThemeBaseSelector.SelectedItem != null && ColorsSelector.SelectedItem != null)
             {
                 var theme = $"{ThemeBaseSelector.SelectedItem.ToString()}.{ColorsSelector.SelectedItem.ToString()}";
@@ -249,14 +279,28 @@ namespace AdminLauncher.AppWPF
             }
         }
 
-        private void ColorsSelectorOnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void LaunchWizard_Click(object sender, RoutedEventArgs e)
         {
-            if (ThemeBaseSelector.SelectedItem != null && ColorsSelector.SelectedItem != null)
+            ProgramsConfiguratorWizard wizardWindow = new(manager.programManager.Programs, manager.settingsManager.Theme);
+            double mainLeft = this.Left;
+            double mainTop = this.Top;
+            double mainWidth = this.Width;
+            wizardWindow.Left = mainLeft - wizardWindow.Width; ;
+            wizardWindow.Top = mainTop;
+            var result = wizardWindow.ShowDialog();
+            if (result == true)
             {
-                var theme = $"{ThemeBaseSelector.SelectedItem.ToString()}.{ColorsSelector.SelectedItem.ToString()}";
-                InterfaceControl.SetTheme(this, theme);
-                manager.settingsManager.Theme = theme;
-                manager.Save();
+                List<ProgramItem> selectedPrograms = wizardWindow.SelectedProgram;
+                foreach (var program in selectedPrograms)
+                {
+                    if (!manager.programManager.Programs.Any(e => e.ExecutablePath == program.ExecutablePath && e.Arguments == program.Arguments))
+                    {
+                        program.Index = manager.programManager.CurrIndex;
+                        manager.programManager.AddProgram(program);
+                    }
+                    manager.Save();
+                    ReloadPrograms();
+                }
             }
         }
     }
