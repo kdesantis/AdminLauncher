@@ -285,7 +285,13 @@ namespace AdminLauncher.AppWPF
             double mainLeft = this.Left;
             double mainTop = this.Top;
             double mainWidth = this.Width;
-            wizardWindow.Left = mainLeft - wizardWindow.Width; ;
+
+            double workAreaWidth = SystemParameters.WorkArea.Width;
+
+            wizardWindow.Left = mainLeft - wizardWindow.Width;
+            if (workAreaWidth < mainWidth + wizardWindow.Width)
+                wizardWindow.Left = 0;
+
             wizardWindow.Top = mainTop;
             var result = wizardWindow.ShowDialog();
             if (result == true)
