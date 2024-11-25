@@ -44,7 +44,7 @@ namespace AdminLauncher.AppWPF
             CheckExistsOtherSession();
             IconUtility.DeleteTempIcon();
 #endif
-            InterfaceControl.PositionWindowInBottomRight(this);
+            InterfaceControl.SetDimensionPositionWindow(this);
             string backupPath;
             if (!manager.Load(out backupPath))
             {
