@@ -13,15 +13,10 @@ namespace AdminLauncher.AppWPF.Utility
         /// Set the position of MainWindows to the bottom right, above the program bar
         /// </summary>
         /// <param name="mainWindow"></param>
-        public static void SetDimensionPositionWindow(MainWindow mainWindow)
+        public static void PositionWindowInBottomRight(MainWindow mainWindow)
         {
             double workAreaHeight = SystemParameters.WorkArea.Height;
             double workAreaWidth = SystemParameters.WorkArea.Width;
-
-            if (workAreaWidth < mainWindow.Width)
-                mainWindow.Width = workAreaWidth;
-            if (workAreaHeight < mainWindow.Height)
-                mainWindow.Height = workAreaHeight;
 
             mainWindow.Left = workAreaWidth - mainWindow.Width;
             mainWindow.Top = workAreaHeight - mainWindow.Height;
