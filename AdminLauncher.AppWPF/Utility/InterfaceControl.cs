@@ -18,6 +18,7 @@ namespace AdminLauncher.AppWPF.Utility
             double workAreaHeight = SystemParameters.WorkArea.Height;
             double workAreaWidth = SystemParameters.WorkArea.Width;
 
+
             if (workAreaWidth < mainWindow.Width)
                 mainWindow.Width = workAreaWidth;
             if (workAreaHeight < mainWindow.Height)

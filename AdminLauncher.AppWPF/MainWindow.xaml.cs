@@ -49,7 +49,6 @@ namespace AdminLauncher.AppWPF
             if (!manager.Load(out backupPath))
             {
                 CurrentDialogUtility.LoadFailure(backupPath);
-
             }
 
             InterfaceControl.PopolateThemeCombo(this, manager.settingsManager.Theme);
