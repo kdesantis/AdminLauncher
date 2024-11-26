@@ -30,15 +30,6 @@ namespace AdminLauncher.AppWPF
         public ProgramsConfiguratorWizard(List<ProgramItem> currentProgramList, string theme)
         {
             InitializeComponent();
-
-            double workAreaHeight = SystemParameters.WorkArea.Height;
-            double workAreaWidth = SystemParameters.WorkArea.Width;
-
-            if (workAreaWidth < this.Width)
-                this.Width = workAreaWidth;
-            if (workAreaHeight < this.Height)
-                this.Height = workAreaHeight;
-
             ThemeManager.Current.ChangeTheme(this, theme);
             DataContext = this;
 
