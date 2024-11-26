@@ -44,7 +44,7 @@ namespace AdminLauncher.AppWPF
             CheckExistsOtherSession();
             IconUtility.DeleteTempIcon();
 #endif
-            InterfaceControl.SetDimensionPositionWindow(this);
+            InterfaceControl.PositionWindowInBottomRight(this);
             string backupPath;
             if (!manager.Load(out backupPath))
             {
@@ -284,13 +284,7 @@ namespace AdminLauncher.AppWPF
             double mainLeft = this.Left;
             double mainTop = this.Top;
             double mainWidth = this.Width;
-
-            double workAreaWidth = SystemParameters.WorkArea.Width;
-
-            wizardWindow.Left = mainLeft - wizardWindow.Width;
-            if (workAreaWidth < mainWidth + wizardWindow.Width)
-                wizardWindow.Left = 0;
-
+            wizardWindow.Left = mainLeft - wizardWindow.Width; ;
             wizardWindow.Top = mainTop;
             var result = wizardWindow.ShowDialog();
             if (result == true)
