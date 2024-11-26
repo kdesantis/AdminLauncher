@@ -56,7 +56,6 @@ namespace AdminLauncher.AppWPF
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             string filterText = SearchBox.Text.ToLower();
-
             // Update filtered list
             FilteredProgramList.Clear();
             foreach (var program in ProgramList)
