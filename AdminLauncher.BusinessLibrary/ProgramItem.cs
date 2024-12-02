@@ -6,12 +6,12 @@ namespace AdminLauncher.BusinessLibrary
 {
     public class ProgramItem : GenericItem
     {
-        private string executablePath;
+        private string _executablePath;
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         public string ExecutablePath
         {
-            get { return executablePath; }
-            set { executablePath = GetValidPath(value); }
+            get { return _executablePath; }
+            set { GetValidPath(value); }
         }
 
         public string? Arguments { get; set; }
@@ -79,18 +79,42 @@ namespace AdminLauncher.BusinessLibrary
             return null;
         }
 
-        private static string GetValidPath(string path)
+        private void GetValidPath(string path)
         {
             path = path.Replace("\"", string.Empty);
             if (Path.GetExtension(path).Equals(".lnk", StringComparison.CurrentCultureIgnoreCase))
-                path = ResolveShortcut(path);
-            return path;
+                ResolveShortcut(path);
+            else
+                _executablePath = path;
         }
-        private static string ResolveShortcut(string shortcutPath)
+        private void ResolveShortcut(string shortcutPath)
         {
             var shell = new WshShell();
             IWshShortcut link = (IWshShortcut)shell.CreateShortcut(shortcutPath);
-            return link.TargetPath;
+
+            var executablePath = link.TargetPath;
+            var arguments = link.Arguments;
+
+            string currentUserProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            string usersFolderPath = Directory.GetParent(currentUserProfile).FullName;
+            var UsersDirectorys = new List<string>(Directory.GetDirectories(usersFolderPath));
+
+            var shortcutUserNameDirectory = UsersDirectorys.FirstOrDefault(e => shortcutPath.Contains(e));
+            var executableUserNameDirectory = UsersDirectorys.FirstOrDefault(e => link.TargetPath.Contains(e));
+
+
+            // Correct TargetPath with correct user
+            if (!Path.Exists(executablePath) &&
+                !string.IsNullOrEmpty(shortcutUserNameDirectory) &&
+                !string.IsNullOrEmpty(executableUserNameDirectory) &&
+                shortcutUserNameDirectory != executableUserNameDirectory)
+            {
+                logger.Debug($"{executablePath} replaced with {executablePath.Replace(executableUserNameDirectory, shortcutUserNameDirectory)}");
+                executablePath = executablePath.Replace(executableUserNameDirectory, shortcutUserNameDirectory);
+            }
+
+            _executablePath = executablePath;
+            Arguments = arguments;
         }
     }
 }
