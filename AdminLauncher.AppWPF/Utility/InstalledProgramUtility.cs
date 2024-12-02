@@ -15,15 +15,24 @@ namespace AdminLauncher.AppWPF.Utility
 {
     public class InstalledProgramUtility
     {
-        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
-        private static List<string> EXECUTABLEEXTENSION = new() { ".exe", ".cmd", ".bat", ".vbs", ".msc", ".msi", ".ps1" };
-        public static List<ProgramItem> GetInstalledProgram()
+        private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private List<string> EXECUTABLEEXTENSION = new() { ".exe", ".cmd", ".bat", ".vbs", ".msc", ".msi", ".ps1" };
+        private List<string> UsersDirectorys;
+
+        public InstalledProgramUtility()
+        {
+            string currentUserProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            string usersFolderPath = Directory.GetParent(currentUserProfile).FullName;
+            UsersDirectorys = new List<string>(Directory.GetDirectories(usersFolderPath));
+        }
+
+        public List<ProgramItem> GetInstalledProgram()
         {
             return GetProgramsFromStartMenu()
                 .Select(e => new ProgramItem() { Name = e.Name, Arguments = e.Arguments, ExecutablePath = e.ExecutablePath }).OrderBy(e => e.Name).ToList();
         }
 
-        private static List<InstalledProgram> GetProgramsFromStartMenu()
+        private List<InstalledProgram> GetProgramsFromStartMenu()
         {
             List<InstalledProgram> programs = new List<InstalledProgram>();
 
@@ -31,12 +40,7 @@ namespace AdminLauncher.AppWPF.Utility
             {
                 Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu),
             };
-            string currentUserProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-
-            string usersFolderPath = Directory.GetParent(currentUserProfile).FullName;
-
-            string[] userDirectories = Directory.GetDirectories(usersFolderPath);
-            foreach (string userDir in userDirectories)
+            foreach (string userDir in UsersDirectorys)
             {
                 try
                 {
@@ -46,7 +50,7 @@ namespace AdminLauncher.AppWPF.Utility
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex, $"Error to access  in the directory {userDir}");
+                    logger.Warn(ex, $"Error to access  in the directory {userDir}");
                 }
             }
 
@@ -61,7 +65,6 @@ namespace AdminLauncher.AppWPF.Utility
                     foreach (var shortcut in shortcuts)
                     {
                         var shortcutDetails = GetShortcutDetails(shortcut);
-
                         if (!string.IsNullOrEmpty(shortcutDetails.ExecutablePath)
                             && System.IO.File.Exists(shortcutDetails.ExecutablePath)
                             && EXECUTABLEEXTENSION.Contains(Path.GetExtension(shortcutDetails.ExecutablePath).ToLower()))
@@ -72,18 +75,34 @@ namespace AdminLauncher.AppWPF.Utility
             return programs.GroupBy(e => e.Name).Select(e => e.First()).ToList();
         }
 
-        private static InstalledProgram GetShortcutDetails(string shortcutPath)
+        private InstalledProgram GetShortcutDetails(string shortcutPath)
         {
             try
             {
                 WshShell shell = new WshShell();
                 IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutPath);
 
+                var executablePath = shortcut.TargetPath;
+                var arguments = shortcut.Arguments;
+
+                var shortcutUserNameDirectory = UsersDirectorys.FirstOrDefault(e => shortcutPath.Contains(e));
+                var executableUserNameDirectory = UsersDirectorys.FirstOrDefault(e => shortcut.TargetPath.Contains(e));
+
+                // Correct TargetPath with correct user
+                if (!Path.Exists(executablePath) &&
+                    !string.IsNullOrEmpty(shortcutUserNameDirectory) &&
+                    !string.IsNullOrEmpty(executableUserNameDirectory) &&
+                    shortcutUserNameDirectory != executableUserNameDirectory)
+                {
+                    logger.Debug($"{executablePath} replaced with {executablePath.Replace(executableUserNameDirectory, shortcutUserNameDirectory)}");
+                    executablePath = executablePath.Replace(executableUserNameDirectory, shortcutUserNameDirectory);
+                }
+
                 return new InstalledProgram
                 {
                     Name = Path.GetFileNameWithoutExtension(shortcutPath),
-                    ExecutablePath = shortcut.TargetPath,
-                    Arguments = shortcut.Arguments
+                    ExecutablePath = executablePath,
+                    Arguments = arguments
                 };
             }
             catch (Exception ex)

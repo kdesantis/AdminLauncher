@@ -34,7 +34,7 @@ namespace AdminLauncher.AppWPF
             DataContext = this;
 
             // Retrieves the installed programs and creates the ProgramItemForListbox list
-            var ProgramsInstalled = InstalledProgramUtility.GetInstalledProgram();
+            var ProgramsInstalled = new InstalledProgramUtility().GetInstalledProgram();
             ProgramList = new ObservableCollection<ProgramItemForListbox>(
                 ProgramsInstalled.Select(p => new ProgramItemForListbox
                 {
