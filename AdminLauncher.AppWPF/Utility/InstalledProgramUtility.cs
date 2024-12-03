@@ -15,15 +15,23 @@ namespace AdminLauncher.AppWPF.Utility
 {
     public class InstalledProgramUtility
     {
-        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
-        private static List<string> EXECUTABLEEXTENSION = new() { ".exe", ".cmd", ".bat", ".vbs", ".msc", ".msi", ".ps1" };
-        public static List<ProgramItem> GetInstalledProgram()
+        private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private List<string> UsersDirectorys;
+
+        public InstalledProgramUtility()
         {
-            return GetProgramsFromStartMenu()
-                .Select(e => new ProgramItem() { Name = e.Name, Arguments = e.Arguments, ExecutablePath = e.ExecutablePath }).OrderBy(e => e.Name).ToList();
+            string currentUserProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            string usersFolderPath = Directory.GetParent(currentUserProfile).FullName;
+            UsersDirectorys = new List<string>(Directory.GetDirectories(usersFolderPath));
         }
 
-        private static List<InstalledProgram> GetProgramsFromStartMenu()
+        public List<ProgramItem> GetInstalledProgram()
+        {
+            return GetProgramsFromStartMenu()
+                .Select(e => e.ProgramItem).OrderBy(e => e.Name).ToList();
+        }
+
+        private List<InstalledProgram> GetProgramsFromStartMenu()
         {
             List<InstalledProgram> programs = new List<InstalledProgram>();
 
@@ -31,12 +39,7 @@ namespace AdminLauncher.AppWPF.Utility
             {
                 Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu),
             };
-            string currentUserProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-
-            string usersFolderPath = Directory.GetParent(currentUserProfile).FullName;
-
-            string[] userDirectories = Directory.GetDirectories(usersFolderPath);
-            foreach (string userDir in userDirectories)
+            foreach (string userDir in UsersDirectorys)
             {
                 try
                 {
@@ -46,7 +49,7 @@ namespace AdminLauncher.AppWPF.Utility
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex, $"Error to access  in the directory {userDir}");
+                    logger.Warn(ex, $"Error to access  in the directory {userDir}");
                 }
             }
 
@@ -60,49 +63,23 @@ namespace AdminLauncher.AppWPF.Utility
 
                     foreach (var shortcut in shortcuts)
                     {
-                        var shortcutDetails = GetShortcutDetails(shortcut);
-
-                        if (!string.IsNullOrEmpty(shortcutDetails.ExecutablePath)
-                            && System.IO.File.Exists(shortcutDetails.ExecutablePath)
-                            && EXECUTABLEEXTENSION.Contains(Path.GetExtension(shortcutDetails.ExecutablePath).ToLower()))
-                            programs.Add(shortcutDetails);
+                        programs.Add(new InstalledProgram
+                        {
+                            ProgramItem = new()
+                            {
+                                Name = Path.GetFileNameWithoutExtension(shortcut),
+                                ExecutablePath = shortcut
+                            }
+                        });
                     }
                 }
             }
-            return programs.GroupBy(e => e.Name).Select(e => e.First()).ToList();
-        }
-
-        private static InstalledProgram GetShortcutDetails(string shortcutPath)
-        {
-            try
-            {
-                WshShell shell = new WshShell();
-                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutPath);
-
-                return new InstalledProgram
-                {
-                    Name = Path.GetFileNameWithoutExtension(shortcutPath),
-                    ExecutablePath = shortcut.TargetPath,
-                    Arguments = shortcut.Arguments
-                };
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex, "shortcutPath:{shortcutPath}", shortcutPath);
-                return new InstalledProgram
-                {
-                    Name = Path.GetFileNameWithoutExtension(shortcutPath),
-                    ExecutablePath = null,
-                    Arguments = null
-                };
-            }
+            return programs.GroupBy(e => e.ProgramItem.Name).Select(e => e.First()).ToList();
         }
     }
     public class InstalledProgram : INotifyPropertyChanged
     {
-        public string Name { get; set; }
-        public string ExecutablePath { get; set; }
-        public string Arguments { get; set; }
+        public ProgramItem ProgramItem { get; set; }
 
         private bool isSelected;
 
@@ -115,21 +92,6 @@ namespace AdminLauncher.AppWPF.Utility
                 OnPropertyChanged(nameof(IsSelected));
             }
         }
-
-        public BitmapSource GetIcon()
-        {
-            if (System.IO.File.Exists(ExecutablePath))
-            {
-                Icon icon = Icon.ExtractAssociatedIcon(ExecutablePath);
-                return Imaging.CreateBitmapSourceFromHIcon(
-                    icon.Handle,
-                    System.Windows.Int32Rect.Empty,
-                    BitmapSizeOptions.FromEmptyOptions());
-            }
-
-            return null;
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
         {

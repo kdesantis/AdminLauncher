@@ -18,6 +18,11 @@ namespace AdminLauncher.AppWPF.Utility
             double workAreaHeight = SystemParameters.WorkArea.Height;
             double workAreaWidth = SystemParameters.WorkArea.Width;
 
+            if (workAreaWidth < mainWindow.Width)
+                mainWindow.Width = workAreaWidth;
+            if (workAreaHeight < mainWindow.Height)
+                mainWindow.Height = workAreaHeight;
+          
             mainWindow.Left = workAreaWidth - mainWindow.Width;
             mainWindow.Top = workAreaHeight - mainWindow.Height;
         }
@@ -119,8 +124,9 @@ namespace AdminLauncher.AppWPF.Utility
 
         public static void PopolateThemeCombo(MainWindow mainWindow, string theme)
         {
-            mainWindow.ThemeBaseSelector.ItemsSource = ConfigurationManager.AppSettings["BaseTheme"].Split(",").ToList().OrderBy(e => e);
-            mainWindow.ColorsSelector.ItemsSource = ConfigurationManager.AppSettings["ColorsTheme"].Split(",").ToList().OrderBy(e => e);
+            mainWindow.ThemeBaseSelector.ItemsSource = ThemeManager.Current.Themes.Select(e => e.BaseColorScheme).OrderBy(e => e).Distinct().ToList();
+            mainWindow.ColorsSelector.ItemsSource = ThemeManager.Current.Themes.Select(e => e.ColorScheme).OrderBy(e => e).Distinct().ToList();
+
             if (theme != null)
             {
                 SetTheme(mainWindow, theme);

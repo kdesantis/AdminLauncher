@@ -34,7 +34,7 @@ namespace AdminLauncher.AppWPF
             DataContext = this;
 
             // Retrieves the installed programs and creates the ProgramItemForListbox list
-            var ProgramsInstalled = InstalledProgramUtility.GetInstalledProgram();
+            var ProgramsInstalled = new InstalledProgramUtility().GetInstalledProgram();
             ProgramList = new ObservableCollection<ProgramItemForListbox>(
                 ProgramsInstalled.Select(p => new ProgramItemForListbox
                 {
@@ -56,7 +56,6 @@ namespace AdminLauncher.AppWPF
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             string filterText = SearchBox.Text.ToLower();
-
             // Update filtered list
             FilteredProgramList.Clear();
             foreach (var program in ProgramList)
