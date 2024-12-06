@@ -79,6 +79,23 @@ namespace AdminLauncher.AppWPF.Utility
                 return openFileDialog.FileName;
             return null;
         }
+        /// <summary>
+        /// Launches a dialog box for selecting an custom icon. If selected it returns the path to the selected file, otherwise null
+        /// </summary>
+        /// <returns></returns>
+        public static string ShowOpenFileDialogForIcon(string initialPath)
+        {
+            OpenFileDialog openFileDialog = new()
+            {
+                Filter = "Icons(*.ico,*.png)|*.ico;*.png",
+                AddToRecent = true
+            };
+            if (Directory.Exists(initialPath))
+                openFileDialog.InitialDirectory = initialPath;
+            if (openFileDialog.ShowDialog() == true)
+                return openFileDialog.FileName;
+            return null;
+        }
 
         public static string ShowOpenFolderDialog()
         {

@@ -31,6 +31,15 @@ namespace AdminLauncher.BusinessLibrary
         public override string GetIconPath()
         {
             logger.Info($"start GetIconPath;{Index};{Name}");
+
+            if (!string.IsNullOrEmpty(CustomIconPath))
+            {
+                if (File.Exists(CustomIconPath))
+                    return CustomIconPath;
+                else
+                    logger.Error($"ProgramItem {Name}: file {CustomIconPath} not exist");
+            }
+
             var directoryPath = Path.Combine(Path.GetTempPath(), "AdminLauncherTempIcon");
             var iconPath = Path.Combine(directoryPath, $"{Index}-{Path.GetFileName(ExecutablePath)}.ico");
 

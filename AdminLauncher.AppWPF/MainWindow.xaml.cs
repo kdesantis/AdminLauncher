@@ -166,6 +166,7 @@ namespace AdminLauncher.AppWPF
             {
                 Index = Int32.Parse(RoutineIndexLabel.Content.ToString()),
                 Name = RoutineNameTextBox.Text,
+                CustomIconPath = RoutineIconPathTextBox.Text.Replace("\"", ""),
                 Programs = []
             };
 
@@ -193,6 +194,24 @@ namespace AdminLauncher.AppWPF
                     ProgramNameTextBox.Text = Path.GetFileNameWithoutExtension(filePath);
             }
         }
+        private void BrowseProgramIconButton_Click(object sender, RoutedEventArgs e)
+        {
+            var initialPath = !string.IsNullOrEmpty(ProgramIconPathTextBox.Text) ? Path.GetDirectoryName(ProgramIconPathTextBox.Text) : manager.settingsManager.InitialFileDialogPath;
+            var filePath = DialogUtility.ShowOpenFileDialogForIcon(initialPath);
+            if (filePath is not null)
+            {
+                ProgramIconPathTextBox.Text = filePath;
+            }
+        }
+        private void BrowseRoutineIconButton_Click(object sender, RoutedEventArgs e)
+        {
+            var initialPath = !string.IsNullOrEmpty(RoutineIconPathTextBox.Text) ? Path.GetDirectoryName(RoutineIconPathTextBox.Text) : manager.settingsManager.InitialFileDialogPath;
+            var filePath = DialogUtility.ShowOpenFileDialogForIcon(initialPath);
+            if (filePath is not null)
+            {
+                RoutineIconPathTextBox.Text = filePath;
+            }
+        }
         private void SaveProgram_Click(object sender, RoutedEventArgs e)
         {
             ProgramItem newProgram = new()
@@ -201,7 +220,8 @@ namespace AdminLauncher.AppWPF
                 Name = ProgramNameTextBox.Text,
                 ExecutablePath = ProgramPathTextBox.Text,
                 Arguments = ProgramArgumentsTextBox.Text,
-                IsFavorite = FavoriteCheckBox.IsChecked == true
+                IsFavorite = FavoriteCheckBox.IsChecked == true,
+                CustomIconPath = ProgramIconPathTextBox.Text.Replace("\"", "")
             };
 
             manager.programManager.AddProgram(newProgram);

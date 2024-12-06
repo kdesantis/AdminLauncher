@@ -13,6 +13,7 @@
             set { name = string.IsNullOrEmpty(value) ? $"GenericProgram" : value; }
         }
 
+        public string CustomIconPath { get; set; }
         public abstract LaunchResult Launch();
         public abstract string GetIconPath();
 
