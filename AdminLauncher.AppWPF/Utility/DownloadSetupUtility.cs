@@ -19,6 +19,7 @@ namespace AdminLauncher.AppWPF.Utility
         private double _downloadProgress;
         private MainWindow MainWindow;
         private CancellationTokenSource _cancellationTokenSource;
+        private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         public DownloadSetupUtility(MainWindow MainWindow)
         {
             this.MainWindow = MainWindow;
@@ -76,7 +77,7 @@ namespace AdminLauncher.AppWPF.Utility
             var cancellationToken = _cancellationTokenSource.Token;
             try
             {
-                var controller = await MainWindow.ShowProgressAsync("Download in corso", "Scaricando il file, attendere...", true);
+                var controller = await MainWindow.ShowProgressAsync("Download in progress", "Downloading the file, please wait...", true);
                 controller.SetIndeterminate();
 
                 controller.Canceled += async (sender, args) =>
@@ -89,21 +90,21 @@ namespace AdminLauncher.AppWPF.Utility
                 await DownloadFileAsync(url, destinationPath, progress, cancellationToken);
 
                 await controller.CloseAsync();
-                //MessageBox.Show("Download completato.", "Successo", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = destinationPath,
                     UseShellExecute = true
                 });
+                System.Windows.Application.Current.Shutdown();
             }
             catch (OperationCanceledException)
             {
-                //await this.ShowMessageAsync("Download annullato", "Il download è stato annullato dall'utente.");
+                logger.Warn("Download cancelled by User");
             }
             catch (Exception ex)
             {
-                //MessageBox.Show($"Errore durante il download: {ex.Message}", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+                logger.Error(ex, "Error during download of setup");
             }
             finally
             {
