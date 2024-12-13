@@ -1,5 +1,5 @@
 {
   "Version": "1.5",
   "Url": "https://github.com/kdesantis/AdminLauncher/releases/tag/1.5",
-  "ReleaseNotes": "-Added the selection of custom icon for programs or routines\n-\n"
+  "ReleaseNotes": "-Added the selection of custom icon for programs or routines\n-Added setup automatic download and launch of setup of new version\n"
 }
