@@ -13,6 +13,7 @@ using ControlzEx.Theming;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using NLog;
+using AdminLauncher.UpdateLibrary;
 namespace AdminLauncher.AppWPF
 {
     /// <summary>
@@ -28,6 +29,7 @@ namespace AdminLauncher.AppWPF
         public bool UIOperation = true;
         public DialogUtility CurrentDialogUtility;
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private ReleaseInformation updateInformation;
         public MainWindow()
         {
             InitializeComponent();
@@ -61,7 +63,7 @@ namespace AdminLauncher.AppWPF
             ProgramIndexLabel.Visibility = Visibility.Visible;
             RoutineIndexLabel.Visibility = Visibility.Visible;
 #endif
-            var updateInformation = await UpdateUtility.CheckUpdateAsync(false, CurrentDialogUtility);
+            updateInformation = await UpdateUtility.CheckUpdateAsync(false, CurrentDialogUtility);
             InterfaceControl.UpdateVersionText(updateInformation, this);
 
             InterfaceControl.LoadButtonsOrienationComboBox(this, manager);
@@ -134,9 +136,14 @@ namespace AdminLauncher.AppWPF
 
         private async void CheckUpdateHyperLinl_Click(object sender, RoutedEventArgs e)
         {
-            var updateInformation = await UpdateUtility.CheckUpdateAsync(true, CurrentDialogUtility);
+            updateInformation = await UpdateUtility.CheckUpdateAsync(true, CurrentDialogUtility);
             InterfaceControl.UpdateVersionText(updateInformation, this);
         }
+        private async void UpdateHyperLinl_Click(object sender, RoutedEventArgs e)
+        {
+            new DownloadSetupUtility(this).StartDownload(updateInformation.Url);
+        }
+
         private void Home_Click(object sender, RoutedEventArgs e) =>
             InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
         private void Settings_Click(object sender, RoutedEventArgs e) =>
