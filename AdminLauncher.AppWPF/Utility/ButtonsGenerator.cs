@@ -88,6 +88,7 @@ namespace AdminLauncher.AppWPF.Utility
             Window.ProgramPathTextBox.Text = program.ExecutablePath;
             Window.ProgramArgumentsTextBox.Text = program.Arguments;
             Window.FavoriteCheckBox.IsChecked = program.IsFavorite;
+            Window.ProgramIconPathTextBox.Text = program.CustomIconPath;
         }
 
         private void EditRoutine(RoutineItem routine)
@@ -97,6 +98,7 @@ namespace AdminLauncher.AppWPF.Utility
             InterfaceControl.InterfaceLoader(InterfaceEnum.AddRoutineInterface, Window);
             Window.RoutineIndexLabel.Content = routine.Index;
             Window.RoutineNameTextBox.Text = routine.Name;
+            Window.RoutineIconPathTextBox.Text = routine.CustomIconPath;
         }
     }
 

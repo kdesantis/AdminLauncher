@@ -39,11 +39,7 @@ namespace AdminLauncher.AppWPF.Utility
             var result = await MainWindow.ShowMessageAsync("Update available", message, MessageDialogStyle.AffirmativeAndNegative, GetYesNoMetroDialogSettings());
             if (result == MessageDialogResult.Affirmative)
             {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = update.Url,
-                    UseShellExecute = true
-                });
+                new DownloadSetupUtility(MainWindow).StartDownload(update.Url);
             }
         }
         /// <summary>
@@ -71,6 +67,23 @@ namespace AdminLauncher.AppWPF.Utility
             OpenFileDialog openFileDialog = new()
             {
                 Filter = "Supported Executable Files|*.exe;*.bat;*.cmd;*.msc;*.msi;*.ps1;*.vbs|All Files (*.*)|*.*",
+                AddToRecent = true
+            };
+            if (Directory.Exists(initialPath))
+                openFileDialog.InitialDirectory = initialPath;
+            if (openFileDialog.ShowDialog() == true)
+                return openFileDialog.FileName;
+            return null;
+        }
+        /// <summary>
+        /// Launches a dialog box for selecting an custom icon. If selected it returns the path to the selected file, otherwise null
+        /// </summary>
+        /// <returns></returns>
+        public static string ShowOpenFileDialogForIcon(string initialPath)
+        {
+            OpenFileDialog openFileDialog = new()
+            {
+                Filter = "Icons(*.ico,*.png)|*.ico;*.png",
                 AddToRecent = true
             };
             if (Directory.Exists(initialPath))

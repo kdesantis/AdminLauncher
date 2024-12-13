@@ -1,8 +1,11 @@
-﻿namespace AdminLauncher.BusinessLibrary
+﻿using NLog;
+
+namespace AdminLauncher.BusinessLibrary
 {
     public class RoutineItem : GenericItem
     {
         private string name;
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         public override string Name
         {
             get { return name.EndsWith("(routine)") ? name : name + "(routine)"; }
@@ -54,6 +57,13 @@
         /// <returns></returns>
         public override string GetIconPath()
         {
+            if (!string.IsNullOrEmpty(CustomIconPath))
+            {
+                if (File.Exists(CustomIconPath))
+                    return CustomIconPath;
+                else
+                    logger.Error($"Routine {Name}: file {CustomIconPath} not exist");
+            }
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "list.png");
         }
     }

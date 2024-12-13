@@ -144,6 +144,15 @@
                         <TextBox x:Name="ProgramPathTextBox" Grid.Column="0" Margin="5"/>
                         <Button Content="Browse..." Click="BrowseButton_Click" Grid.Column="1" Margin="5"/>
                     </Grid>
+                    <Label Content="Custom Icon"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80*"/>
+                            <ColumnDefinition Width="20*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="ProgramIconPathTextBox" Grid.Column="0" Margin="5"/>
+                        <Button Content="Browse..." Click="BrowseProgramIconButton_Click" Grid.Column="1" Margin="5"/>
+                    </Grid>
                     <Label Content="Arguments"/>
                     <TextBox x:Name="ProgramArgumentsTextBox" Margin="5"/>
                     <CheckBox x:Name="FavoriteCheckBox" Content="Is Favorite" Margin="5"/>
@@ -161,6 +170,15 @@
                     <Label x:Name="RoutineIndexLabel" Visibility="Collapsed" Content="-1"/>
                     <Label Content="Routine Name"/>
                     <TextBox x:Name="RoutineNameTextBox" Margin="5"/>
+                    <Label Content="Custom Icon"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80*"/>
+                            <ColumnDefinition Width="20*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="RoutineIconPathTextBox" Grid.Column="0" Margin="5"/>
+                        <Button Content="Browse..." Click="BrowseRoutineIconButton_Click" Grid.Column="1" Margin="5"/>
+                    </Grid>
                     <Label Content="Select Programs"/>
                     <ListBox x:Name="ProgramsListBox" ItemsSource="{Binding Programs}" Margin="5" SelectionMode="Single">
                         <ListBox.ItemTemplate>
@@ -196,7 +214,7 @@
                         <TextBlock Grid.Column="0" FontSize="14"  Text="Last version: " HorizontalAlignment="Left" />
                         <TextBlock x:Name="LastVersionText" Grid.Column="1" FontSize="14"  Text="0.0.0" HorizontalAlignment="Left" Margin="0,0,10,0"/>
                         <TextBlock x:Name="UpdateLink" Grid.Column="2" FontSize="14" TextWrapping="Wrap" Visibility="Collapsed" Margin="0,0,0,10">
-                    <Hyperlink x:Name="UpdateLinkHyperLink" NavigateUri="https://github.com/kdesantis/AdminLauncher/releases" RequestNavigate="Hyperlink_RequestNavigate">Download Now!</Hyperlink>
+                    <Hyperlink x:Name="UpdateLinkHyperLink" Click="UpdateHyperLinl_Click">Download Now!</Hyperlink>
                         </TextBlock>
                         <TextBlock x:Name="CheckUpdateLink" Grid.Column="2" FontSize="12" TextWrapping="Wrap" Visibility="Collapsed" Margin="0,0,0,10">
                     <Hyperlink x:Name="CheckUpdateHyperLinl" Click="CheckUpdateHyperLinl_Click">Check Update</Hyperlink>

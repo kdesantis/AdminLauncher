@@ -33,11 +33,13 @@ namespace AdminLauncher.AppWPF.Utility
             mainWindow.ProgramPathTextBox.Clear();
             mainWindow.ProgramArgumentsTextBox.Clear();
             mainWindow.FavoriteCheckBox.IsChecked = false;
+            mainWindow.ProgramIconPathTextBox.Clear();
         }
         private static void ClearRoutineData(MainWindow mainWindow)
         {
             mainWindow.RoutineIndexLabel.Content = -1;
             mainWindow.RoutineNameTextBox.Clear();
+            mainWindow.RoutineIconPathTextBox.Clear();
 
             if (mainWindow.ProgramsListBox.ItemsSource is not null)
             {

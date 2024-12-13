@@ -13,6 +13,7 @@ using ControlzEx.Theming;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using NLog;
+using AdminLauncher.UpdateLibrary;
 namespace AdminLauncher.AppWPF
 {
     /// <summary>
@@ -28,6 +29,7 @@ namespace AdminLauncher.AppWPF
         public bool UIOperation = true;
         public DialogUtility CurrentDialogUtility;
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private ReleaseInformation updateInformation;
         public MainWindow()
         {
             InitializeComponent();
@@ -61,7 +63,7 @@ namespace AdminLauncher.AppWPF
             ProgramIndexLabel.Visibility = Visibility.Visible;
             RoutineIndexLabel.Visibility = Visibility.Visible;
 #endif
-            var updateInformation = await UpdateUtility.CheckUpdateAsync(false, CurrentDialogUtility);
+            updateInformation = await UpdateUtility.CheckUpdateAsync(false, CurrentDialogUtility);
             InterfaceControl.UpdateVersionText(updateInformation, this);
 
             InterfaceControl.LoadButtonsOrienationComboBox(this, manager);
@@ -134,9 +136,14 @@ namespace AdminLauncher.AppWPF
 
         private async void CheckUpdateHyperLinl_Click(object sender, RoutedEventArgs e)
         {
-            var updateInformation = await UpdateUtility.CheckUpdateAsync(true, CurrentDialogUtility);
+            updateInformation = await UpdateUtility.CheckUpdateAsync(true, CurrentDialogUtility);
             InterfaceControl.UpdateVersionText(updateInformation, this);
         }
+        private async void UpdateHyperLinl_Click(object sender, RoutedEventArgs e)
+        {
+            new DownloadSetupUtility(this).StartDownload(updateInformation.Url);
+        }
+
         private void Home_Click(object sender, RoutedEventArgs e) =>
             InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
         private void Settings_Click(object sender, RoutedEventArgs e) =>
@@ -166,6 +173,7 @@ namespace AdminLauncher.AppWPF
             {
                 Index = Int32.Parse(RoutineIndexLabel.Content.ToString()),
                 Name = RoutineNameTextBox.Text,
+                CustomIconPath = RoutineIconPathTextBox.Text.Replace("\"", ""),
                 Programs = []
             };
 
@@ -193,6 +201,24 @@ namespace AdminLauncher.AppWPF
                     ProgramNameTextBox.Text = Path.GetFileNameWithoutExtension(filePath);
             }
         }
+        private void BrowseProgramIconButton_Click(object sender, RoutedEventArgs e)
+        {
+            var initialPath = !string.IsNullOrEmpty(ProgramIconPathTextBox.Text) ? Path.GetDirectoryName(ProgramIconPathTextBox.Text) : manager.settingsManager.InitialFileDialogPath;
+            var filePath = DialogUtility.ShowOpenFileDialogForIcon(initialPath);
+            if (filePath is not null)
+            {
+                ProgramIconPathTextBox.Text = filePath;
+            }
+        }
+        private void BrowseRoutineIconButton_Click(object sender, RoutedEventArgs e)
+        {
+            var initialPath = !string.IsNullOrEmpty(RoutineIconPathTextBox.Text) ? Path.GetDirectoryName(RoutineIconPathTextBox.Text) : manager.settingsManager.InitialFileDialogPath;
+            var filePath = DialogUtility.ShowOpenFileDialogForIcon(initialPath);
+            if (filePath is not null)
+            {
+                RoutineIconPathTextBox.Text = filePath;
+            }
+        }
         private void SaveProgram_Click(object sender, RoutedEventArgs e)
         {
             ProgramItem newProgram = new()
@@ -201,7 +227,8 @@ namespace AdminLauncher.AppWPF
                 Name = ProgramNameTextBox.Text,
                 ExecutablePath = ProgramPathTextBox.Text,
                 Arguments = ProgramArgumentsTextBox.Text,
-                IsFavorite = FavoriteCheckBox.IsChecked == true
+                IsFavorite = FavoriteCheckBox.IsChecked == true,
+                CustomIconPath = ProgramIconPathTextBox.Text.Replace("\"", "")
             };
 
             manager.programManager.AddProgram(newProgram);
