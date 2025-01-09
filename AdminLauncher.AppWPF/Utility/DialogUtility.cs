@@ -39,7 +39,10 @@ namespace AdminLauncher.AppWPF.Utility
             var result = await MainWindow.ShowMessageAsync("Update available", message, MessageDialogStyle.AffirmativeAndNegative, GetYesNoMetroDialogSettings());
             if (result == MessageDialogResult.Affirmative)
             {
-                new DownloadSetupUtility(MainWindow).StartDownload(update.Url);
+                if (update.Type == UrlType.Installer)
+                    new DownloadSetupUtility(MainWindow).StartDownload(update.Url);
+                else
+                    Process.Start(new ProcessStartInfo(update.Url) { UseShellExecute = true });
             }
         }
         /// <summary>

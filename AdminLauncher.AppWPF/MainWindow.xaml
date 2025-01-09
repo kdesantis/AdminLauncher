@@ -214,7 +214,7 @@
                         <TextBlock Grid.Column="0" FontSize="14"  Text="Last version: " HorizontalAlignment="Left" />
                         <TextBlock x:Name="LastVersionText" Grid.Column="1" FontSize="14"  Text="0.0.0" HorizontalAlignment="Left" Margin="0,0,10,0"/>
                         <TextBlock x:Name="UpdateLink" Grid.Column="2" FontSize="14" TextWrapping="Wrap" Visibility="Collapsed" Margin="0,0,0,10">
-                    <Hyperlink x:Name="UpdateLinkHyperLink" Click="UpdateHyperLinl_Click">Download Now!</Hyperlink>
+                    <Hyperlink x:Name="UpdateLinkHyperLink" Click="UpdateHyperLink_Click">Download Now!</Hyperlink>
                         </TextBlock>
                         <TextBlock x:Name="CheckUpdateLink" Grid.Column="2" FontSize="12" TextWrapping="Wrap" Visibility="Collapsed" Margin="0,0,0,10">
                     <Hyperlink x:Name="CheckUpdateHyperLinl" Click="CheckUpdateHyperLinl_Click">Check Update</Hyperlink>

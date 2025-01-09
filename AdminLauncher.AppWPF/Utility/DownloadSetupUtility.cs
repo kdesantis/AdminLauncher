@@ -72,7 +72,7 @@ namespace AdminLauncher.AppWPF.Utility
 
         public async void StartDownload(string url)
         {
-                var destinationPath = Path.Combine(Path.GetTempPath(), "setup.exe");
+            var destinationPath = Path.Combine(Path.GetTempPath(), "setup.exe");
             _cancellationTokenSource = new CancellationTokenSource();
             var cancellationToken = _cancellationTokenSource.Token;
             try

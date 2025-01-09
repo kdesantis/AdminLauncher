@@ -139,9 +139,12 @@ namespace AdminLauncher.AppWPF
             updateInformation = await UpdateUtility.CheckUpdateAsync(true, CurrentDialogUtility);
             InterfaceControl.UpdateVersionText(updateInformation, this);
         }
-        private async void UpdateHyperLinl_Click(object sender, RoutedEventArgs e)
+        private async void UpdateHyperLink_Click(object sender, RoutedEventArgs e)
         {
-            new DownloadSetupUtility(this).StartDownload(updateInformation.Url);
+            if (updateInformation.Type == UrlType.Installer)
+                new DownloadSetupUtility(this).StartDownload(updateInformation.Url);
+            else
+                Process.Start(new ProcessStartInfo(updateInformation.Url) { UseShellExecute = true });
         }
 
         private void Home_Click(object sender, RoutedEventArgs e) =>

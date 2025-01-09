@@ -15,7 +15,7 @@ namespace AdminLauncher.AppWPF.Utility
             var currVersion = new Version(ConfigurationManager.AppSettings["CurrVersion"]);
             var updater = new UpdateChecker(ConfigurationManager.AppSettings["UrlUpdateChecker"]);
 #if DEBUG
-            //updater = new UpdateChecker(ConfigurationManager.AppSettings["UrlUpdateCheckerDebug"]);
+            updater = new UpdateChecker(ConfigurationManager.AppSettings["UrlUpdateCheckerDebug"]);
 #endif
             var result = await updater.CheckForUpdatesAsync(currVersion);
             if (result)
