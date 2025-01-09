@@ -9,7 +9,7 @@ extract it to a directory and run the executable **â€œAdminLauncher.AppWPF.exeâ€
 ![image](https://github.com/user-attachments/assets/6e4d9dab-1711-4a97-90ff-2ac221bd6789)
 
 
-**Home pannel** contains a button for all added programs and routines. 
+**Home panel** contains a button for all added programs and routines. 
 Each button has a **context menu** accessible by right-clicking to **edit** or **delete** the program.
 
 The ordering of the buttons follows this logic:
