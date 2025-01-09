@@ -38,12 +38,7 @@ namespace AdminLauncher.AppWPF.Utility
             var message = $"A new version ({update.Version}) is available. Do you want to download it?\n\nRelease note:\n{update.ReleaseNotes}";
             var result = await MainWindow.ShowMessageAsync("Update available", message, MessageDialogStyle.AffirmativeAndNegative, GetYesNoMetroDialogSettings());
             if (result == MessageDialogResult.Affirmative)
-            {
-                if (update.Type == UrlType.Installer)
-                    new DownloadSetupUtility(MainWindow).StartDownload(update.Url);
-                else
-                    Process.Start(new ProcessStartInfo(update.Url) { UseShellExecute = true });
-            }
+                UpdateUtility.LaunchUpdateProcedure(MainWindow, update);
         }
         /// <summary>
         /// Show an error message when searching for updates

@@ -1,5 +1,6 @@
 ﻿using AdminLauncher.UpdateLibrary;
 using System.Configuration;
+using System.Diagnostics;
 
 namespace AdminLauncher.AppWPF.Utility
 {
@@ -29,6 +30,13 @@ namespace AdminLauncher.AppWPF.Utility
                 dialogUtility.UpdateNotAvailable();
 
             return updater.UpdateInformation;
+        }
+        public static async void LaunchUpdateProcedure(MainWindow mainWindow, ReleaseInformation updateInformation)
+        {
+            if (updateInformation.Type == UrlType.Installer)
+                new DownloadSetupUtility(mainWindow).StartDownload(updateInformation.Url);
+            else
+                Process.Start(new ProcessStartInfo(updateInformation.Url) { UseShellExecute = true });
         }
 
     }

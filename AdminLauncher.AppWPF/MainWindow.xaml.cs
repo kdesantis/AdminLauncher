@@ -141,10 +141,7 @@ namespace AdminLauncher.AppWPF
         }
         private async void UpdateHyperLink_Click(object sender, RoutedEventArgs e)
         {
-            if (updateInformation.Type == UrlType.Installer)
-                new DownloadSetupUtility(this).StartDownload(updateInformation.Url);
-            else
-                Process.Start(new ProcessStartInfo(updateInformation.Url) { UseShellExecute = true });
+            UpdateUtility.LaunchUpdateProcedure(this,updateInformation);
         }
 
         private void Home_Click(object sender, RoutedEventArgs e) =>
