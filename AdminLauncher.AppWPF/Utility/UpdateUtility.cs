@@ -34,7 +34,16 @@ namespace AdminLauncher.AppWPF.Utility
         public static async void LaunchUpdateProcedure(MainWindow mainWindow, ReleaseInformation updateInformation)
         {
             if (updateInformation.Type == UrlType.Installer)
-                new DownloadSetupUtility(mainWindow).StartDownload(updateInformation.Url);
+            {
+                var setupPath = await new DownloadSetupUtility(mainWindow).StartDownload(updateInformation.Url);
+
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = setupPath,
+                    UseShellExecute = true
+                });
+                System.Windows.Application.Current.Shutdown();
+            }
             else
                 Process.Start(new ProcessStartInfo(updateInformation.Url) { UseShellExecute = true });
         }
