@@ -27,7 +27,7 @@ namespace AdminLauncher.BusinessLibrary
             catch (Exception ex)
             {
                 backupPath = new PersistenceManager().CreateBackupManager();
-                logger.Error(ex);
+                logger.Error(ex, $"Created configurator backup at {backupPath}");
                 //Ignore configuration File
                 succes = false;
             }
