@@ -34,8 +34,12 @@
                     Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
             <!-- Tab Home -->
             <TabItem Header="Home" x:Name="HomeTab">
-                <StackPanel Orientation="Vertical">
-                    <Grid>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
                         <TextBox x:Name="SearchTextBox" TextChanged="SearchTextBox_TextChanged" Margin="5"/>
                         <TextBlock x:Name="PlaceholderText" Text="🔍Search here" 
                             Foreground="Gray" 
@@ -43,10 +47,10 @@
                             IsHitTestVisible="False"
                             Margin="10,0,0,0" />
                     </Grid>
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                         <StackPanel x:Name="ButtonPanel" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
                     </ScrollViewer>
-                </StackPanel>
+                </Grid>
             </TabItem>
 
             <!-- Tab Settings -->
