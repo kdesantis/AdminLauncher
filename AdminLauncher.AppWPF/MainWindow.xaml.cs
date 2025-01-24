@@ -14,6 +14,7 @@ using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using NLog;
 using AdminLauncher.UpdateLibrary;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 namespace AdminLauncher.AppWPF
 {
     /// <summary>
@@ -327,6 +328,28 @@ namespace AdminLauncher.AppWPF
                     manager.Save();
                     ReloadPrograms();
                 }
+            }
+        }
+
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            PlaceholderText.Visibility = string.IsNullOrEmpty(SearchTextBox.Text)
+                                        ? Visibility.Visible
+        :                               Visibility.Collapsed;
+            if (!string.IsNullOrEmpty(SearchTextBox.Text))
+            {
+                var FilteredProgramsManager = new Manager();
+                FilteredProgramsManager.settingsManager = (SettingsManager)manager.settingsManager.Clone();
+                FilteredProgramsManager.programManager = (ProgramManager)manager.programManager.Clone();
+                FilteredProgramsManager.programManager.Programs = manager.programManager.GetFilteredPrograms(SearchTextBox.Text);
+                FilteredProgramsManager.programManager.Routines = manager.programManager.GetFilteredRoutines(SearchTextBox.Text);
+                notifyIconUtility.AddContextMenu(FilteredProgramsManager.programManager);
+                var newButtonGenerator = new ButtonsGenerator(FilteredProgramsManager, this);
+                newButtonGenerator.GenerateButtons();
+            }
+            else
+            {
+                buttonGenerator.GenerateButtons();
             }
         }
     }
