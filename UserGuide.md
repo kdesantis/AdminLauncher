@@ -6,7 +6,7 @@ extract it to a directory and run the executable **“AdminLauncher.AppWPF.exe�
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Q5Q61561LT)
 # Home
-![image](https://github.com/user-attachments/assets/6e4d9dab-1711-4a97-90ff-2ac221bd6789)
+![image](https://github.com/user-attachments/assets/aa5a2cc7-abce-4e9f-9997-855e62821673)
 
 
 **Home panel** contains a button for all added programs and routines. 
@@ -39,7 +39,7 @@ The **Programs Wizard** function is the easiest way to **add programs** to Home.
 
 It is recommended that you use this feature when **first configuring**.
 # Add Program
-![image](https://github.com/user-attachments/assets/444850c3-51d3-42b7-85f1-228bf2497cea)
+![image](https://github.com/user-attachments/assets/a719e5c0-3097-4710-b410-e972647a7340)
 
 The page can be reached from the “**Add Program**” button in the menu.
 
@@ -48,18 +48,20 @@ To add a new product is import:
 * Enter the **path** to the executable (the **link** path is also fine). You can either do this through the **browser**
 or **paste** the path into the textbox
 * If necessary you can define the **arguments** to be passed to the launch;
+* If necessary you can use a **custom icon**;
 * Import the program with **Favorite**.
 
 Once defined, click "**Save**"
 
 # Add Routine
-![image](https://github.com/user-attachments/assets/801addf3-c478-4ef0-a7c5-baa71a888823)
+![image](https://github.com/user-attachments/assets/83de31b2-aefd-498b-953d-ee4d565aba7c)
 
 A routine represents a series of programs that you want to run at the same time.
 The page can be reached from the “**Add Routine**” button in the menu.
 
 To add a new routine you need to:
 * enter the **name** of the routine.
+* If necessary you can use a **custom icon**;
 * select **programs** from those previously entered.
 
 Once defined, click save
