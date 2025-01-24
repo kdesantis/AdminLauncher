@@ -142,7 +142,7 @@ namespace AdminLauncher.AppWPF
         }
         private async void UpdateHyperLink_Click(object sender, RoutedEventArgs e)
         {
-            UpdateUtility.LaunchUpdateProcedure(this,updateInformation);
+            UpdateUtility.LaunchUpdateProcedure(this, updateInformation);
         }
 
         private void Home_Click(object sender, RoutedEventArgs e) =>
@@ -335,7 +335,7 @@ namespace AdminLauncher.AppWPF
         {
             PlaceholderText.Visibility = string.IsNullOrEmpty(SearchTextBox.Text)
                                         ? Visibility.Visible
-        :                               Visibility.Collapsed;
+        : Visibility.Collapsed;
             if (!string.IsNullOrEmpty(SearchTextBox.Text))
             {
                 var FilteredProgramsManager = new Manager();
@@ -343,7 +343,6 @@ namespace AdminLauncher.AppWPF
                 FilteredProgramsManager.programManager = (ProgramManager)manager.programManager.Clone();
                 FilteredProgramsManager.programManager.Programs = manager.programManager.GetFilteredPrograms(SearchTextBox.Text);
                 FilteredProgramsManager.programManager.Routines = manager.programManager.GetFilteredRoutines(SearchTextBox.Text);
-                notifyIconUtility.AddContextMenu(FilteredProgramsManager.programManager);
                 var newButtonGenerator = new ButtonsGenerator(FilteredProgramsManager, this);
                 newButtonGenerator.GenerateButtons();
             }
