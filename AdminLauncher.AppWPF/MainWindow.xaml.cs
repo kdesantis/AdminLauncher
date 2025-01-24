@@ -14,6 +14,7 @@ using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using NLog;
 using AdminLauncher.UpdateLibrary;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 namespace AdminLauncher.AppWPF
 {
     /// <summary>
@@ -139,9 +140,9 @@ namespace AdminLauncher.AppWPF
             updateInformation = await UpdateUtility.CheckUpdateAsync(true, CurrentDialogUtility);
             InterfaceControl.UpdateVersionText(updateInformation, this);
         }
-        private async void UpdateHyperLinl_Click(object sender, RoutedEventArgs e)
+        private async void UpdateHyperLink_Click(object sender, RoutedEventArgs e)
         {
-            new DownloadSetupUtility(this).StartDownload(updateInformation.Url);
+            UpdateUtility.LaunchUpdateProcedure(this, updateInformation);
         }
 
         private void Home_Click(object sender, RoutedEventArgs e) =>
@@ -327,6 +328,27 @@ namespace AdminLauncher.AppWPF
                     manager.Save();
                     ReloadPrograms();
                 }
+            }
+        }
+
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            PlaceholderText.Visibility = string.IsNullOrEmpty(SearchTextBox.Text)
+                                        ? Visibility.Visible
+        : Visibility.Collapsed;
+            if (!string.IsNullOrEmpty(SearchTextBox.Text))
+            {
+                var FilteredProgramsManager = new Manager();
+                FilteredProgramsManager.settingsManager = (SettingsManager)manager.settingsManager.Clone();
+                FilteredProgramsManager.programManager = (ProgramManager)manager.programManager.Clone();
+                FilteredProgramsManager.programManager.Programs = manager.programManager.GetFilteredPrograms(SearchTextBox.Text);
+                FilteredProgramsManager.programManager.Routines = manager.programManager.GetFilteredRoutines(SearchTextBox.Text);
+                var newButtonGenerator = new ButtonsGenerator(FilteredProgramsManager, this);
+                newButtonGenerator.GenerateButtons();
+            }
+            else
+            {
+                buttonGenerator.GenerateButtons();
             }
         }
     }

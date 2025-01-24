@@ -1,5 +1,6 @@
 {
-  "Version": "1.5",
-  "Url": "https://github.com/kdesantis/AdminLauncher/releases/tag/1.5",
-  "ReleaseNotes": "-Added the selection of custom icon for programs or routines\n-Added setup automatic download and launch of setup of new version\n"
+  "Version": "1.6",
+  "Type": 1,
+  "Url": "https://github.com/kdesantis/AdminLauncher/releases/download/1.6/Admin.Launcher_1.6_Setup.exe",
+  "ReleaseNotes": "-Introduced the type of update to be performed\n-Added search box\n-Fixed problem on scrollbar into home panel"
 }

@@ -70,9 +70,9 @@ namespace AdminLauncher.AppWPF.Utility
         }
 
 
-        public async void StartDownload(string url)
+        public async Task<string> StartDownload(string url)
         {
-                var destinationPath = Path.Combine(Path.GetTempPath(), "setup.exe");
+            var destinationPath = Path.Combine(Path.GetTempPath(), "setup.exe");
             _cancellationTokenSource = new CancellationTokenSource();
             var cancellationToken = _cancellationTokenSource.Token;
             try
@@ -90,13 +90,6 @@ namespace AdminLauncher.AppWPF.Utility
                 await DownloadFileAsync(url, destinationPath, progress, cancellationToken);
 
                 await controller.CloseAsync();
-
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = destinationPath,
-                    UseShellExecute = true
-                });
-                System.Windows.Application.Current.Shutdown();
             }
             catch (OperationCanceledException)
             {
@@ -111,6 +104,7 @@ namespace AdminLauncher.AppWPF.Utility
                 _cancellationTokenSource.Dispose();
                 _cancellationTokenSource = null;
             }
+            return destinationPath;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

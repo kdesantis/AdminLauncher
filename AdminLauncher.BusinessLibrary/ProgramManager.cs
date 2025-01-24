@@ -65,6 +65,15 @@ namespace AdminLauncher.BusinessLibrary
             else
                 return null;
         }
+        public List<ProgramItem> GetFilteredPrograms(string filter)
+        {
+            return Programs.Where(program => program.Name.ToLower().Contains(filter.ToLower())).ToList();
+        }
+        public List<RoutineItem> GetFilteredRoutines(string filter)
+        {
+            return Routines.Where(routine => routine.Name.ToLower().Contains(filter.ToLower())).ToList();
+        }
+
         public object Clone()
         {
             return new ProgramManager() { CurrIndex = CurrIndex, Programs = new List<ProgramItem>(Programs), Routines = new List<RoutineItem>(Routines) };

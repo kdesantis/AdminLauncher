@@ -34,9 +34,23 @@
                     Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
             <!-- Tab Home -->
             <TabItem Header="Home" x:Name="HomeTab">
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                    <StackPanel x:Name="ButtonPanel" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
-                </ScrollViewer>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <TextBox x:Name="SearchTextBox" TextChanged="SearchTextBox_TextChanged" Margin="5"/>
+                        <TextBlock x:Name="PlaceholderText" Text="🔍Search here" 
+                            Foreground="Gray" 
+                            VerticalAlignment="Center" 
+                            IsHitTestVisible="False"
+                            Margin="10,0,0,0" />
+                    </Grid>
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel x:Name="ButtonPanel" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                    </ScrollViewer>
+                </Grid>
             </TabItem>
 
             <!-- Tab Settings -->
@@ -214,7 +228,7 @@
                         <TextBlock Grid.Column="0" FontSize="14"  Text="Last version: " HorizontalAlignment="Left" />
                         <TextBlock x:Name="LastVersionText" Grid.Column="1" FontSize="14"  Text="0.0.0" HorizontalAlignment="Left" Margin="0,0,10,0"/>
                         <TextBlock x:Name="UpdateLink" Grid.Column="2" FontSize="14" TextWrapping="Wrap" Visibility="Collapsed" Margin="0,0,0,10">
-                    <Hyperlink x:Name="UpdateLinkHyperLink" Click="UpdateHyperLinl_Click">Download Now!</Hyperlink>
+                    <Hyperlink x:Name="UpdateLinkHyperLink" Click="UpdateHyperLink_Click">Download Now!</Hyperlink>
                         </TextBlock>
                         <TextBlock x:Name="CheckUpdateLink" Grid.Column="2" FontSize="12" TextWrapping="Wrap" Visibility="Collapsed" Margin="0,0,0,10">
                     <Hyperlink x:Name="CheckUpdateHyperLinl" Click="CheckUpdateHyperLinl_Click">Check Update</Hyperlink>

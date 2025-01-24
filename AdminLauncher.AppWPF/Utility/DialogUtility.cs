@@ -38,9 +38,7 @@ namespace AdminLauncher.AppWPF.Utility
             var message = $"A new version ({update.Version}) is available. Do you want to download it?\n\nRelease note:\n{update.ReleaseNotes}";
             var result = await MainWindow.ShowMessageAsync("Update available", message, MessageDialogStyle.AffirmativeAndNegative, GetYesNoMetroDialogSettings());
             if (result == MessageDialogResult.Affirmative)
-            {
-                new DownloadSetupUtility(MainWindow).StartDownload(update.Url);
-            }
+                UpdateUtility.LaunchUpdateProcedure(MainWindow, update);
         }
         /// <summary>
         /// Show an error message when searching for updates
@@ -66,7 +64,7 @@ namespace AdminLauncher.AppWPF.Utility
         {
             OpenFileDialog openFileDialog = new()
             {
-                Filter = "Supported Executable Files|*.exe;*.bat;*.cmd;*.msc;*.msi;*.ps1;*.vbs|All Files (*.*)|*.*",
+                Filter = "Supported Executable Files(*.exe,*.bat,*.cmd,*.msc,*.msi,*.ps1,*.vbs)|*.exe;*.bat;*.cmd;*.msc;*.msi;*.ps1;*.vbs|All Files (*.*)|*.*",
                 AddToRecent = true
             };
             if (Directory.Exists(initialPath))
@@ -119,7 +117,7 @@ namespace AdminLauncher.AppWPF.Utility
             notifyIcon.BalloonTipText = "You can view it by double-clicking on the icon in the taskbar at the bottom right of the screen.\r\n" +
                 "If you want to close it, right-click on the icon and select the “Close” option from the drop-down menu.";
             notifyIcon.BalloonTipIcon = ToolTipIcon.Info;
-            notifyIcon.BalloonTipTitle = "Admin Launcher hided";
+            notifyIcon.BalloonTipTitle = "Admin Launcher hidden";
             notifyIcon.ShowBalloonTip(3000);
         }
         public void MultipleSessionOfApplication()
