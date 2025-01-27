@@ -114,8 +114,7 @@ namespace AdminLauncher.AppWPF.Utility
 
         public static void ShowBalloonTipAppHided(NotifyIcon notifyIcon)
         {
-            notifyIcon.BalloonTipText = "You can view it by double-clicking on the icon in the taskbar at the bottom right of the screen.\r\n" +
-                "If you want to close it, right-click on the icon and select the “Close” option from the drop-down menu.";
+            notifyIcon.BalloonTipText = "Double-click the taskbar icon at the bottom right to view it. To close, right-click the icon and select “Close” from the menu.";
             notifyIcon.BalloonTipIcon = ToolTipIcon.Info;
             notifyIcon.BalloonTipTitle = "Admin Launcher hidden";
             notifyIcon.ShowBalloonTip(3000);
