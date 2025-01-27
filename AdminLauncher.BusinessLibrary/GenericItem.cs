@@ -18,5 +18,11 @@
         public abstract string GetIconPath();
 
         public override string ToString() => name;
+
+        public void SetDonkeyAttributes()
+        {
+            CustomIconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "donkey.png");
+            Name = "Donkey";
+        }
     }
 }

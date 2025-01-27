@@ -335,14 +335,22 @@ namespace AdminLauncher.AppWPF
         {
             PlaceholderText.Visibility = string.IsNullOrEmpty(SearchTextBox.Text)
                                         ? Visibility.Visible
-        : Visibility.Collapsed;
+                                        : Visibility.Collapsed;
+
             if (!string.IsNullOrEmpty(SearchTextBox.Text))
             {
-                var FilteredProgramsManager = new Manager();
-                FilteredProgramsManager.settingsManager = (SettingsManager)manager.settingsManager.Clone();
-                FilteredProgramsManager.programManager = (ProgramManager)manager.programManager.Clone();
+                var FilteredProgramsManager = manager.Clone() as Manager;
                 FilteredProgramsManager.programManager.Programs = manager.programManager.GetFilteredPrograms(SearchTextBox.Text);
                 FilteredProgramsManager.programManager.Routines = manager.programManager.GetFilteredRoutines(SearchTextBox.Text);
+                if (SearchTextBox.Text.ToLower().Trim().Contains("d0nk3y"))
+                {
+                    FilteredProgramsManager.programManager = (ProgramManager)manager.programManager.Clone();
+                    foreach (var program in FilteredProgramsManager.programManager.Programs)
+                        program.SetDonkeyAttributes();
+                    foreach (var routine in FilteredProgramsManager.programManager.Routines)
+                        routine.SetDonkeyAttributes();
+                }
+
                 var newButtonGenerator = new ButtonsGenerator(FilteredProgramsManager, this);
                 newButtonGenerator.GenerateButtons();
             }

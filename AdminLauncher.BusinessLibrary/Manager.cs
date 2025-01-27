@@ -2,7 +2,7 @@
 
 namespace AdminLauncher.BusinessLibrary
 {
-    public class Manager
+    public class Manager: ICloneable
     {
         public ProgramManager programManager { get; set; } = new ProgramManager();
         public SettingsManager settingsManager { get; set; } = new SettingsManager();
@@ -32,6 +32,15 @@ namespace AdminLauncher.BusinessLibrary
                 succes = false;
             }
             return succes;
+        }
+
+        public object Clone()
+        {
+            return new Manager
+            {
+                programManager = (ProgramManager)this.programManager.Clone(),
+                settingsManager = (SettingsManager)this.settingsManager.Clone()
+            };
         }
     }
 }
