@@ -1,6 +1,6 @@
 {
-  "Version": "1.6",
+  "Version": "1.7",
   "Type": 1,
   "Url": "https://github.com/kdesantis/AdminLauncher/releases/download/1.6/Admin.Launcher_1.6_Setup.exe",
-  "ReleaseNotes": "-Introduced the type of update to be performed\n-Added search box\n-Fixed problem on scrollbar into home panel"
+  "ReleaseNotes": "-Fixed clone method"
 }
