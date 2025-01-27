@@ -27,7 +27,7 @@ This project is licensed under the **GNU General Public License v3.0**. See the 
 
 ## Credits 🙏
 
-[IconExtractor](https://github.com/jsakamoto/iconextractor) bj jsakamoto
+[IconExtractor](https://github.com/jsakamoto/iconextractor) by jsakamoto
 
 ## Notes 📝
 
