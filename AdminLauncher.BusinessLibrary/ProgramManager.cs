@@ -85,5 +85,12 @@ namespace AdminLauncher.BusinessLibrary
                 CurrIndex = this.CurrIndex
             };
         }
+        public void SetDonkeyAttributes()
+        {
+            foreach (var program in Programs)
+                program.SetDonkeyAttributes();
+            foreach (var routine in Routines)
+                routine.SetDonkeyAttributes();
+        }
     }
 }

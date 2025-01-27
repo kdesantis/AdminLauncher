@@ -16,7 +16,7 @@ namespace AdminLauncher.BusinessLibrary
         public bool Load(out string backupPath)
         {
             logger.Info("Load Manager from file");
-            bool succes = true;
+            bool successState = true;
             try
             {
                 var savedManager = new PersistenceManager().LoadData();
@@ -29,9 +29,9 @@ namespace AdminLauncher.BusinessLibrary
                 backupPath = new PersistenceManager().CreateBackupManager();
                 logger.Error(ex, $"Created configurator backup at {backupPath}");
                 //Ignore configuration File
-                succes = false;
+                successState = false;
             }
-            return succes;
+            return successState;
         }
 
         public object Clone()

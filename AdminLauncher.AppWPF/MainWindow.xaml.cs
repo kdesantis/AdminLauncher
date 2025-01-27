@@ -345,10 +345,7 @@ namespace AdminLauncher.AppWPF
                 if (SearchTextBox.Text.ToLower().Trim().Contains("d0nk3y"))
                 {
                     FilteredProgramsManager.programManager = (ProgramManager)manager.programManager.Clone();
-                    foreach (var program in FilteredProgramsManager.programManager.Programs)
-                        program.SetDonkeyAttributes();
-                    foreach (var routine in FilteredProgramsManager.programManager.Routines)
-                        routine.SetDonkeyAttributes();
+                    FilteredProgramsManager.programManager.SetDonkeyAttributes();
                 }
 
                 var newButtonGenerator = new ButtonsGenerator(FilteredProgramsManager, this);
