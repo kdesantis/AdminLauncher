@@ -2,7 +2,7 @@
 
 namespace AdminLauncher.BusinessLibrary
 {
-    public class RoutineItem : GenericItem
+    public class RoutineItem : GenericItem, ICloneable
     {
         private string name;
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
@@ -65,6 +65,13 @@ namespace AdminLauncher.BusinessLibrary
                     logger.Error($"Routine {Name}: file {CustomIconPath} not exist");
             }
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "list.png");
+        }
+
+        public object Clone()
+        {
+            var clonedItem = (RoutineItem)this.MemberwiseClone();
+            clonedItem.Programs = new List<ProgramItem>(this.Programs.Select(p => (ProgramItem)p.Clone()));
+            return clonedItem;
         }
     }
 }
