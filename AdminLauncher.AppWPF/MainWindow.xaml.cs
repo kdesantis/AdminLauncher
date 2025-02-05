@@ -68,6 +68,7 @@ namespace AdminLauncher.AppWPF
             InterfaceControl.UpdateVersionText(updateInformation, this);
 
             InterfaceControl.LoadButtonsOrienationComboBox(this, manager);
+            InterfaceControl.LoadWindowOrienationComboBox(this, manager);
 
             if (manager.programManager.Programs.Count < 1)
             {
@@ -259,7 +260,13 @@ namespace AdminLauncher.AppWPF
             else if (manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Vertical)
                 VerticalPreviewStackPanel.Visibility = Visibility.Visible;
         }
-
+        private void WindowOrientationCombobox_Selected(object sender, RoutedEventArgs e)
+        {
+            manager.settingsManager.WindowOrientation = (WindowOrientationEnum)WindowOrientationCombobox.SelectedItem;
+            ReloadPrograms();
+            manager.Save();
+            InterfaceControl.SetWindowOrietation(this, manager.settingsManager.WindowOrientation);
+        }
         private void InitialPathButton_Click(object sender, RoutedEventArgs e)
         {
             var directoryPath = DialogUtility.ShowOpenFolderDialog();

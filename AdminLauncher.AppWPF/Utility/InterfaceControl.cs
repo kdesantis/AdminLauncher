@@ -26,6 +26,20 @@ namespace AdminLauncher.AppWPF.Utility
             mainWindow.Left = workAreaWidth - mainWindow.Width;
             mainWindow.Top = workAreaHeight - mainWindow.Height;
         }
+        public static void SetWindowOrietation(MainWindow mainWindow, WindowOrientationEnum windowOrientation)
+        {
+            if (windowOrientation == WindowOrientationEnum.Vertical)
+            {
+                mainWindow.Width = 400;
+                mainWindow.Height = 800;
+            }
+            else
+            {
+                mainWindow.Width = 980;
+                mainWindow.Height = 470;
+            }
+            PositionWindowInBottomRight(mainWindow);
+        }
         private static void ClearAddProgramData(MainWindow mainWindow)
         {
             mainWindow.ProgramIndexLabel.Content = -1;
@@ -122,6 +136,11 @@ namespace AdminLauncher.AppWPF.Utility
         {
             mainWindow.ButtonsOrientationCombobox.ItemsSource = Enum.GetValues(typeof(OrientationsButtonEnum));
             mainWindow.ButtonsOrientationCombobox.SelectedItem = manager.settingsManager.ButtonsOrientation;
+        }
+        public static void LoadWindowOrienationComboBox(MainWindow mainWindow, Manager manager)
+        {
+            mainWindow.WindowOrientationCombobox.ItemsSource = Enum.GetValues(typeof(WindowOrientationEnum));
+            mainWindow.WindowOrientationCombobox.SelectedItem = manager.settingsManager.WindowOrientation;
         }
 
         public static void PopolateThemeCombo(MainWindow mainWindow, string theme)
