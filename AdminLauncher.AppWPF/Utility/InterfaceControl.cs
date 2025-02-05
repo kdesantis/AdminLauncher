@@ -4,6 +4,7 @@ using ControlzEx.Theming;
 using System.Configuration;
 using System.Windows;
 using System.Windows.Controls;
+using Orientation = System.Windows.Controls.Orientation;
 
 namespace AdminLauncher.AppWPF.Utility
 {
@@ -32,11 +33,14 @@ namespace AdminLauncher.AppWPF.Utility
             {
                 mainWindow.Width = 400;
                 mainWindow.Height = 800;
+                mainWindow.ColumnsAboutStackPanel.Orientation = Orientation.Vertical;
             }
             else
             {
-                mainWindow.Width = 980;
+                //mainWindow.Width = 980;
+                mainWindow.Width = 770;
                 mainWindow.Height = 470;
+                mainWindow.ColumnsAboutStackPanel.Orientation = Orientation.Horizontal;
             }
             PositionWindowInBottomRight(mainWindow);
         }
