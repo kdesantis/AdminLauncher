@@ -67,9 +67,9 @@ To add a new routine you need to:
 Once defined, click save
 
 # Settings
-![image](https://github.com/user-attachments/assets/c782bc55-f4b3-4253-9b7e-7c92036ca9ac)
+![image](https://github.com/user-attachments/assets/1eed0fa9-5daf-40a9-bd74-aaecd5db04a3)
 
-In the settings tab you can choose the **layout** of the buttons in the home tab between ‘**Vertical**’ and ‘**Mosaic**’.
+In the Settings tab, you can choose the orientation of the window between ‘**Vertical**’ and ‘**Horizontal**’ and the layout of the start-up tab buttons between ‘**Vertical**’ and ‘**Mosaic**’.
 
 You can also choose whether or not to set a fixed **start path** for file selection windows (quick run or add program).
 
