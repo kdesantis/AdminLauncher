@@ -6,14 +6,15 @@
         xmlns:local="clr-namespace:AdminLauncher.AppWPF"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="Admin Launcher" Height="800" Width="400"
+        Title="Admin Launcher" 
+        Height="400" Width="400"
         WindowStartupLocation="Manual"
         ResizeMode="NoResize"
         WindowStyle="SingleBorderWindow"
         Topmost="True"
         Closing="Window_Closing" Icon="Resources/rocket.png" Loaded="Window_Loaded"
         Closed="Window_Closed">
-    <Grid>
+    <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -34,7 +35,7 @@
                     Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
             <!-- Tab Home -->
             <TabItem Header="Home" x:Name="HomeTab">
-                <Grid>
+                <Grid Margin="0,0,0,15">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
@@ -55,11 +56,22 @@
 
             <!-- Tab Settings -->
             <TabItem Header="Settings" x:Name="SettingsTab">
-                <StackPanel>
-                    <TextBlock Text="Settings" FontWeight="Bold" FontSize="16" Margin="10"/>
-                    <Label Content="Buttons Orientation"/>
-                    <ComboBox x:Name="ButtonsOrientationCombobox" Margin="5" SelectionChanged="ButtonsOrientationCombobox_Selected"/>
-                    <Label Content="File dialog initial path"/>
+                <StackPanel x:Name="ColumnsSettingsStackPanel"  Orientation="Vertical">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <Label Content="Buttons Orientation"/>
+                                <ComboBox x:Name="ButtonsOrientationCombobox" Margin="5" SelectionChanged="ButtonsOrientationCombobox_Selected"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <Label Content="Window Orientation"/>
+                                <ComboBox x:Name="WindowOrientationCombobox" Margin="5" SelectionChanged="WindowOrientationCombobox_Selected"/>
+                            </StackPanel>
+                        </Grid>
+                        <Label Content="File dialog initial path"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="80*"/>
@@ -144,138 +156,192 @@
 
             <!-- Tab Add Program -->
             <TabItem Header="Add Program" x:Name="AddProgramTab">
-                <StackPanel>
-                    <TextBlock Text="Add New Program" FontWeight="Bold" FontSize="16" Margin="10"/>
-                    <Label x:Name="ProgramIndexLabel" Visibility="Collapsed" Content="-1"/>
-                    <Label Content="Name"/>
-                    <TextBox x:Name="ProgramNameTextBox" Margin="5"/>
-                    <Label Content="Path"/>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="80*"/>
-                            <ColumnDefinition Width="20*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBox x:Name="ProgramPathTextBox" Grid.Column="0" Margin="5"/>
-                        <Button Content="Browse..." Click="BrowseButton_Click" Grid.Column="1" Margin="5"/>
-                    </Grid>
-                    <Label Content="Custom Icon"/>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="80*"/>
-                            <ColumnDefinition Width="20*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBox x:Name="ProgramIconPathTextBox" Grid.Column="0" Margin="5"/>
-                        <Button Content="Browse..." Click="BrowseProgramIconButton_Click" Grid.Column="1" Margin="5"/>
-                    </Grid>
-                    <Label Content="Arguments"/>
-                    <TextBox x:Name="ProgramArgumentsTextBox" Margin="5"/>
-                    <CheckBox x:Name="FavoriteCheckBox" Content="Is Favorite" Margin="5"/>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
-                        <Button Content="Save" Click="SaveProgram_Click" Width="100" Margin="5"/>
-                        <Button Content="Cancel" Click="CancelProgram_Click" Width="100" Margin="5"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" x:Name="ColumnsAddProgramStackPanel" Orientation="Vertical">
+
+                        <StackPanel  Orientation="Vertical" Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
+
+                            <Label x:Name="ProgramIndexLabel" Visibility="Collapsed" Content="-1"/>
+                            <Label Content="Name"/>
+                            <TextBox x:Name="ProgramNameTextBox" Margin="5"/>
+                            <Label Content="Path"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80*"/>
+                                    <ColumnDefinition Width="20*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="ProgramPathTextBox" Grid.Column="0" Margin="5"/>
+                                <Button Content="Browse..." Click="BrowseButton_Click" Grid.Column="1" Margin="5"/>
+
+                            </Grid>
+                            <Label Content="Arguments"/>
+                            <TextBox x:Name="ProgramArgumentsTextBox" Margin="5"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
+
+
+                            <Label Content="Custom Icon"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80*"/>
+                                    <ColumnDefinition Width="20*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="ProgramIconPathTextBox" Grid.Column="0" Margin="5"/>
+                                <Button Content="Browse..." Click="BrowseProgramIconButton_Click" Grid.Column="1" Margin="5"/>
+                            </Grid>
+
+                            
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
+                    <StackPanel Grid.Row="1" Orientation="Vertical">
+                        <CheckBox x:Name="FavoriteCheckBox" Content="Is Favorite" Margin="5"/>
+                        <StackPanel  Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+                            <Button Content="Save" Click="SaveProgram_Click" Width="100" Margin="5"/>
+                            <Button Content="Cancel" Click="CancelProgram_Click" Width="100" Margin="5"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
             </TabItem>
 
             <!-- Tab Add Routine -->
             <TabItem Header="Add Routine" x:Name="AddRoutineTab">
-                <StackPanel>
-                    <TextBlock Text="Add New Routine" FontWeight="Bold" FontSize="16" Margin="10"/>
-                    <Label x:Name="RoutineIndexLabel" Visibility="Collapsed" Content="-1"/>
-                    <Label Content="Routine Name"/>
-                    <TextBox x:Name="RoutineNameTextBox" Margin="5"/>
-                    <Label Content="Custom Icon"/>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="80*"/>
-                            <ColumnDefinition Width="20*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBox x:Name="RoutineIconPathTextBox" Grid.Column="0" Margin="5"/>
-                        <Button Content="Browse..." Click="BrowseRoutineIconButton_Click" Grid.Column="1" Margin="5"/>
-                    </Grid>
-                    <Label Content="Select Programs"/>
-                    <ListBox x:Name="ProgramsListBox" ItemsSource="{Binding Programs}" Margin="5" SelectionMode="Single">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <CheckBox Content="{Binding Program.Name}" IsChecked="{Binding IsChecked, Mode=TwoWay}"/>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" x:Name="ColumnsAddRoutineStackPanel" Orientation="Vertical">
+                        <StackPanel Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
+
+                            <Label  x:Name="RoutineIndexLabel" Visibility="Collapsed" Content="-1"/>
+                            <Label Content="Routine Name"/>
+                            <TextBox x:Name="RoutineNameTextBox" Margin="5"/>
+                            <Label Content="Custom Icon"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80*"/>
+                                    <ColumnDefinition Width="20*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="RoutineIconPathTextBox" Grid.Column="0" Margin="5"/>
+                                <Button Content="Browse..." Click="BrowseRoutineIconButton_Click" Grid.Column="1" Margin="5"/>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
+                            <StackPanel Orientation="Vertical">
+
+                                <Label Content="Select Programs"/>
+                                <ListBox x:Name="ProgramsListBox" MaxHeight="225" ItemsSource="{Binding Programs}" Margin="5" SelectionMode="Single">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox Content="{Binding Program.Name}" IsChecked="{Binding IsChecked, Mode=TwoWay}"/>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </StackPanel>
+                        </StackPanel>
+
+                    </StackPanel>
+                    <StackPanel  Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
                         <Button Content="Save" Click="SaveRoutine_Click" Width="100" Margin="5"/>
                         <Button Content="Cancel" Click="CancelRoutine_Click" Width="100" Margin="5"/>
                     </StackPanel>
-                </StackPanel>
+                </Grid>
             </TabItem>
 
             <!-- Tab About -->
             <TabItem Header="About" x:Name="AboutTab">
-                <StackPanel Margin="5">
-                    <Grid HorizontalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" FontSize="24" FontWeight="Bold" Text="Admin Launcher " Margin="0,10,0,0"/>
-                        <TextBlock x:Name="CurrentVersionText" Grid.Column="1" FontSize="24" FontWeight="Bold" Text="0.0.0"  Margin="0,10,0,0"/>
-                    </Grid>
-                    <Grid HorizontalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" FontSize="14"  Text="Last version: " HorizontalAlignment="Left" />
-                        <TextBlock x:Name="LastVersionText" Grid.Column="1" FontSize="14"  Text="0.0.0" HorizontalAlignment="Left" Margin="0,0,10,0"/>
-                        <TextBlock x:Name="UpdateLink" Grid.Column="2" FontSize="14" TextWrapping="Wrap" Visibility="Collapsed" Margin="0,0,0,10">
-                    <Hyperlink x:Name="UpdateLinkHyperLink" Click="UpdateHyperLink_Click">Download Now!</Hyperlink>
-                        </TextBlock>
-                        <TextBlock x:Name="CheckUpdateLink" Grid.Column="2" FontSize="12" TextWrapping="Wrap" Visibility="Collapsed" Margin="0,0,0,10">
-                    <Hyperlink x:Name="CheckUpdateHyperLinl" Click="CheckUpdateHyperLinl_Click">Check Update</Hyperlink>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    
+                
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                        </TextBlock>
-                    </Grid>
+                    <StackPanel Grid.Row="0" Margin="0,0,0,5">
+                        <Grid Grid.Row="0" HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" FontSize="24" FontWeight="Bold" Text="Admin Launcher " Margin="0,10,0,0"/>
+                            <TextBlock x:Name="CurrentVersionText" Grid.Column="1" FontSize="24" FontWeight="Bold" Text="0.0.0"  Margin="0,10,0,0"/>
+                        </Grid>
+                        <Grid Grid.Row="1" HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" FontSize="14"  Text="Last version: " HorizontalAlignment="Left" />
+                            <TextBlock x:Name="LastVersionText" Grid.Column="1" FontSize="14"  Text="0.0.0" HorizontalAlignment="Left" Margin="0,0,10,0"/>
+                            <TextBlock x:Name="UpdateLink" Grid.Column="2" FontSize="14" TextWrapping="Wrap" Visibility="Collapsed" Margin="0,0,0,10">
+<Hyperlink x:Name="UpdateLinkHyperLink" Click="UpdateHyperLink_Click">Download Now!</Hyperlink>
+                            </TextBlock>
+                            <TextBlock x:Name="CheckUpdateLink" Grid.Column="2" FontSize="12" TextWrapping="Wrap" Visibility="Collapsed" Margin="0,0,0,10">
+<Hyperlink x:Name="CheckUpdateHyperLinl" Click="CheckUpdateHyperLinl_Click">Check Update</Hyperlink>
 
-                    <!-- Authors/Developers -->
+                            </TextBlock>
+                        </Grid>
+                    </StackPanel>
 
-                    <TextBlock FontSize="16" FontWeight="Bold" Text="Developed by" Margin="0,10,0,10"/>
-                    <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
-            De Santis Kevin
-                    </TextBlock>
-                    <Button Width="auto" Height="auto" HorizontalAlignment="Left" VerticalAlignment="Center" Click="KoFi_Click">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <!-- Icona Ko-fi dalla risorsa -->
-                            <Image Source="pack://application:,,,/Resources/kofi_symbol.png" Width="24" Height="24" Margin="10,0,10,0"/>
-                            <!-- Testo del pulsante -->
-                            <TextBlock VerticalAlignment="Center" FontSize="14" Text="Support Me on Ko-fi" Margin="0,0,10,0"/>
+
+                    <StackPanel x:Name="ColumnsAboutStackPanel" Grid.Row="1" Margin="5">
+
+                        <StackPanel Grid.Column="0" Orientation="Vertical"  Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
+
+                            <!-- Authors/Developers -->
+
+                            <TextBlock FontSize="16" FontWeight="Bold" Text="Developed by" Margin="0,10,0,10"/>
+                            <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
+De Santis Kevin
+                            </TextBlock>
+                            <Button Width="auto" Height="auto" HorizontalAlignment="Left" VerticalAlignment="Center" Click="KoFi_Click">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <!-- Icona Ko-fi dalla risorsa -->
+                                    <Image Source="pack://application:,,,/Resources/kofi_symbol.png" Width="24" Height="24" Margin="10,0,10,0"/>
+                                    <!-- Testo del pulsante -->
+                                    <TextBlock VerticalAlignment="Center" FontSize="14" Text="Support Me on Ko-fi" Margin="0,0,10,0"/>
+                                </StackPanel>
+                            </Button>
+                            <!-- License -->
+                            <TextBlock FontSize="16" FontWeight="Bold" Text="License" Margin="0,10,0,10"/>
+                            <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
+This software is distributed under the GNU General Public License v3.0.
+                            </TextBlock>
+
                         </StackPanel>
-                    </Button>
-                    <!-- License -->
-                    <TextBlock FontSize="16" FontWeight="Bold" Text="License" Margin="0,10,0,10"/>
-                    <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
-            This software is distributed under the GNU General Public License v3.0.
-                    </TextBlock>
+                        <StackPanel Grid.Column="1" Orientation="Vertical" Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
 
-                    <!-- Useful Links -->
-                    <TextBlock FontSize="16" FontWeight="Bold" Text="Useful Links" Margin="0,10,0,10"/>
-                    <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
-            <Hyperlink NavigateUri="https://github.com/kdesantis/AdminLauncher" RequestNavigate="Hyperlink_RequestNavigate">GitHub repository</Hyperlink>
-                    </TextBlock>
+                            <!-- Useful Links -->
+                            <TextBlock FontSize="16" FontWeight="Bold" Text="Useful Links" Margin="0,10,0,10"/>
+                            <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
+<Hyperlink NavigateUri="https://github.com/kdesantis/AdminLauncher" RequestNavigate="Hyperlink_RequestNavigate">GitHub repository</Hyperlink>
+                            </TextBlock>
+                            
+                            <!-- Credits -->
+                            <TextBlock FontSize="16" FontWeight="Bold" Text="Credits" Margin="0,10,0,10"/>
+                            <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
+IconExtractor by jsakamoto <Hyperlink NavigateUri="https://github.com/jsakamoto/iconextractor" RequestNavigate="Hyperlink_RequestNavigate">ProjectSite</Hyperlink>
+                            </TextBlock>
 
-                    <!-- Credits -->
-                    <TextBlock FontSize="16" FontWeight="Bold" Text="Credits" Margin="0,10,0,10"/>
-                    <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
-            IconExtractor by jsakamoto <Hyperlink NavigateUri="https://github.com/jsakamoto/iconextractor" RequestNavigate="Hyperlink_RequestNavigate">ProjectSite</Hyperlink>
-                    </TextBlock>
+                            <!-- Support and contact -->
+                            <TextBlock FontSize="16" FontWeight="Bold" Text="Support" Margin="0,10,0,10"/>
+                            <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
+To report bugs or request assistance, open a issue:
+<Hyperlink NavigateUri="https://github.com/kdesantis/AdminLauncher/issues" RequestNavigate="Hyperlink_RequestNavigate">GitHub issue</Hyperlink>
+                            </TextBlock>
 
-                    <!-- Support and contact -->
-                    <TextBlock FontSize="16" FontWeight="Bold" Text="Support" Margin="0,10,0,10"/>
-                    <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
-            To report bugs or request assistance, open a issue:
-            <Hyperlink NavigateUri="https://github.com/kdesantis/AdminLauncher/issues" RequestNavigate="Hyperlink_RequestNavigate">GitHub issue</Hyperlink>
-                    </TextBlock>
-
-                </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+                </ScrollViewer>
             </TabItem>
         </TabControl>
     </Grid>

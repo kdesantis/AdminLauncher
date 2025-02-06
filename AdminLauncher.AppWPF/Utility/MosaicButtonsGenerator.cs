@@ -26,7 +26,7 @@ namespace AdminLauncher.AppWPF.Utility
             WrapPanel gridPanel = new()
             {
                 Orientation = Orientation.Horizontal,
-                ItemWidth = (Window.Width - 35) / 2,
+                ItemWidth = (400 - 35) / 2,
                 HorizontalAlignment = HorizontalAlignment.Center,
             };
 

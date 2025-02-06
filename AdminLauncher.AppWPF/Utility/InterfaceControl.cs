@@ -4,6 +4,7 @@ using ControlzEx.Theming;
 using System.Configuration;
 using System.Windows;
 using System.Windows.Controls;
+using Orientation = System.Windows.Controls.Orientation;
 
 namespace AdminLauncher.AppWPF.Utility
 {
@@ -22,9 +23,27 @@ namespace AdminLauncher.AppWPF.Utility
                 mainWindow.Width = workAreaWidth;
             if (workAreaHeight < mainWindow.Height)
                 mainWindow.Height = workAreaHeight;
-          
+
             mainWindow.Left = workAreaWidth - mainWindow.Width;
             mainWindow.Top = workAreaHeight - mainWindow.Height;
+        }
+        public static void SetWindowOrietation(MainWindow mainWindow, WindowOrientationEnum windowOrientation)
+        {
+            if (windowOrientation == WindowOrientationEnum.Vertical)
+            {
+                mainWindow.Width = double.Parse(ConfigurationManager.AppSettings["WidthVertical"]);
+                mainWindow.Height = double.Parse(ConfigurationManager.AppSettings["HeightVertical"]);
+            }
+            else
+            {
+                mainWindow.Width = double.Parse(ConfigurationManager.AppSettings["WidthHorizontal"]);
+                mainWindow.Height = double.Parse(ConfigurationManager.AppSettings["HeightHorizontal"]);
+            }
+
+            mainWindow.ColumnsAboutStackPanel.Orientation = (Orientation)windowOrientation;
+            mainWindow.ColumnsAddRoutineStackPanel.Orientation = (Orientation)windowOrientation;
+            mainWindow.ColumnsAddProgramStackPanel.Orientation = (Orientation)windowOrientation;
+            PositionWindowInBottomRight(mainWindow);
         }
         private static void ClearAddProgramData(MainWindow mainWindow)
         {
@@ -122,6 +141,11 @@ namespace AdminLauncher.AppWPF.Utility
         {
             mainWindow.ButtonsOrientationCombobox.ItemsSource = Enum.GetValues(typeof(OrientationsButtonEnum));
             mainWindow.ButtonsOrientationCombobox.SelectedItem = manager.settingsManager.ButtonsOrientation;
+        }
+        public static void LoadWindowOrienationComboBox(MainWindow mainWindow, Manager manager)
+        {
+            mainWindow.WindowOrientationCombobox.ItemsSource = Enum.GetValues(typeof(WindowOrientationEnum));
+            mainWindow.WindowOrientationCombobox.SelectedItem = manager.settingsManager.WindowOrientation;
         }
 
         public static void PopolateThemeCombo(MainWindow mainWindow, string theme)
