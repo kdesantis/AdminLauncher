@@ -264,7 +264,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <StackPanel Grid.Row="0" Margin="0,0,0,5">
+                    <StackPanel Grid.Row="0">
                         <Grid Grid.Row="0" HorizontalAlignment="Center">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
