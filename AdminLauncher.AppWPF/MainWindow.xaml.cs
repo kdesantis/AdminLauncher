@@ -318,9 +318,9 @@ namespace AdminLauncher.AppWPF
             ProgramsConfiguratorWizard wizardWindow = new(manager.programManager.Programs, manager.settingsManager.Theme);
             double mainLeft = this.Left;
             double mainTop = this.Top;
-            double mainWidth = this.Width;
-            wizardWindow.Left = mainLeft - wizardWindow.Width; ;
+            wizardWindow.Left = mainLeft - wizardWindow.Width;
             wizardWindow.Top = mainTop;
+            wizardWindow.Height = this.Height;
             var result = wizardWindow.ShowDialog();
             if (result == true)
             {

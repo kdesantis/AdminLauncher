@@ -14,7 +14,9 @@ namespace AdminLauncher.AppWPF
         {
             if (value is double width)
                 if (width > 400)
-                    return width / 2;
+                    return (width / 2) - 10;
+                else
+                    return width - 15;
             return value;
         }
 

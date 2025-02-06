@@ -23,7 +23,7 @@ namespace AdminLauncher.AppWPF.Utility
                 mainWindow.Width = workAreaWidth;
             if (workAreaHeight < mainWindow.Height)
                 mainWindow.Height = workAreaHeight;
-          
+
             mainWindow.Left = workAreaWidth - mainWindow.Width;
             mainWindow.Top = workAreaHeight - mainWindow.Height;
         }
@@ -31,17 +31,18 @@ namespace AdminLauncher.AppWPF.Utility
         {
             if (windowOrientation == WindowOrientationEnum.Vertical)
             {
-                mainWindow.Width = 400;
-                mainWindow.Height = 800;
-                mainWindow.ColumnsAboutStackPanel.Orientation = Orientation.Vertical;
+                mainWindow.Width = double.Parse(ConfigurationManager.AppSettings["WidthVertical"]);
+                mainWindow.Height = double.Parse(ConfigurationManager.AppSettings["HeightVertical"]);
             }
             else
             {
-                //mainWindow.Width = 980;
-                mainWindow.Width = 770;
-                mainWindow.Height = 470;
-                mainWindow.ColumnsAboutStackPanel.Orientation = Orientation.Horizontal;
+                mainWindow.Width = double.Parse(ConfigurationManager.AppSettings["WidthHorizontal"]);
+                mainWindow.Height = double.Parse(ConfigurationManager.AppSettings["HeightHorizontal"]);
             }
+
+            mainWindow.ColumnsAboutStackPanel.Orientation = (Orientation)windowOrientation;
+            mainWindow.ColumnsAddRoutineStackPanel.Orientation = (Orientation)windowOrientation;
+            mainWindow.ColumnsAddProgramStackPanel.Orientation = (Orientation)windowOrientation;
             PositionWindowInBottomRight(mainWindow);
         }
         private static void ClearAddProgramData(MainWindow mainWindow)

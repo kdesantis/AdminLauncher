@@ -1,6 +1,6 @@
 {
   "Version": "1.7",
   "Type": 1,
-  "Url": "https://github.com/kdesantis/AdminLauncher/releases/download/1.6/Admin.Launcher_1.6_Setup.exe",
-  "ReleaseNotes": "-Fixed clone method"
+  "Url": "https://github.com/kdesantis/AdminLauncher/releases/download/1.7/Admin.Launcher_1.7_Setup.exe",
+  "ReleaseNotes": "-Fixed clone method\n-Added window orientation and added the horizontal window orientation\n-Adapted the height of the wizard window to the main window"
 }

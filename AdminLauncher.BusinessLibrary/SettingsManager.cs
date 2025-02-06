@@ -26,7 +26,7 @@ namespace AdminLauncher.BusinessLibrary
     }
     public enum WindowOrientationEnum
     {
-        Vertical,
-        Horizontal
+        Horizontal,
+        Vertical
     }
 }
