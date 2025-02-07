@@ -1,6 +1,6 @@
 {
-  "Version": "1.6",
+  "Version": "1.7",
   "Type": 1,
-  "Url": "https://github.com/kdesantis/AdminLauncher/releases/download/1.6/Admin.Launcher_1.6_Setup.exe",
-  "ReleaseNotes": "-Introduced the type of update to be performed\n-Added search box\n-Fixed problem on scrollbar into home panel"
+  "Url": "https://github.com/kdesantis/AdminLauncher/releases/download/1.7/Admin.Launcher_1.7_Setup.exe",
+  "ReleaseNotes": "-Added window orientation and added the horizontal window orientation\n-Adapted the height of the wizard window to the main window\n-Reduced height of main window\n-Fixed minor bug"
 }

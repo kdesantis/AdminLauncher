@@ -4,7 +4,7 @@ using File = System.IO.File;
 
 namespace AdminLauncher.BusinessLibrary
 {
-    public class ProgramItem : GenericItem
+    public class ProgramItem : GenericItem, ICloneable
     {
         private string _executablePath;
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
@@ -124,6 +124,19 @@ namespace AdminLauncher.BusinessLibrary
 
             _executablePath = executablePath;
             Arguments = arguments;
+        }
+
+        public object Clone()
+        {
+            return new ProgramItem
+            {
+                _executablePath = this._executablePath,
+                Arguments = this.Arguments,
+                IsFavorite = this.IsFavorite,
+                Index = this.Index,
+                Name = this.Name,
+                CustomIconPath = this.CustomIconPath
+            };
         }
     }
 }

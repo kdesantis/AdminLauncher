@@ -76,7 +76,21 @@ namespace AdminLauncher.BusinessLibrary
 
         public object Clone()
         {
-            return new ProgramManager() { CurrIndex = CurrIndex, Programs = new List<ProgramItem>(Programs), Routines = new List<RoutineItem>(Routines) };
+            var clonedPrograms = Programs.Select(program => (ProgramItem)program.Clone()).ToList();
+            var clonedRoutines = Routines.Select(routine => (RoutineItem)routine.Clone()).ToList();
+            return new ProgramManager
+            {
+                Programs = clonedPrograms,
+                Routines = clonedRoutines,
+                CurrIndex = this.CurrIndex
+            };
+        }
+        public void SetDonkeyAttributes()
+        {
+            foreach (var program in Programs)
+                program.SetDonkeyAttributes();
+            foreach (var routine in Routines)
+                routine.SetDonkeyAttributes();
         }
     }
 }
