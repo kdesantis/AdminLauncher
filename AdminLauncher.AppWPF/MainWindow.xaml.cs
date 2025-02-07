@@ -316,9 +316,13 @@ namespace AdminLauncher.AppWPF
         private void LaunchWizard_Click(object sender, RoutedEventArgs e)
         {
             ProgramsConfiguratorWizard wizardWindow = new(manager.programManager.Programs, manager.settingsManager.Theme);
-            double mainLeft = this.Left;
+            double mainLeft = this.Left - wizardWindow.Width;
             double mainTop = this.Top;
-            wizardWindow.Left = mainLeft - wizardWindow.Width;
+
+            if (mainLeft < 0)
+                mainLeft = 0;
+
+            wizardWindow.Left = mainLeft;
             wizardWindow.Top = mainTop;
             wizardWindow.Height = this.Height;
             var result = wizardWindow.ShowDialog();
