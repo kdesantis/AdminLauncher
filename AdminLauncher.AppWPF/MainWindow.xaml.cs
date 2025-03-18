@@ -15,6 +15,7 @@ using MahApps.Metro.Controls.Dialogs;
 using NLog;
 using AdminLauncher.UpdateLibrary;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Windows.Input;
 namespace AdminLauncher.AppWPF
 {
     /// <summary>
@@ -367,5 +368,18 @@ namespace AdminLauncher.AppWPF
                 buttonGenerator.GenerateButtons();
             }
         }
+
+        private void DonateTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true; // Impedisce la selezione del TabItem
+            string koFiUrl = ConfigurationManager.AppSettings["kofiUrl"];
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = koFiUrl,
+                UseShellExecute = true
+            });
+        }
+        
+        
     }
 }

@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AdminLauncher.AppWPF"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        mc:Ignorable="d"
+        xmlns:iconPacks="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:packIcons="http://metro.mahapps.com/winfx/xaml/iconpacks" xmlns:utility="clr-namespace:AdminLauncher.AppWPF.Utility" d:DataContext="{d:DesignInstance Type=utility:InstalledProgram}"
+                 mc:Ignorable="d"
         Title="Admin Launcher" 
         Height="400" Width="400"
         WindowStartupLocation="Manual"
@@ -31,10 +33,13 @@
         </Menu>
         <!-- TabControl To organize the different sections -->
         <TabControl x:Name="MainTabControl" Grid.Row="1" Margin="5" SelectionChanged="TabControl_SelectionChanged"  
-                    mah:HeaderedControlHelper.HeaderFontSize="15" mah:HeaderedControlHelper.HeaderFontWeight="Medium" 
-                    Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
+                     mah:HeaderedControlHelper.HeaderFontSize="15" mah:HeaderedControlHelper.HeaderFontWeight="Medium" 
+                    Style="{DynamicResource MahApps.Styles.TabControl.Animated}" TabStripPlacement="Left">
             <!-- Tab Home -->
-            <TabItem Header="Home" x:Name="HomeTab">
+            <TabItem x:Name="HomeTab">
+                <TabItem.Header>
+                    <packIcons:PackIconMaterial Kind="Home" Width="24" Height="24" Margin="0,0,0,15"/>
+                </TabItem.Header>
                 <Grid Margin="0,0,0,15">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -55,7 +60,10 @@
             </TabItem>
 
             <!-- Tab Settings -->
-            <TabItem Header="Settings" x:Name="SettingsTab">
+            <TabItem x:Name="SettingsTab">
+                <TabItem.Header>
+                    <packIcons:PackIconMaterial Kind="CogOutline" Width="24" Height="24" Margin="0,0,0,15"/>
+                </TabItem.Header>
                 <StackPanel x:Name="ColumnsSettingsStackPanel"  Orientation="Vertical">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -155,60 +163,68 @@
             </TabItem>
 
             <!-- Tab Add Program -->
-            <TabItem Header="Add Program" x:Name="AddProgramTab">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" x:Name="ColumnsAddProgramStackPanel" Orientation="Vertical">
+            <TabItem x:Name="AddProgramTab">
+                <TabItem.Header>
+                    <packIcons:PackIconMaterial Kind="PlusThick" Width="24" Height="24" Margin="0,0,0,15"/>
+                </TabItem.Header>
+                <StackPanel>
+                    
+                
+                <!-- Grid manually add-->
+                    <Grid Visibility="Visible">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" x:Name="ColumnsAddProgramStackPanel" Orientation="Vertical">
 
-                        <StackPanel  Orientation="Vertical" Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
+                            <StackPanel  Orientation="Vertical" Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
 
-                            <Label x:Name="ProgramIndexLabel" Visibility="Collapsed" Content="-1"/>
-                            <Label Content="Name"/>
-                            <TextBox x:Name="ProgramNameTextBox" Margin="5"/>
-                            <Label Content="Path"/>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80*"/>
-                                    <ColumnDefinition Width="20*"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBox x:Name="ProgramPathTextBox" Grid.Column="0" Margin="5"/>
-                                <Button Content="Browse..." Click="BrowseButton_Click" Grid.Column="1" Margin="5"/>
+                                <Label x:Name="ProgramIndexLabel" Visibility="Collapsed" Content="-1"/>
+                                <Label Content="Name"/>
+                                <TextBox x:Name="ProgramNameTextBox" Margin="5"/>
+                                <Label Content="Path"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80*"/>
+                                        <ColumnDefinition Width="20*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox x:Name="ProgramPathTextBox" Grid.Column="0" Margin="5"/>
+                                    <Button Content="Browse..." Click="BrowseButton_Click" Grid.Column="1" Margin="5"/>
 
-                            </Grid>
-                            <Label Content="Arguments"/>
-                            <TextBox x:Name="ProgramArgumentsTextBox" Margin="5"/>
+                                </Grid>
+                                <Label Content="Arguments"/>
+                                <TextBox x:Name="ProgramArgumentsTextBox" Margin="5"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
+
+
+                                <Label Content="Custom Icon"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80*"/>
+                                        <ColumnDefinition Width="20*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox x:Name="ProgramIconPathTextBox" Grid.Column="0" Margin="5"/>
+                                    <Button Content="Browse..." Click="BrowseProgramIconButton_Click" Grid.Column="1" Margin="5"/>
+                                </Grid>
+
+
+                            </StackPanel>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
-
-
-                            <Label Content="Custom Icon"/>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80*"/>
-                                    <ColumnDefinition Width="20*"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBox x:Name="ProgramIconPathTextBox" Grid.Column="0" Margin="5"/>
-                                <Button Content="Browse..." Click="BrowseProgramIconButton_Click" Grid.Column="1" Margin="5"/>
-                            </Grid>
-
-                            
+                        <StackPanel Grid.Row="1" Orientation="Vertical">
+                            <CheckBox x:Name="FavoriteCheckBox" Content="Is Favorite" Margin="5"/>
+                            <StackPanel  Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+                                <Button Content="Save" Click="SaveProgram_Click" Width="100" Margin="5"/>
+                                <Button Content="Cancel" Click="CancelProgram_Click" Width="100" Margin="5"/>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                    <StackPanel Grid.Row="1" Orientation="Vertical">
-                        <CheckBox x:Name="FavoriteCheckBox" Content="Is Favorite" Margin="5"/>
-                        <StackPanel  Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
-                            <Button Content="Save" Click="SaveProgram_Click" Width="100" Margin="5"/>
-                            <Button Content="Cancel" Click="CancelProgram_Click" Width="100" Margin="5"/>
-                        </StackPanel>
-                    </StackPanel>
-                </Grid>
+                    </Grid>
+                </StackPanel>
             </TabItem>
 
             <!-- Tab Add Routine -->
-            <TabItem Header="Add Routine" x:Name="AddRoutineTab">
+            <TabItem Header="Add Routine" x:Name="AddRoutineTab" Visibility="Collapsed">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -254,7 +270,10 @@
             </TabItem>
 
             <!-- Tab About -->
-            <TabItem Header="About" x:Name="AboutTab">
+            <TabItem x:Name="AboutTab">
+                <TabItem.Header>
+                    <packIcons:PackIconMaterial Kind="Information" Width="24" Height="24" Margin="0,0,0,10"/>
+                </TabItem.Header>
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     
                 
@@ -320,20 +339,20 @@ This software is distributed under the GNU General Public License v3.0.
                         <StackPanel Grid.Column="1" Orientation="Vertical" Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
 
                             <!-- Useful Links -->
-                            <TextBlock FontSize="16" FontWeight="Bold" Text="Useful Links" Margin="0,10,0,10"/>
+                                <TextBlock FontSize="16" FontWeight="Bold" Text="Useful Links" Margin="0,10,40,10"/>
                             <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
 <Hyperlink NavigateUri="https://github.com/kdesantis/AdminLauncher" RequestNavigate="Hyperlink_RequestNavigate">GitHub repository</Hyperlink>
                             </TextBlock>
                             
                             <!-- Credits -->
-                            <TextBlock FontSize="16" FontWeight="Bold" Text="Credits" Margin="0,10,0,10"/>
+                                <TextBlock FontSize="16" FontWeight="Bold" Text="Credits" Margin="0,10,40,10"/>
                             <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
 IconExtractor by jsakamoto <Hyperlink NavigateUri="https://github.com/jsakamoto/iconextractor" RequestNavigate="Hyperlink_RequestNavigate">ProjectSite</Hyperlink>
                             </TextBlock>
 
                             <!-- Support and contact -->
-                            <TextBlock FontSize="16" FontWeight="Bold" Text="Support" Margin="0,10,0,10"/>
-                            <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
+                                <TextBlock FontSize="16" FontWeight="Bold" Text="Support" Margin="0,10,40,10"/>
+                            <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,40,10">
 To report bugs or request assistance, open a issue:
 <Hyperlink NavigateUri="https://github.com/kdesantis/AdminLauncher/issues" RequestNavigate="Hyperlink_RequestNavigate">GitHub issue</Hyperlink>
                             </TextBlock>
@@ -342,6 +361,11 @@ To report bugs or request assistance, open a issue:
                     </StackPanel>
                 </Grid>
                 </ScrollViewer>
+            </TabItem>
+            <TabItem x:Name="DonateTab" PreviewMouseDown="DonateTab_PreviewMouseDown">
+                <TabItem.Header>
+                    <packIcons:PackIconMaterial Kind="Gift" Width="24" Height="24" Margin="0,0,0,15"/>
+                </TabItem.Header>
             </TabItem>
         </TabControl>
     </Grid>
