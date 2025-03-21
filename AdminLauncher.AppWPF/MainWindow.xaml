@@ -198,33 +198,37 @@
                     <Grid x:Name="ManuallyAddGrid" Visibility="Collapsed" Grid.Row="0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
 
                         <StackPanel Grid.Row="0" x:Name="ColumnsAddProgramStackPanel" Orientation="Vertical">
-                            <Label x:Name="ProgramIndexLabel" Visibility="Collapsed" Content="-1"/>
-                            <Label Content="Name"/>
-                            <TextBox x:Name="ProgramNameTextBox" Margin="5"/>
-                            <Label Content="Path"/>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80*"/>
-                                    <ColumnDefinition Width="20*"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBox x:Name="ProgramPathTextBox" Grid.Column="0" Margin="5"/>
-                                <Button Content="Browse..." Click="BrowseButton_Click" Grid.Column="1" Margin="5"/>
-                            </Grid>
-                            <Label Content="Arguments"/>
-                            <TextBox x:Name="ProgramArgumentsTextBox" Margin="5"/>
-                            <Label Content="Custom Icon"/>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80*"/>
-                                    <ColumnDefinition Width="20*"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBox x:Name="ProgramIconPathTextBox" Grid.Column="0" Margin="5"/>
-                                <Button Content="Browse..." Click="BrowseProgramIconButton_Click" Grid.Column="1" Margin="5"/>
-                            </Grid>
+                            <StackPanel  Orientation="Vertical" Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
+                                <Label x:Name="ProgramIndexLabel" Visibility="Collapsed" Content="-1"/>
+                                <Label Content="Name"/>
+                                <TextBox x:Name="ProgramNameTextBox" Margin="5"/>
+                                <Label Content="Path"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80*"/>
+                                        <ColumnDefinition Width="20*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox x:Name="ProgramPathTextBox" Grid.Column="0" Margin="5"/>
+                                    <Button Content="Browse..." Click="BrowseButton_Click" Grid.Column="1" Margin="5"/>
+                                </Grid>
+                                <Label Content="Arguments"/>
+                                <TextBox x:Name="ProgramArgumentsTextBox" Margin="5"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
+                                <Label Content="Custom Icon"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80*"/>
+                                        <ColumnDefinition Width="20*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox x:Name="ProgramIconPathTextBox" Grid.Column="0" Margin="5"/>
+                                    <Button Content="Browse..." Click="BrowseProgramIconButton_Click" Grid.Column="1" Margin="5"/>
+                                </Grid>
+                            </StackPanel>
                         </StackPanel>
                         <StackPanel Grid.Row="1" Orientation="Vertical">
                             <CheckBox x:Name="FavoriteCheckBox" Content="Is Favorite" Margin="5"/>
