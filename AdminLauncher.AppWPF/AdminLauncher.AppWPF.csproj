@@ -15,6 +15,7 @@
     <None Remove="OnOff.png" />
     <None Remove="Resources\donkey.png" />
     <None Remove="Resources\kofi_symbol.png" />
+    <None Remove="Resources\QuickRunIcon.png" />
     <None Remove="rocket.png" />
     <None Remove="rocketDebug.ico" />
   </ItemGroup>
@@ -53,6 +54,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\OnOff.png" />
+    <Resource Include="Resources\QuickRunIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\rocket.png" />
   </ItemGroup>
 

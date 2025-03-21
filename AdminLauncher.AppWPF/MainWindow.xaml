@@ -20,8 +20,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <iconPacks:RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Menu VerticalAlignment="Top" Grid.Row="0">
+        <Menu Visibility="Collapsed" VerticalAlignment="Center">
             <MenuItem Header="Quick Run" Click="QuickRun_Click"/>
             <MenuItem Header="Programs Wizard" Click="LaunchWizard_Click"/>
             <MenuItem Click="KoFi_Click">
@@ -32,20 +33,30 @@
             </MenuItem>
         </Menu>
         <!-- TabControl To organize the different sections -->
-        <TabControl x:Name="MainTabControl" Grid.Row="1" Margin="5" SelectionChanged="TabControl_SelectionChanged"  
+        <TabControl x:Name="MainTabControl" Grid.Row="1" Margin="5,5,5,5" SelectionChanged="TabControl_SelectionChanged"  
                      mah:HeaderedControlHelper.HeaderFontSize="15" mah:HeaderedControlHelper.HeaderFontWeight="Medium" 
-                    Style="{DynamicResource MahApps.Styles.TabControl.Animated}" TabStripPlacement="Left">
+                    Style="{DynamicResource MahApps.Styles.TabControl.Animated}" TabStripPlacement="Left" iconPacks:Grid.RowSpan="2">
             <!-- Tab Home -->
             <TabItem x:Name="HomeTab">
                 <TabItem.Header>
-                    <packIcons:PackIconMaterial Kind="Home" Width="24" Height="24" Margin="0,0,0,15"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  Margin="0,10,0,0">
+                        <packIcons:PackIconMaterial Kind="Home" Width="24" Height="24" Margin="0,0,5,0"/>
+                        <TextBlock Text="Home" VerticalAlignment="Center"/>
+                    </StackPanel>
                 </TabItem.Header>
                 <Grid Margin="0,0,0,15">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0">
+                    <Button Grid.Row="0" x:Name="QuickRunButton" Margin="5" Click="QuickRunButton_Click">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Source="/Resources/QuickRunIcon.png" Width="48" Height="48" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Quick Run" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Grid Grid.Row="1" Margin="0,10,0,0">
                         <TextBox x:Name="SearchTextBox" TextChanged="SearchTextBox_TextChanged" Margin="5"/>
                         <TextBlock x:Name="PlaceholderText" Text="🔍Search here" 
                             Foreground="Gray" 
@@ -53,7 +64,7 @@
                             IsHitTestVisible="False"
                             Margin="10,0,0,0" />
                     </Grid>
-                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                         <StackPanel x:Name="ButtonPanel" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
                     </ScrollViewer>
                 </Grid>
@@ -61,25 +72,29 @@
 
             <!-- Tab Settings -->
             <TabItem x:Name="SettingsTab">
+
                 <TabItem.Header>
-                    <packIcons:PackIconMaterial Kind="CogOutline" Width="24" Height="24" Margin="0,0,0,15"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,10,0,0">
+                        <packIcons:PackIconMaterial Kind="CogOutline" Width="24" Height="24" Margin="0,0,5,0"/>
+                        <TextBlock Text="Settings" VerticalAlignment="Center"/>
+                    </StackPanel>
                 </TabItem.Header>
                 <StackPanel x:Name="ColumnsSettingsStackPanel"  Orientation="Vertical">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0">
-                                <Label Content="Buttons Orientation"/>
-                                <ComboBox x:Name="ButtonsOrientationCombobox" Margin="5" SelectionChanged="ButtonsOrientationCombobox_Selected"/>
-                            </StackPanel>
-                            <StackPanel Grid.Column="1">
-                                <Label Content="Window Orientation"/>
-                                <ComboBox x:Name="WindowOrientationCombobox" Margin="5" SelectionChanged="WindowOrientationCombobox_Selected"/>
-                            </StackPanel>
-                        </Grid>
-                        <Label Content="File dialog initial path"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <Label Content="Buttons Orientation"/>
+                            <ComboBox x:Name="ButtonsOrientationCombobox" Margin="5" SelectionChanged="ButtonsOrientationCombobox_Selected"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <Label Content="Window Orientation"/>
+                            <ComboBox x:Name="WindowOrientationCombobox" Margin="5" SelectionChanged="WindowOrientationCombobox_Selected"/>
+                        </StackPanel>
+                    </Grid>
+                    <Label Content="File dialog initial path"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="80*"/>
@@ -165,62 +180,108 @@
             <!-- Tab Add Program -->
             <TabItem x:Name="AddProgramTab">
                 <TabItem.Header>
-                    <packIcons:PackIconMaterial Kind="PlusThick" Width="24" Height="24" Margin="0,0,0,15"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,10,0,0">
+                        <packIcons:PackIconMaterial Kind="PlusThick" Width="24" Height="24" Margin="0,0,5,0"/>
+                        <TextBlock Text="Add Program" VerticalAlignment="Center"/>
+                    </StackPanel>
                 </TabItem.Header>
-                <StackPanel>
-                    
-                
-                <!-- Grid manually add-->
-                    <Grid Visibility="Visible">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <!-- Manually Add Section -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- Guided Add Section -->
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Grid manually add -->
+                    <Grid x:Name="ManuallyAddGrid" Visibility="Collapsed" Grid.Row="0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
-                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
+
                         <StackPanel Grid.Row="0" x:Name="ColumnsAddProgramStackPanel" Orientation="Vertical">
-
-                            <StackPanel  Orientation="Vertical" Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
-
-                                <Label x:Name="ProgramIndexLabel" Visibility="Collapsed" Content="-1"/>
-                                <Label Content="Name"/>
-                                <TextBox x:Name="ProgramNameTextBox" Margin="5"/>
-                                <Label Content="Path"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="80*"/>
-                                        <ColumnDefinition Width="20*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox x:Name="ProgramPathTextBox" Grid.Column="0" Margin="5"/>
-                                    <Button Content="Browse..." Click="BrowseButton_Click" Grid.Column="1" Margin="5"/>
-
-                                </Grid>
-                                <Label Content="Arguments"/>
-                                <TextBox x:Name="ProgramArgumentsTextBox" Margin="5"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Vertical" Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
-
-
-                                <Label Content="Custom Icon"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="80*"/>
-                                        <ColumnDefinition Width="20*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox x:Name="ProgramIconPathTextBox" Grid.Column="0" Margin="5"/>
-                                    <Button Content="Browse..." Click="BrowseProgramIconButton_Click" Grid.Column="1" Margin="5"/>
-                                </Grid>
-
-
-                            </StackPanel>
+                            <Label x:Name="ProgramIndexLabel" Visibility="Collapsed" Content="-1"/>
+                            <Label Content="Name"/>
+                            <TextBox x:Name="ProgramNameTextBox" Margin="5"/>
+                            <Label Content="Path"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80*"/>
+                                    <ColumnDefinition Width="20*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="ProgramPathTextBox" Grid.Column="0" Margin="5"/>
+                                <Button Content="Browse..." Click="BrowseButton_Click" Grid.Column="1" Margin="5"/>
+                            </Grid>
+                            <Label Content="Arguments"/>
+                            <TextBox x:Name="ProgramArgumentsTextBox" Margin="5"/>
+                            <Label Content="Custom Icon"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80*"/>
+                                    <ColumnDefinition Width="20*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="ProgramIconPathTextBox" Grid.Column="0" Margin="5"/>
+                                <Button Content="Browse..." Click="BrowseProgramIconButton_Click" Grid.Column="1" Margin="5"/>
+                            </Grid>
                         </StackPanel>
                         <StackPanel Grid.Row="1" Orientation="Vertical">
                             <CheckBox x:Name="FavoriteCheckBox" Content="Is Favorite" Margin="5"/>
-                            <StackPanel  Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
                                 <Button Content="Save" Click="SaveProgram_Click" Width="100" Margin="5"/>
                                 <Button Content="Cancel" Click="CancelProgram_Click" Width="100" Margin="5"/>
                             </StackPanel>
                         </StackPanel>
                     </Grid>
-                </StackPanel>
+
+                    <!-- Guided Add Grid -->
+                    <Grid x:Name="GuidedAddGrid" Margin="10" Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <!-- Label -->
+                            <RowDefinition Height="Auto"/>
+                            <!-- TextBox -->
+                            <RowDefinition Height="Auto"/>
+                            <!-- ListBox con scroll -->
+                            <RowDefinition Height="*"/>
+                            <!-- Button -->
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Textbox for search -->
+                        <TextBox x:Name="SearchBox" Grid.Row="1" Margin="5" VerticalAlignment="Top" 
+                     TextChanged="SearchBox_TextChanged" 
+                     ToolTip="Enter a program name to filter the list"/>
+
+                        <!-- Label with instruction -->
+                        <Label Content="Select the programmes you want to import into Home" 
+                   Grid.Row="0" Margin="5"/>
+
+                        <!-- Contenitore per ListBox con scorrimento -->
+                        <Border Grid.Row="2" BorderThickness="1">
+                            <ListBox x:Name="ProgramListBox" Grid.Row="2" ItemsSource="{Binding FilteredProgramList}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Margin="5">
+                                            <!-- Checkbox -->
+                                            <CheckBox IsChecked="{Binding IsChecked}" Margin="5" VerticalAlignment="Center"/>
+
+                                            <!-- Icon -->
+                                            <Image Width="32" Height="32" Source="{Binding Icon}" Margin="5"/>
+
+                                            <!-- Program name -->
+                                            <TextBlock Text="{Binding Program.Name}" VerticalAlignment="Center" Margin="5"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Border>
+
+                        <!-- Button import -->
+                        <Button Content="Import to Home" Grid.Row="3" HorizontalAlignment="Right" 
+                    Margin="5" Width="150" Click="ProcessSelectedPrograms"/>
+                    </Grid>
+                </Grid>
             </TabItem>
 
             <!-- Tab Add Routine -->
@@ -272,99 +333,105 @@
             <!-- Tab About -->
             <TabItem x:Name="AboutTab">
                 <TabItem.Header>
-                    <packIcons:PackIconMaterial Kind="Information" Width="24" Height="24" Margin="0,0,0,10"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,10,0,0">
+                        <packIcons:PackIconMaterial Kind="Information" Width="24" Height="24" Margin="0,0,5,0"/>
+                        <TextBlock Text="About" VerticalAlignment="Center"/>
+                    </StackPanel>
                 </TabItem.Header>
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    
-                
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
 
-                    <StackPanel Grid.Row="0">
-                        <Grid Grid.Row="0" HorizontalAlignment="Center">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" FontSize="24" FontWeight="Bold" Text="Admin Launcher " Margin="0,10,0,0"/>
-                            <TextBlock x:Name="CurrentVersionText" Grid.Column="1" FontSize="24" FontWeight="Bold" Text="0.0.0"  Margin="0,10,0,0"/>
-                        </Grid>
-                        <Grid Grid.Row="1" HorizontalAlignment="Center">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" FontSize="14"  Text="Last version: " HorizontalAlignment="Left" />
-                            <TextBlock x:Name="LastVersionText" Grid.Column="1" FontSize="14"  Text="0.0.0" HorizontalAlignment="Left" Margin="0,0,10,0"/>
-                            <TextBlock x:Name="UpdateLink" Grid.Column="2" FontSize="14" TextWrapping="Wrap" Visibility="Collapsed" Margin="0,0,0,10">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0">
+                            <Grid Grid.Row="0" HorizontalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" FontSize="24" FontWeight="Bold" Text="Admin Launcher " Margin="0,10,0,0"/>
+                                <TextBlock x:Name="CurrentVersionText" Grid.Column="1" FontSize="24" FontWeight="Bold" Text="0.0.0"  Margin="0,10,0,0"/>
+                            </Grid>
+                            <Grid Grid.Row="1" HorizontalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" FontSize="14"  Text="Last version: " HorizontalAlignment="Left" />
+                                <TextBlock x:Name="LastVersionText" Grid.Column="1" FontSize="14"  Text="0.0.0" HorizontalAlignment="Left" Margin="0,0,10,0"/>
+                                <TextBlock x:Name="UpdateLink" Grid.Column="2" FontSize="14" TextWrapping="Wrap" Visibility="Collapsed" Margin="0,0,0,10">
 <Hyperlink x:Name="UpdateLinkHyperLink" Click="UpdateHyperLink_Click">Download Now!</Hyperlink>
-                            </TextBlock>
-                            <TextBlock x:Name="CheckUpdateLink" Grid.Column="2" FontSize="12" TextWrapping="Wrap" Visibility="Collapsed" Margin="0,0,0,10">
+                                </TextBlock>
+                                <TextBlock x:Name="CheckUpdateLink" Grid.Column="2" FontSize="12" TextWrapping="Wrap" Visibility="Collapsed" Margin="0,0,0,10">
 <Hyperlink x:Name="CheckUpdateHyperLinl" Click="CheckUpdateHyperLinl_Click">Check Update</Hyperlink>
 
-                            </TextBlock>
-                        </Grid>
-                    </StackPanel>
-
-
-                    <StackPanel x:Name="ColumnsAboutStackPanel" Grid.Row="1" Margin="5">
-
-                        <StackPanel Grid.Column="0" Orientation="Vertical"  Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
-
-                            <!-- Authors/Developers -->
-
-                            <TextBlock FontSize="16" FontWeight="Bold" Text="Developed by" Margin="0,10,0,10"/>
-                            <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
-De Santis Kevin
-                            </TextBlock>
-                            <Button Width="auto" Height="auto" HorizontalAlignment="Left" VerticalAlignment="Center" Click="KoFi_Click">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <!-- Icona Ko-fi dalla risorsa -->
-                                    <Image Source="pack://application:,,,/Resources/kofi_symbol.png" Width="24" Height="24" Margin="10,0,10,0"/>
-                                    <!-- Testo del pulsante -->
-                                    <TextBlock VerticalAlignment="Center" FontSize="14" Text="Support Me on Ko-fi" Margin="0,0,10,0"/>
-                                </StackPanel>
-                            </Button>
-                            <!-- License -->
-                            <TextBlock FontSize="16" FontWeight="Bold" Text="License" Margin="0,10,0,10"/>
-                            <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
-This software is distributed under the GNU General Public License v3.0.
-                            </TextBlock>
-
+                                </TextBlock>
+                            </Grid>
                         </StackPanel>
-                        <StackPanel Grid.Column="1" Orientation="Vertical" Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
 
-                            <!-- Useful Links -->
-                                <TextBlock FontSize="16" FontWeight="Bold" Text="Useful Links" Margin="0,10,40,10"/>
-                            <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
+
+                        <StackPanel HorizontalAlignment="Left" x:Name="ColumnsAboutStackPanel" Grid.Row="1">
+
+                            <StackPanel Grid.Column="0" Orientation="Vertical"  Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
+
+                                <!-- Authors/Developers -->
+
+                                <TextBlock FontSize="16" FontWeight="Bold" Text="Developed by" Margin="0,10,0,10"/>
+                                <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
+De Santis Kevin
+                                </TextBlock>
+                                <Button Width="auto" Height="auto" HorizontalAlignment="Left" VerticalAlignment="Center" Click="KoFi_Click">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <!-- Icona Ko-fi dalla risorsa -->
+                                        <Image Source="pack://application:,,,/Resources/kofi_symbol.png" Width="24" Height="24" Margin="10,0,10,0"/>
+                                        <!-- Testo del pulsante -->
+                                        <TextBlock VerticalAlignment="Center" FontSize="14" Text="Support Me on Ko-fi" Margin="0,0,10,0"/>
+                                    </StackPanel>
+                                </Button>
+                                <!-- License -->
+                                <TextBlock FontSize="16" FontWeight="Bold" Text="License" Margin="0,10,0,10"/>
+                                <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
+This software is distributed under the GNU General Public License v3.0.
+                                </TextBlock>
+
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Orientation="Vertical" Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
+
+                                <!-- Useful Links -->
+                                <TextBlock FontSize="16" FontWeight="Bold" Text="Useful Links" Margin="0,10,0,10"/>
+                                <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
 <Hyperlink NavigateUri="https://github.com/kdesantis/AdminLauncher" RequestNavigate="Hyperlink_RequestNavigate">GitHub repository</Hyperlink>
-                            </TextBlock>
-                            
-                            <!-- Credits -->
-                                <TextBlock FontSize="16" FontWeight="Bold" Text="Credits" Margin="0,10,40,10"/>
-                            <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
-IconExtractor by jsakamoto <Hyperlink NavigateUri="https://github.com/jsakamoto/iconextractor" RequestNavigate="Hyperlink_RequestNavigate">ProjectSite</Hyperlink>
-                            </TextBlock>
+                                </TextBlock>
 
-                            <!-- Support and contact -->
-                                <TextBlock FontSize="16" FontWeight="Bold" Text="Support" Margin="0,10,40,10"/>
-                            <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,40,10">
+                                <!-- Credits -->
+                                <TextBlock FontSize="16" FontWeight="Bold" Text="Credits" Margin="0,10,0,10"/>
+                                <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
+IconExtractor by jsakamoto <Hyperlink NavigateUri="https://github.com/jsakamoto/iconextractor" RequestNavigate="Hyperlink_RequestNavigate">ProjectSite</Hyperlink>
+                                </TextBlock>
+
+                                <!-- Support and contact -->
+                                <TextBlock FontSize="16" FontWeight="Bold" Text="Support" Margin="0,10,0,10"/>
+                                <TextBlock FontSize="14" TextWrapping="Wrap" Margin="0,0,0,10">
 To report bugs or request assistance, open a issue:
 <Hyperlink NavigateUri="https://github.com/kdesantis/AdminLauncher/issues" RequestNavigate="Hyperlink_RequestNavigate">GitHub issue</Hyperlink>
-                            </TextBlock>
+                                </TextBlock>
 
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                </Grid>
+                    </Grid>
                 </ScrollViewer>
             </TabItem>
             <TabItem x:Name="DonateTab" PreviewMouseDown="DonateTab_PreviewMouseDown">
                 <TabItem.Header>
-                    <packIcons:PackIconMaterial Kind="Gift" Width="24" Height="24" Margin="0,0,0,15"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,10,0,0">
+                        <packIcons:PackIconMaterial Kind="Heart" Width="24" Height="24" Margin="0,0,5,0"/>
+                        <TextBlock Text="Donate" VerticalAlignment="Center"/>
+                    </StackPanel>
                 </TabItem.Header>
             </TabItem>
         </TabControl>

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using Button = System.Windows.Controls.Button;
 using Image = System.Windows.Controls.Image;
 
@@ -40,8 +41,7 @@ namespace AdminLauncher.AppWPF.Utility
                 Content = CreateButtonContent(item),
                 ContextMenu = CreateContextMenu(item)
             };
-
-            button.Click += (sender, e) => Window.CurrentDialogUtility.LaunchInformatinError(item.Launch());
+                button.Click += (sender, e) => Window.CurrentDialogUtility.LaunchInformatinError(item.Launch());
 
             return button;
         }

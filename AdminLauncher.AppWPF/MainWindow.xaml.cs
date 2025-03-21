@@ -35,12 +35,60 @@ namespace AdminLauncher.AppWPF
         public MainWindow()
         {
             InitializeComponent();
+            LoadInstallerProgramList();
         }
+
+        private void LoadInstallerProgramList()
+        {
+            DataContext = this;
+
+            // Retrieves the installed programs and creates the ProgramItemForListbox list
+            var ProgramsInstalled = new InstalledProgramUtility().GetInstalledProgram();
+            ProgramList = new ObservableCollection<ProgramItemForListbox>(
+                ProgramsInstalled.Select(p => new ProgramItemForListbox
+                {
+                    Program = p,
+                    IsChecked = false
+                })
+            );
+            ProgramList = new ObservableCollection<ProgramItemForListbox>(ProgramList);
+            FilteredProgramList = new ObservableCollection<ProgramItemForListbox>(ProgramList);
+        }
+
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             StartOperation(sender, e);
         }
+        public ObservableCollection<ProgramItemForListbox> ProgramList { get; set; }
+        public ObservableCollection<ProgramItemForListbox> FilteredProgramList { get; set; }
+        public List<ProgramItem> SelectedProgram { get; private set; }
 
+        private void ProcessSelectedPrograms(object sender, RoutedEventArgs e)
+        {
+            // Filter selected programs
+            SelectedProgram = ProgramList.Where(p => p.IsChecked).Select(p => p.Program).ToList();
+
+            foreach (var item in SelectedProgram)
+                manager.programManager.AddProgram(item);
+
+            ProgramList.Where(p => p.IsChecked).ToList().ForEach(p => p.IsChecked = false);
+            FilteredProgramList = new ObservableCollection<ProgramItemForListbox>(ProgramList);
+            ReloadPrograms();
+            MainTabControl.SelectedIndex = 0;
+        }
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string filterText = SearchBox.Text.ToLower();
+            // Update filtered list
+            FilteredProgramList.Clear();
+            foreach (var program in ProgramList)
+            {
+                if (program.Program.Name.ToLower().Contains(filterText))
+                {
+                    FilteredProgramList.Add(program);
+                }
+            }
+        }
         private async void StartOperation(object sender, RoutedEventArgs e)
         {
             CurrentDialogUtility = new(this);
@@ -115,21 +163,21 @@ namespace AdminLauncher.AppWPF
                 TabControl tabControl = (TabControl)sender;
                 TabItem selectedTab = (TabItem)tabControl.SelectedItem;
 
-                switch (selectedTab.Header.ToString())
+                switch (selectedTab.Name.ToString())
                 {
-                    case "Home":
+                    case "HomeTab":
                         Home_Click(sender, e);
                         break;
-                    case "Settings":
+                    case "SettingsTab":
                         Settings_Click(sender, e);
                         break;
-                    case "Add Program":
+                    case "AddProgramTab":
                         AddProgram_Click(sender, e);
                         break;
-                    case "Add Routine":
+                    case "AddRoutineTab":
                         AddRoutine_Click(sender, e);
                         break;
-                    case "About":
+                    case "AboutTab":
                         About_Click(sender, e);
                         break;
                 }
@@ -379,7 +427,10 @@ namespace AdminLauncher.AppWPF
                 UseShellExecute = true
             });
         }
-        
-        
+
+        private void QuickRunButton_Click(object sender, RoutedEventArgs e)
+        {
+            QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath, CurrentDialogUtility);
+        }
     }
 }

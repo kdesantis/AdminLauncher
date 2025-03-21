@@ -11,8 +11,8 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.Orange.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style TargetType="Button" BasedOn="{StaticResource MahApps.Styles.Button}">
-                <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent}"/>
-                <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.IdealForeground}" />
+                <!--<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent}"/>-->
+                <!--<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.IdealForeground}" />-->
             </Style>
         <local:HalfWidthConverter x:Key="HalfWidthConverter"/>
         </ResourceDictionary>
