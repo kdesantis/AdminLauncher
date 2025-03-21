@@ -91,13 +91,10 @@ namespace AdminLauncher.AppWPF.Utility
                     break;
                 case InterfaceEnum.AddProgramInterface:
                     mainWindow.MainTabControl.SelectedItem = mainWindow.AddProgramTab;
-                    mainWindow.ManuallyAddGrid.Visibility = Visibility.Collapsed;
-                    mainWindow.GuidedAddGrid.Visibility = Visibility.Visible;
                     break;
                 case InterfaceEnum.ModifyProgramInterface:
                     mainWindow.MainTabControl.SelectedItem = mainWindow.AddProgramTab;
-                    mainWindow.ManuallyAddGrid.Visibility = Visibility.Visible;
-                    mainWindow.GuidedAddGrid.Visibility = Visibility.Collapsed;
+                    mainWindow.AddProgramTabControl.SelectedItem = mainWindow.ManuallyTabItem;
                     break;
                 case InterfaceEnum.AddRoutineInterface:
                     mainWindow.MainTabControl.SelectedItem = mainWindow.AddRoutineTab;
