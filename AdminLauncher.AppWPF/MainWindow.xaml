@@ -178,116 +178,117 @@
             </TabItem>
 
             <!-- Tab Add Program -->
-            <TabItem x:Name="AddProgramTab">
+            <TabItem x:Name="AddProgramTab" PreviewMouseDown="AddProgramTab_PreviewMouseDown">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,10,0,0">
                         <packIcons:PackIconMaterial Kind="PlusThick" Width="24" Height="24" Margin="0,0,5,0"/>
                         <TextBlock Text="Add Program" VerticalAlignment="Center"/>
                     </StackPanel>
                 </TabItem.Header>
+            </TabItem>
 
-                <TabControl x:Name="AddProgramTabControl" mah:HeaderedControlHelper.HeaderMargin="100"
-                            Style="{DynamicResource MahApps.Styles.TabControl.Animated}" 
-                            >
-                    <TabItem x:Name="AssistedTabItem" Header="Assisted">
-                        <!-- Guided Add Grid -->
-                        <Grid x:Name="AssistedAddGrid" Margin="10" Grid.Row="1">
-                            <Grid.RowDefinitions>
-                                <!-- Label -->
-                                <RowDefinition Height="Auto"/>
-                                <!-- TextBox -->
-                                <RowDefinition Height="Auto"/>
-                                <!-- ListBox con scroll -->
-                                <RowDefinition Height="*"/>
-                                <!-- Button -->
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
+            <TabItem x:Name="AssistedAddProgramTab" Header="Assisted" Margin="15,0,0,0">
+                <Grid x:Name="AssistedAddGrid" Margin="10" Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <!-- Label -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- TextBox -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- ListBox con scroll -->
+                        <RowDefinition Height="*"/>
+                        <!-- Button -->
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-                            <!-- Textbox for search -->
-                            <TextBox x:Name="SearchBox" Grid.Row="1" Margin="5" VerticalAlignment="Top" 
+                    <!-- Textbox for search -->
+                    <TextBox x:Name="SearchBox" Grid.Row="1" Margin="5" VerticalAlignment="Top" 
   TextChanged="SearchBox_TextChanged" 
   ToolTip="Enter a program name to filter the list"/>
 
-                            <!-- Label with instruction -->
-                            <Label Content="Select the programmes you want to import into Home" 
+                    <!-- Label with instruction -->
+                    <Label Content="Select the programmes you want to import into Home" 
 Grid.Row="0" Margin="5"/>
 
-                            <!-- Contenitore per ListBox con scorrimento -->
-                            <Border Grid.Row="2" BorderThickness="1">
-                                <ListBox x:Name="ProgramListBox" Grid.Row="2" ItemsSource="{Binding FilteredProgramList}">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal" Margin="5">
-                                                <!-- Checkbox -->
-                                                <CheckBox IsChecked="{Binding IsChecked}" Margin="5" VerticalAlignment="Center"/>
+                    <!-- Contenitore per ListBox con scorrimento -->
+                    <Border Grid.Row="2" BorderThickness="1">
+                        <ListBox x:Name="ProgramListBox" Grid.Row="2" ItemsSource="{Binding FilteredProgramList}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="5">
+                                        <!-- Checkbox -->
+                                        <CheckBox IsChecked="{Binding IsChecked}" Margin="5" VerticalAlignment="Center"/>
 
-                                                <!-- Icon -->
-                                                <Image Width="32" Height="32" Source="{Binding Icon}" Margin="5"/>
+                                        <!-- Icon -->
+                                        <Image Width="32" Height="32" Source="{Binding Icon}" Margin="5"/>
 
-                                                <!-- Program name -->
-                                                <TextBlock Text="{Binding Program.Name}" VerticalAlignment="Center" Margin="5"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-                            </Border>
+                                        <!-- Program name -->
+                                        <TextBlock Text="{Binding Program.Name}" VerticalAlignment="Center" Margin="5"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Border>
 
-                            <!-- Button import -->
-                            <Button Content="Import to Home" Grid.Row="3" HorizontalAlignment="Right" 
+                    <!-- Button import -->
+                    <Button Content="Import to Home" Grid.Row="3" HorizontalAlignment="Right" 
  Margin="5" Width="150" Click="ProcessSelectedPrograms"/>
-                        </Grid>
-                    </TabItem>
-                    <TabItem x:Name="ManuallyTabItem" Header="Manually">
-                        <!-- Grid manually add -->
-                        <Grid x:Name="ManuallyAddGrid">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="auto"/>
-                            </Grid.RowDefinitions>
-
-                            <StackPanel Grid.Row="0" x:Name="ColumnsAddProgramStackPanel" Orientation="Vertical">
-                                <StackPanel  Orientation="Vertical" Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
-                                    <Label x:Name="ProgramIndexLabel" Visibility="Collapsed" Content="-1"/>
-                                    <Label Content="Name"/>
-                                    <TextBox x:Name="ProgramNameTextBox" Margin="5"/>
-                                    <Label Content="Path"/>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="80*"/>
-                                            <ColumnDefinition Width="20*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBox x:Name="ProgramPathTextBox" Grid.Column="0" Margin="5"/>
-                                        <Button Content="Browse..." Click="BrowseButton_Click" Grid.Column="1" Margin="5"/>
-                                    </Grid>
-                                    <Label Content="Arguments"/>
-                                    <TextBox x:Name="ProgramArgumentsTextBox" Margin="5"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Vertical" Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
-                                    <Label Content="Custom Icon"/>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="80*"/>
-                                            <ColumnDefinition Width="20*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBox x:Name="ProgramIconPathTextBox" Grid.Column="0" Margin="5"/>
-                                        <Button Content="Browse..." Click="BrowseProgramIconButton_Click" Grid.Column="1" Margin="5"/>
-                                    </Grid>
-                                </StackPanel>
-                            </StackPanel>
-                            <StackPanel Grid.Row="1" Orientation="Vertical">
-                                <CheckBox x:Name="FavoriteCheckBox" Content="Is Favorite" Margin="5"/>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
-                                    <Button Content="Save" Click="SaveProgram_Click" Width="100" Margin="5"/>
-                                    <Button Content="Cancel" Click="CancelProgram_Click" Width="100" Margin="5"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </Grid>
-                    </TabItem>
-                </TabControl>
+                </Grid>
             </TabItem>
 
+            <TabItem x:Name="ManuallyAddProgramTab" Header="Manually" Margin="15,0,0,0">
+                <Grid x:Name="ManuallyAddGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" x:Name="ColumnsAddProgramStackPanel" Orientation="Vertical">
+                        <StackPanel  Orientation="Vertical" Width="{Binding ActualWidth, ElementName=ManuallyAddGrid, Converter={StaticResource HalfWidthConverter}}">
+                            <Label x:Name="ProgramIndexLabel" Visibility="Collapsed" Content="-1"/>
+                            <Label Content="Name"/>
+                            <TextBox x:Name="ProgramNameTextBox" Margin="5"/>
+                            <Label Content="Path"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80*"/>
+                                    <ColumnDefinition Width="20*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="ProgramPathTextBox" Grid.Column="0" Margin="5"/>
+                                <Button Content="Browse..." Click="BrowseButton_Click" Grid.Column="1" Margin="5"/>
+                            </Grid>
+                            <Label Content="Arguments"/>
+                            <TextBox x:Name="ProgramArgumentsTextBox" Margin="5"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Width="{Binding ActualWidth, ElementName=ManuallyAddGrid, Converter={StaticResource HalfWidthConverter}}">
+                            <Label Content="Custom Icon"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80*"/>
+                                    <ColumnDefinition Width="20*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="ProgramIconPathTextBox" Grid.Column="0" Margin="5"/>
+                                <Button Content="Browse..." Click="BrowseProgramIconButton_Click" Grid.Column="1" Margin="5"/>
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Orientation="Vertical">
+                        <CheckBox x:Name="FavoriteCheckBox" Content="Is Favorite" Margin="5"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+                            <Button Content="Save" Click="SaveProgram_Click" Width="100" Margin="5"/>
+                            <Button Content="Cancel" Click="CancelProgram_Click" Width="100" Margin="5"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            
             <!-- Tab Add Routine -->
-            <TabItem Header="Add Routine" x:Name="AddRoutineTab" Visibility="Collapsed">
+            <TabItem x:Name="AddRoutineTab" Visibility="Visible">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,10,0,0">
+                        <packIcons:PackIconMaterial Kind="ListBox" Width="24" Height="24" Margin="0,0,5,0"/>
+                        <TextBlock Text="Add Routine" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -295,7 +296,7 @@ Grid.Row="0" Margin="5"/>
                     </Grid.RowDefinitions>
 
                     <StackPanel Grid.Row="0" x:Name="ColumnsAddRoutineStackPanel" Orientation="Vertical">
-                        <StackPanel Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
+                        <StackPanel Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter2}}">
 
                             <Label  x:Name="RoutineIndexLabel" Visibility="Collapsed" Content="-1"/>
                             <Label Content="Routine Name"/>
@@ -310,7 +311,7 @@ Grid.Row="0" Margin="5"/>
                                 <Button Content="Browse..." Click="BrowseRoutineIconButton_Click" Grid.Column="1" Margin="5"/>
                             </Grid>
                         </StackPanel>
-                        <StackPanel Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
+                        <StackPanel Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter2}}">
                             <StackPanel Orientation="Vertical">
 
                                 <Label Content="Select Programs"/>
@@ -379,7 +380,7 @@ Grid.Row="0" Margin="5"/>
 
                         <StackPanel HorizontalAlignment="Left" x:Name="ColumnsAboutStackPanel" Grid.Row="1">
 
-                            <StackPanel Grid.Column="0" Orientation="Vertical"  Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
+                            <StackPanel Grid.Column="0" Orientation="Vertical"  Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter2}}">
 
                                 <!-- Authors/Developers -->
 
@@ -402,7 +403,7 @@ This software is distributed under the GNU General Public License v3.0.
                                 </TextBlock>
 
                             </StackPanel>
-                            <StackPanel Grid.Column="1" Orientation="Vertical" Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter}}">
+                            <StackPanel Grid.Column="1" Orientation="Vertical" Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter2}}">
 
                                 <!-- Useful Links -->
                                 <TextBlock FontSize="16" FontWeight="Bold" Text="Useful Links" Margin="0,10,0,10"/>

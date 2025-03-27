@@ -85,25 +85,38 @@ namespace AdminLauncher.AppWPF.Utility
                     mainWindow.MainTabControl.SelectedItem = mainWindow.HomeTab;
                     ClearAddProgramData(mainWindow);
                     ClearRoutineData(mainWindow);
+                    ChageVisibilityAddProgramTabs(false, mainWindow);
                     break;
                 case InterfaceEnum.Settings:
                     mainWindow.MainTabControl.SelectedItem = mainWindow.SettingsTab;
+                    ChageVisibilityAddProgramTabs(false, mainWindow);
                     break;
                 case InterfaceEnum.AddProgramInterface:
-                    mainWindow.MainTabControl.SelectedItem = mainWindow.AddProgramTab;
+                    mainWindow.MainTabControl.SelectedItem = mainWindow.AssistedAddProgramTab;
+                    ChageVisibilityAddProgramTabs(true, mainWindow);
                     break;
                 case InterfaceEnum.ModifyProgramInterface:
-                    mainWindow.MainTabControl.SelectedItem = mainWindow.AddProgramTab;
-                    mainWindow.AddProgramTabControl.SelectedItem = mainWindow.ManuallyTabItem;
+                    mainWindow.MainTabControl.SelectedItem = mainWindow.ManuallyAddProgramTab;
+                    ChageVisibilityAddProgramTabs(true, mainWindow);
                     break;
                 case InterfaceEnum.AddRoutineInterface:
                     mainWindow.MainTabControl.SelectedItem = mainWindow.AddRoutineTab;
+                    ChageVisibilityAddProgramTabs(false, mainWindow);
                     break;
                 case InterfaceEnum.About:
                     mainWindow.MainTabControl.SelectedItem = mainWindow.AboutTab;
+                    ChageVisibilityAddProgramTabs(false, mainWindow);
                     break;
             }
         }
+
+        private static void ChageVisibilityAddProgramTabs(bool isVisibile, MainWindow mainWindow)
+        {
+            var stateToSet = isVisibile ? Visibility.Visible : Visibility.Collapsed;
+            mainWindow.AssistedAddProgramTab.Visibility = stateToSet;
+            mainWindow.ManuallyAddProgramTab.Visibility = stateToSet;
+        }
+
         /// <summary>
         /// Populates the Listbox with programs that you can select to create/edit a routine
         /// </summary>

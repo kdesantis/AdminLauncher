@@ -15,6 +15,7 @@
                 <!--<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.IdealForeground}" />-->
             </Style>
         <local:HalfWidthConverter x:Key="HalfWidthConverter"/>
+            <local:HalfWidthConverter2 x:Key="HalfWidthConverter2"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

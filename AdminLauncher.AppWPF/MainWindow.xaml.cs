@@ -432,5 +432,11 @@ namespace AdminLauncher.AppWPF
         {
             QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath, CurrentDialogUtility);
         }
+
+        private void AddProgramTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            InterfaceControl.InterfaceLoader(InterfaceEnum.AddProgramInterface, this);
+        }
     }
 }
