@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Button = System.Windows.Controls.Button;
 using Image = System.Windows.Controls.Image;
-
+using HorizontalAlignment = System.Windows.HorizontalAlignment;
 namespace AdminLauncher.AppWPF.Utility
 {
     public class VerticalButtonsGenerator : ButtonsGenerator
@@ -39,14 +39,13 @@ namespace AdminLauncher.AppWPF.Utility
                 Margin = new Thickness(5),
                 HorizontalContentAlignment = System.Windows.HorizontalAlignment.Stretch,
                 Content = CreateButtonContent(item),
-                ContextMenu = CreateContextMenu(item)
             };
-                button.Click += (sender, e) => Window.CurrentDialogUtility.LaunchInformatinError(item.Launch());
+            button.Click += (sender, e) => Window.CurrentDialogUtility.LaunchInformatinError(item.Launch());
 
             return button;
         }
 
-        private static Grid CreateButtonContent(GenericItem item)
+        private Grid CreateButtonContent(GenericItem item)
         {
             Grid grid = new();
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
@@ -71,21 +70,54 @@ namespace AdminLauncher.AppWPF.Utility
             Grid.SetColumn(textBlock, 1);
             grid.Children.Add(textBlock);
 
+
             if (item is ProgramItem programItem && programItem.IsFavorite)
             {
                 Image favoriteIcon = new()
                 {
-                    Source = IconUtility.GetBitmapImageIcon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"favorite.png")),
-                    Width = 32,
-                    Height = 32,
-                    Margin = new Thickness(0, 0, 5, 0),
-                    HorizontalAlignment = System.Windows.HorizontalAlignment.Right
+                    Source = IconUtility.GetBitmapImageIcon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "favorite.png")),
+                    Width = 24,
+                    Height = 24,
+                    Margin = new Thickness(0, 0, 30, 0),
+                    HorizontalAlignment = System.Windows.HorizontalAlignment.Right,
+
                 };
                 Grid.SetColumn(favoriteIcon, 2);
                 grid.Children.Add(favoriteIcon);
             }
 
+            // button for open the menu
+            Button menuButton = new()
+            {
+                Content = "⋮",
+                Width = 24,
+                Height = 24,
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Center,
+                Padding = new Thickness(2)
+            };
+
+            // Creazione del ContextMenu
+            ContextMenu contextMenu = CreateContextMenu(item);
+            menuButton.ContextMenu = contextMenu;
+
+            // Show menu when click the button
+            menuButton.Click += (s, e) =>
+            {
+                if (contextMenu != null)
+                {
+                    contextMenu.PlacementTarget = menuButton;
+                    contextMenu.IsOpen = true;
+                    e.Handled = true; // Prevents the event from spreading
+                }
+            };
+
+            Grid.SetColumn(menuButton, 3);
+            grid.Children.Add(menuButton);
+
+
             return grid;
         }
+
     }
 }
