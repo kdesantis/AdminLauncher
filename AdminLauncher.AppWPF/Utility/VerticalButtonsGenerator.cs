@@ -94,7 +94,8 @@ namespace AdminLauncher.AppWPF.Utility
                 Height = 24,
                 HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Center,
-                Padding = new Thickness(2)
+                Padding = new Thickness(2),
+                ToolTip = "Show options",
             };
 
             // Creazione del ContextMenu
