@@ -37,7 +37,7 @@ namespace AdminLauncher.AppWPF
                 if (Math.Truncate(width) > 510)
                     return (width / 2) - 70;
                 else
-                    return width - 120;
+                    return width - 130;
             return value;
         }
 
