@@ -32,13 +32,16 @@ namespace AdminLauncher.AppWPF
         public DialogUtility CurrentDialogUtility;
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private ReleaseInformation updateInformation;
+        public ObservableCollection<ProgramItemForListbox> ProgramList { get; set; }
+        public ObservableCollection<ProgramItemForListbox> FilteredProgramList { get; set; }
+        public List<ProgramItem> SelectedProgram { get; private set; }
         public MainWindow()
         {
             InitializeComponent();
-            LoadInstallerProgramList();
+            LoadInstalledProgramList();
         }
 
-        private void LoadInstallerProgramList()
+        private void LoadInstalledProgramList()
         {
             DataContext = this;
 
@@ -59,9 +62,6 @@ namespace AdminLauncher.AppWPF
         {
             StartOperation(sender, e);
         }
-        public ObservableCollection<ProgramItemForListbox> ProgramList { get; set; }
-        public ObservableCollection<ProgramItemForListbox> FilteredProgramList { get; set; }
-        public List<ProgramItem> SelectedProgram { get; private set; }
 
         private void ProcessSelectedPrograms(object sender, RoutedEventArgs e)
         {
@@ -118,11 +118,6 @@ namespace AdminLauncher.AppWPF
 
             InterfaceControl.LoadButtonsOrienationComboBox(this, manager);
             InterfaceControl.LoadWindowOrienationComboBox(this, manager);
-
-            if (manager.programManager.Programs.Count < 1)
-            {
-                LaunchWizard_Click(sender, e);
-            }
         }
 
         private void CheckExistsOtherSession()
@@ -207,10 +202,6 @@ namespace AdminLauncher.AppWPF
             InterfaceControl.InterfaceLoader(InterfaceEnum.AddRoutineInterface, this);
             InterfaceControl.LoadProgramsListBox(manager.programManager.Programs, this);
         }
-        public void QuickRun_Click(object sender, RoutedEventArgs e)
-        {
-            QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath, CurrentDialogUtility);
-        }
         public void ReloadPrograms()
         {
             buttonGenerator.GenerateButtons();
@@ -254,7 +245,9 @@ namespace AdminLauncher.AppWPF
         }
         private void BrowseProgramIconButton_Click(object sender, RoutedEventArgs e)
         {
-            var initialPath = !string.IsNullOrEmpty(ProgramIconPathTextBox.Text) ? Path.GetDirectoryName(ProgramIconPathTextBox.Text) : manager.settingsManager.InitialFileDialogPath;
+            var initialPath = !string.IsNullOrEmpty(ProgramIconPathTextBox.Text) 
+                ? Path.GetDirectoryName(ProgramIconPathTextBox.Text) 
+                : manager.settingsManager.InitialFileDialogPath;
             var filePath = DialogUtility.ShowOpenFileDialogForIcon(initialPath);
             if (filePath is not null)
             {
@@ -263,7 +256,9 @@ namespace AdminLauncher.AppWPF
         }
         private void BrowseRoutineIconButton_Click(object sender, RoutedEventArgs e)
         {
-            var initialPath = !string.IsNullOrEmpty(RoutineIconPathTextBox.Text) ? Path.GetDirectoryName(RoutineIconPathTextBox.Text) : manager.settingsManager.InitialFileDialogPath;
+            var initialPath = !string.IsNullOrEmpty(RoutineIconPathTextBox.Text) 
+                ? Path.GetDirectoryName(RoutineIconPathTextBox.Text) 
+                : manager.settingsManager.InitialFileDialogPath;
             var filePath = DialogUtility.ShowOpenFileDialogForIcon(initialPath);
             if (filePath is not null)
             {
@@ -341,15 +336,11 @@ namespace AdminLauncher.AppWPF
                 UseShellExecute = true
             });
         }
-        private void ThemeBaseSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        private void ThemeBaseSelectionChanged(object sender, SelectionChangedEventArgs e) =>
             SelectTheme();
-        }
 
-        private void ColorsSelectorOnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        private void ColorsSelectorOnSelectionChanged(object sender, SelectionChangedEventArgs e) =>
             SelectTheme();
-        }
 
         private void SelectTheme()
         {
@@ -359,35 +350,6 @@ namespace AdminLauncher.AppWPF
                 InterfaceControl.SetTheme(this, theme);
                 manager.settingsManager.Theme = theme;
                 manager.Save();
-            }
-        }
-
-        private void LaunchWizard_Click(object sender, RoutedEventArgs e)
-        {
-            ProgramsConfiguratorWizard wizardWindow = new(manager.programManager.Programs, manager.settingsManager.Theme);
-            double mainLeft = this.Left - wizardWindow.Width;
-            double mainTop = this.Top;
-
-            if (mainLeft < 0)
-                mainLeft = 0;
-
-            wizardWindow.Left = mainLeft;
-            wizardWindow.Top = mainTop;
-            wizardWindow.Height = this.Height;
-            var result = wizardWindow.ShowDialog();
-            if (result == true)
-            {
-                List<ProgramItem> selectedPrograms = wizardWindow.SelectedProgram;
-                foreach (var program in selectedPrograms)
-                {
-                    if (!manager.programManager.Programs.Any(e => e.ExecutablePath == program.ExecutablePath && e.Arguments == program.Arguments))
-                    {
-                        program.Index = manager.programManager.CurrIndex;
-                        manager.programManager.AddProgram(program);
-                    }
-                    manager.Save();
-                    ReloadPrograms();
-                }
             }
         }
 
@@ -419,7 +381,7 @@ namespace AdminLauncher.AppWPF
 
         private void DonateTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            e.Handled = true; // Impedisce la selezione del TabItem
+            e.Handled = true;
             string koFiUrl = ConfigurationManager.AppSettings["kofiUrl"];
             Process.Start(new ProcessStartInfo
             {

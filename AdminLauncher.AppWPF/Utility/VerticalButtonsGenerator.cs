@@ -27,25 +27,26 @@ namespace AdminLauncher.AppWPF.Utility
 
             foreach (var item in genericItems)
             {
-                Button button = CreateButton(item);
+                Button button = CreateProductButton(item);
                 Window.ButtonPanel.Children.Add(button);
             }
         }
 
-        protected Button CreateButton(GenericItem item)
+        protected Button CreateProductButton(GenericItem item)
         {
             Button button = new()
             {
                 Margin = new Thickness(5),
                 HorizontalContentAlignment = System.Windows.HorizontalAlignment.Stretch,
-                Content = CreateButtonContent(item),
+                Content = CreateProductGrid(item),
+                ToolTip = $"Run {item.Name}",
             };
             button.Click += (sender, e) => Window.CurrentDialogUtility.LaunchInformatinError(item.Launch());
 
             return button;
         }
 
-        private Grid CreateButtonContent(GenericItem item)
+        private Grid CreateProductGrid(GenericItem item)
         {
             Grid grid = new();
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
@@ -115,7 +116,6 @@ namespace AdminLauncher.AppWPF.Utility
 
             Grid.SetColumn(menuButton, 3);
             grid.Children.Add(menuButton);
-
 
             return grid;
         }
