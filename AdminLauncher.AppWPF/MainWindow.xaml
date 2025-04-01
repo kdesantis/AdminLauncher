@@ -250,11 +250,11 @@ Grid.Row="0" Margin="5"/>
                             <Label Content="Path"/>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80*"/>
-                                    <ColumnDefinition Width="20*"/>
+                                    <ColumnDefinition Width="75*"/>
+                                    <ColumnDefinition Width="25*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBox x:Name="ProgramPathTextBox" Grid.Column="0" Margin="5"/>
-                                <Button Content="Browse..." Click="BrowseButton_Click" Grid.Column="1" Margin="5"/>
+                                <Button Content="Browse..." Click="BrowseButton_Click" Grid.Column="1" Margin="1,5,5,5"/>
                             </Grid>
                             <Label Content="Arguments"/>
                             <TextBox x:Name="ProgramArgumentsTextBox" Margin="5"/>
@@ -263,11 +263,11 @@ Grid.Row="0" Margin="5"/>
                             <Label Content="Custom Icon"/>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80*"/>
-                                    <ColumnDefinition Width="20*"/>
+                                    <ColumnDefinition Width="75*"/>
+                                    <ColumnDefinition Width="25*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBox x:Name="ProgramIconPathTextBox" Grid.Column="0" Margin="5"/>
-                                <Button Content="Browse..." Click="BrowseProgramIconButton_Click" Grid.Column="1" Margin="5"/>
+                                <Button Content="Browse..." Click="BrowseProgramIconButton_Click" Grid.Column="1" Margin="1,5,5,5"/>
                             </Grid>
                         </StackPanel>
                     </StackPanel>
@@ -304,11 +304,11 @@ Grid.Row="0" Margin="5"/>
                             <Label Content="Custom Icon"/>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80*"/>
-                                    <ColumnDefinition Width="20*"/>
+                                    <ColumnDefinition Width="75*"/>
+                                    <ColumnDefinition Width="25*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBox x:Name="RoutineIconPathTextBox" Grid.Column="0" Margin="5"/>
-                                <Button Content="Browse..." Click="BrowseRoutineIconButton_Click" Grid.Column="1" Margin="5"/>
+                                <Button Content="Browse..." Click="BrowseRoutineIconButton_Click" Grid.Column="1" Margin="1,5,5,5"/>
                             </Grid>
                         </StackPanel>
                         <StackPanel Width="{Binding ActualWidth, ElementName=MainGrid, Converter={StaticResource HalfWidthConverter2}}">
