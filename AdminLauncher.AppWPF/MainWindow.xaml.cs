@@ -15,6 +15,7 @@ using MahApps.Metro.Controls.Dialogs;
 using NLog;
 using AdminLauncher.UpdateLibrary;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Windows.Input;
 namespace AdminLauncher.AppWPF
 {
     /// <summary>
@@ -31,15 +32,63 @@ namespace AdminLauncher.AppWPF
         public DialogUtility CurrentDialogUtility;
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private ReleaseInformation updateInformation;
+        public ObservableCollection<ProgramItemForListbox> ProgramList { get; set; }
+        public ObservableCollection<ProgramItemForListbox> FilteredProgramList { get; set; }
+        public List<ProgramItem> SelectedProgram { get; private set; }
         public MainWindow()
         {
             InitializeComponent();
+            LoadInstalledProgramList();
         }
+
+        private void LoadInstalledProgramList()
+        {
+            DataContext = this;
+
+            // Retrieves the installed programs and creates the ProgramItemForListbox list
+            var ProgramsInstalled = new InstalledProgramUtility().GetInstalledProgram();
+            ProgramList = new ObservableCollection<ProgramItemForListbox>(
+                ProgramsInstalled.Select(p => new ProgramItemForListbox
+                {
+                    Program = p,
+                    IsChecked = false
+                })
+            );
+            ProgramList = new ObservableCollection<ProgramItemForListbox>(ProgramList);
+            FilteredProgramList = new ObservableCollection<ProgramItemForListbox>(ProgramList);
+        }
+
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             StartOperation(sender, e);
         }
 
+        private void ProcessSelectedPrograms(object sender, RoutedEventArgs e)
+        {
+            // Filter selected programs
+            SelectedProgram = ProgramList.Where(p => p.IsChecked).Select(p => p.Program).ToList();
+
+            foreach (var item in SelectedProgram)
+                manager.programManager.AddProgram(item);
+
+            ProgramList.Where(p => p.IsChecked).ToList().ForEach(p => p.IsChecked = false);
+            FilteredProgramList = new ObservableCollection<ProgramItemForListbox>(ProgramList);
+            ReloadPrograms();
+            MainTabControl.SelectedIndex = 0;
+        }
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string filterText = SearchBox.Text.ToLower();
+            // Update filtered list
+            FilteredProgramList.Clear();
+            foreach (var program in ProgramList)
+            {
+                if (program.Program.Name.ToLower().Contains(filterText))
+                {
+                    FilteredProgramList.Add(program);
+                }
+            }
+        }
         private async void StartOperation(object sender, RoutedEventArgs e)
         {
             CurrentDialogUtility = new(this);
@@ -69,11 +118,6 @@ namespace AdminLauncher.AppWPF
 
             InterfaceControl.LoadButtonsOrienationComboBox(this, manager);
             InterfaceControl.LoadWindowOrienationComboBox(this, manager);
-
-            if (manager.programManager.Programs.Count < 1)
-            {
-                LaunchWizard_Click(sender, e);
-            }
         }
 
         private void CheckExistsOtherSession()
@@ -114,21 +158,21 @@ namespace AdminLauncher.AppWPF
                 TabControl tabControl = (TabControl)sender;
                 TabItem selectedTab = (TabItem)tabControl.SelectedItem;
 
-                switch (selectedTab.Header.ToString())
+                switch (selectedTab.Name.ToString())
                 {
-                    case "Home":
+                    case "HomeTab":
                         Home_Click(sender, e);
                         break;
-                    case "Settings":
+                    case "SettingsTab":
                         Settings_Click(sender, e);
                         break;
-                    case "Add Program":
+                    case "AddProgramTab":
                         AddProgram_Click(sender, e);
                         break;
-                    case "Add Routine":
+                    case "AddRoutineTab":
                         AddRoutine_Click(sender, e);
                         break;
-                    case "About":
+                    case "AboutTab":
                         About_Click(sender, e);
                         break;
                 }
@@ -157,10 +201,6 @@ namespace AdminLauncher.AppWPF
         {
             InterfaceControl.InterfaceLoader(InterfaceEnum.AddRoutineInterface, this);
             InterfaceControl.LoadProgramsListBox(manager.programManager.Programs, this);
-        }
-        public void QuickRun_Click(object sender, RoutedEventArgs e)
-        {
-            QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath, CurrentDialogUtility);
         }
         public void ReloadPrograms()
         {
@@ -205,7 +245,9 @@ namespace AdminLauncher.AppWPF
         }
         private void BrowseProgramIconButton_Click(object sender, RoutedEventArgs e)
         {
-            var initialPath = !string.IsNullOrEmpty(ProgramIconPathTextBox.Text) ? Path.GetDirectoryName(ProgramIconPathTextBox.Text) : manager.settingsManager.InitialFileDialogPath;
+            var initialPath = !string.IsNullOrEmpty(ProgramIconPathTextBox.Text) 
+                ? Path.GetDirectoryName(ProgramIconPathTextBox.Text) 
+                : manager.settingsManager.InitialFileDialogPath;
             var filePath = DialogUtility.ShowOpenFileDialogForIcon(initialPath);
             if (filePath is not null)
             {
@@ -214,7 +256,9 @@ namespace AdminLauncher.AppWPF
         }
         private void BrowseRoutineIconButton_Click(object sender, RoutedEventArgs e)
         {
-            var initialPath = !string.IsNullOrEmpty(RoutineIconPathTextBox.Text) ? Path.GetDirectoryName(RoutineIconPathTextBox.Text) : manager.settingsManager.InitialFileDialogPath;
+            var initialPath = !string.IsNullOrEmpty(RoutineIconPathTextBox.Text) 
+                ? Path.GetDirectoryName(RoutineIconPathTextBox.Text) 
+                : manager.settingsManager.InitialFileDialogPath;
             var filePath = DialogUtility.ShowOpenFileDialogForIcon(initialPath);
             if (filePath is not null)
             {
@@ -292,15 +336,11 @@ namespace AdminLauncher.AppWPF
                 UseShellExecute = true
             });
         }
-        private void ThemeBaseSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        private void ThemeBaseSelectionChanged(object sender, SelectionChangedEventArgs e) =>
             SelectTheme();
-        }
 
-        private void ColorsSelectorOnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        private void ColorsSelectorOnSelectionChanged(object sender, SelectionChangedEventArgs e) =>
             SelectTheme();
-        }
 
         private void SelectTheme()
         {
@@ -310,35 +350,6 @@ namespace AdminLauncher.AppWPF
                 InterfaceControl.SetTheme(this, theme);
                 manager.settingsManager.Theme = theme;
                 manager.Save();
-            }
-        }
-
-        private void LaunchWizard_Click(object sender, RoutedEventArgs e)
-        {
-            ProgramsConfiguratorWizard wizardWindow = new(manager.programManager.Programs, manager.settingsManager.Theme);
-            double mainLeft = this.Left - wizardWindow.Width;
-            double mainTop = this.Top;
-
-            if (mainLeft < 0)
-                mainLeft = 0;
-
-            wizardWindow.Left = mainLeft;
-            wizardWindow.Top = mainTop;
-            wizardWindow.Height = this.Height;
-            var result = wizardWindow.ShowDialog();
-            if (result == true)
-            {
-                List<ProgramItem> selectedPrograms = wizardWindow.SelectedProgram;
-                foreach (var program in selectedPrograms)
-                {
-                    if (!manager.programManager.Programs.Any(e => e.ExecutablePath == program.ExecutablePath && e.Arguments == program.Arguments))
-                    {
-                        program.Index = manager.programManager.CurrIndex;
-                        manager.programManager.AddProgram(program);
-                    }
-                    manager.Save();
-                    ReloadPrograms();
-                }
             }
         }
 
@@ -366,6 +377,28 @@ namespace AdminLauncher.AppWPF
             {
                 buttonGenerator.GenerateButtons();
             }
+        }
+
+        private void DonateTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            string koFiUrl = ConfigurationManager.AppSettings["kofiUrl"];
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = koFiUrl,
+                UseShellExecute = true
+            });
+        }
+
+        private void QuickRunButton_Click(object sender, RoutedEventArgs e)
+        {
+            QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath, CurrentDialogUtility);
+        }
+
+        private void AddProgramTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            InterfaceControl.InterfaceLoader(InterfaceEnum.AddProgramInterface, this);
         }
     }
 }
