@@ -15,6 +15,7 @@
     <None Remove="OnOff.png" />
     <None Remove="Resources\donkey.png" />
     <None Remove="Resources\kofi_symbol.png" />
+    <None Remove="Resources\QuickRunIcon.png" />
     <None Remove="rocket.png" />
     <None Remove="rocketDebug.ico" />
   </ItemGroup>
@@ -30,6 +31,7 @@
 
   <ItemGroup>
     <PackageReference Include="MahApps.Metro" Version="2.4.10" />
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="5.1.0" />
     <PackageReference Include="NLog" Version="5.3.4" />
   </ItemGroup>
 
@@ -52,6 +54,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\OnOff.png" />
+    <Resource Include="Resources\QuickRunIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\rocket.png" />
   </ItemGroup>
 

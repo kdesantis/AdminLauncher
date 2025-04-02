@@ -138,5 +138,13 @@ namespace AdminLauncher.BusinessLibrary
                 CustomIconPath = this.CustomIconPath
             };
         }
+        
+        public bool Equals(ProgramItem programItem2)
+        {
+            return programItem2.Name == this.Name
+                && programItem2.Index == this.Index
+                && programItem2.ExecutablePath == this.ExecutablePath 
+                && programItem2.Arguments == this.Arguments;
+        }
     }
 }

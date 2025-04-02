@@ -82,7 +82,7 @@ namespace AdminLauncher.AppWPF.Utility
 
         private void EditProgram(ProgramItem program)
         {
-            InterfaceControl.InterfaceLoader(InterfaceEnum.AddProgramInterface, Window);
+            InterfaceControl.InterfaceLoader(InterfaceEnum.ModifyProgramInterface, Window);
             Window.ProgramIndexLabel.Content = program.Index;
             Window.ProgramNameTextBox.Text = program.Name;
             Window.ProgramPathTextBox.Text = program.ExecutablePath;

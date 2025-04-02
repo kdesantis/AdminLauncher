@@ -33,7 +33,7 @@ namespace AdminLauncher.AppWPF.Utility
                 OnPropertyChanged();
             }
         }
-        public async Task DownloadFileAsync(string url, string destinationPath, IProgress<double> progress, CancellationToken cancellationToken)
+        private async Task DownloadFileAsync(string url, string destinationPath, IProgress<double> progress, CancellationToken cancellationToken)
         {
             using (HttpClient client = new HttpClient())
             using (HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
@@ -77,7 +77,7 @@ namespace AdminLauncher.AppWPF.Utility
             var cancellationToken = _cancellationTokenSource.Token;
             try
             {
-                var controller = await MainWindow.ShowProgressAsync("Download in progress", "Downloading the file, please wait...", true);
+                var controller = await MainWindow.ShowProgressAsync("Download in progress", "Downloading the installer, please wait...", true);
                 controller.SetIndeterminate();
 
                 controller.Canceled += async (sender, args) =>
