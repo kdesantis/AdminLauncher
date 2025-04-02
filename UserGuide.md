@@ -27,6 +27,7 @@ permanently right click on the icon in the task bar and select “Close” in th
 <p align="center">
     <img src="https://github.com/user-attachments/assets/7f49544e-a033-4f8c-bcd6-0ebbf5cdecc2"/>
 </p>
+
 # Add Program
 
 You have two ways to add your favorite programs to the home: **Assisted Mode** and **Manual Mode**.
@@ -36,7 +37,6 @@ You have two ways to add your favorite programs to the home: **Assisted Mode** a
 <p align="center">
     <img src="screenshot/AssistedAdd.png"/>
 </p>
-
 
 The **assisted mode** allows you to add programs to the home having a list of all (or almost all) of the programs installed on your system.
 Search and select all the programs you want to add to the home and click the appropriate button.
