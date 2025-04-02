@@ -3,8 +3,9 @@ You can download the application from the [Release tab](https://github.com/kdesa
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Q5Q61561LT)
 # Home
-![image](screenshot/Home.png)
-
+<p align="center">
+    <img src="screenshot/Home.png"/>
+</p>
 
 **Home panel** contains a button for all added programs and routines. 
 Each element has a button that allows you to **edit** and **delete** the relative element.
@@ -23,14 +24,19 @@ If you need to launch a program once, you can use the **Quick Run** button which
 to show it just **double click** on the icon in the task bar. To close the application 
 permanently right click on the icon in the task bar and select “Close” in the menu.
 
-![image](https://github.com/user-attachments/assets/7f49544e-a033-4f8c-bcd6-0ebbf5cdecc2)
+<p align="center">
+    <img src="https://github.com/user-attachments/assets/7f49544e-a033-4f8c-bcd6-0ebbf5cdecc2"/>
+</p>
 # Add Program
 
 You have two ways to add your favorite programs to the home: **Assisted Mode** and **Manual Mode**.
 
 ## Assisted Mode
 
-![image](screenshot/AssistedAdd.png)
+<p align="center">
+    <img src="screenshot/AssistedAdd.png"/>
+</p>
+
 
 The **assisted mode** allows you to add programs to the home having a list of all (or almost all) of the programs installed on your system.
 Search and select all the programs you want to add to the home and click the appropriate button.
@@ -39,8 +45,9 @@ It is recommended that you use this feature when **first configuring**.
 
 ## Manual Mode
 
-![image](screenshot/ManuallyAdd.png)
-
+<p align="center">
+    <img src="screenshot/ManuallyAdd.png"/>
+</p>
 Manual mode instead allows you to import those programs that are not installed or that require specific arguments.
 
 To add a new product is import:
@@ -54,7 +61,10 @@ or **paste** the path into the textbox
 Once defined, click "**Save**"
 
 # Add Routine
-![image](screenshot/AddRoutine.png)
+
+<p align="center">
+    <img src="screenshot/AddRoutine.png"/>
+</p>
 
 A routine represents a series of programs that you want to run at the same time.
 The page can be reached from the “**Add Routine**” button in the menu.
@@ -67,7 +77,10 @@ To add a new routine you need to:
 Once defined, click save
 
 # Settings
-![image](screenshot/Settings.png)
+
+<p align="center">
+    <img src="screenshot/Settings.png"/>
+</p>
 
 In the Settings tab, you can choose the orientation of the window between ‘**Vertical**’ and ‘**Horizontal**’ and the layout of the start-up tab buttons between ‘**Vertical**’ and ‘**Mosaic**’.
 
