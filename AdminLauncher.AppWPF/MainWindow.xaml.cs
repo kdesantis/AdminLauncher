@@ -72,9 +72,11 @@ namespace AdminLauncher.AppWPF
                 manager.programManager.AddProgram(item);
 
             ProgramList.Where(p => p.IsChecked).ToList().ForEach(p => p.IsChecked = false);
-            FilteredProgramList = new ObservableCollection<ProgramItemForListbox>(ProgramList);
+
+            SearchBox.Text = string.Empty;
+
             ReloadPrograms();
-            MainTabControl.SelectedIndex = 0;
+            InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
         }
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -245,8 +247,8 @@ namespace AdminLauncher.AppWPF
         }
         private void BrowseProgramIconButton_Click(object sender, RoutedEventArgs e)
         {
-            var initialPath = !string.IsNullOrEmpty(ProgramIconPathTextBox.Text) 
-                ? Path.GetDirectoryName(ProgramIconPathTextBox.Text) 
+            var initialPath = !string.IsNullOrEmpty(ProgramIconPathTextBox.Text)
+                ? Path.GetDirectoryName(ProgramIconPathTextBox.Text)
                 : manager.settingsManager.InitialFileDialogPath;
             var filePath = DialogUtility.ShowOpenFileDialogForIcon(initialPath);
             if (filePath is not null)
@@ -256,8 +258,8 @@ namespace AdminLauncher.AppWPF
         }
         private void BrowseRoutineIconButton_Click(object sender, RoutedEventArgs e)
         {
-            var initialPath = !string.IsNullOrEmpty(RoutineIconPathTextBox.Text) 
-                ? Path.GetDirectoryName(RoutineIconPathTextBox.Text) 
+            var initialPath = !string.IsNullOrEmpty(RoutineIconPathTextBox.Text)
+                ? Path.GetDirectoryName(RoutineIconPathTextBox.Text)
                 : manager.settingsManager.InitialFileDialogPath;
             var filePath = DialogUtility.ShowOpenFileDialogForIcon(initialPath);
             if (filePath is not null)
