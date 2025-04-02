@@ -2,6 +2,7 @@
 
 **AdminLauncher** is a **WPF** application that allows you to launch configured programs with administrator privileges. The application enables the creation of **launch routines** for executing multiple programs simultaneously and offers a **quick run** feature for rapidly launching a single program, such as a setup file.
 
+![image](screenshot/Home.png)
 ## Main Features ✨
 
 - **Run with administrator privileges** 🔑: Easily execute programs with admin rights without having to interact with the UAC confirmation window or login with admin user every time.
@@ -14,12 +15,12 @@
 - **Windows 7** or higher 🪟
 - **Priviledges of administration** 🔏
 
-## Installation 🛠️
+## Installation and UserGuide🛠️
 
 1. Download the latest release of AdminLauncher from the [releases page](https://github.com/kdesantis/AdminLauncher/releases).
 2. Run the installer, nothing simpler😊
 
-- **Read UserGuide [HERE](UserGuide.md) if you need help.**
+- **[Read UserGuide HERE if you need help.](UserGuide.md)** 📚
 
 ## License 📜
 
