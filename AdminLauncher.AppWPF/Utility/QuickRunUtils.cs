@@ -1,6 +1,7 @@
 ﻿using AdminLauncher.BusinessLibrary;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,11 @@ namespace AdminLauncher.AppWPF.Utility
                 var result = (new ProgramItem { Name = "Quick Run", ExecutablePath = filePath }).Launch();
                 dialogUtility.LaunchInformatinError(result);
             }
+        }
+
+        public static ProgramItem GetQuickRunItem()
+        {
+            return new ProgramItem() { Index= -1, Name = "Quick Run", CustomIconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"Resources", "QuickRunIcon.png"), ExecutablePath = "QuickRun"};
         }
     }
 }

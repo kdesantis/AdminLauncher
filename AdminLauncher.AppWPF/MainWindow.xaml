@@ -40,12 +40,6 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Button Grid.Row="0" x:Name="QuickRunButton" Margin="5" Click="QuickRunButton_Click">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Image Source="/Resources/QuickRunIcon.png" Width="48" Height="48" Margin="0,0,5,0" VerticalAlignment="Center"/>
-                            <TextBlock Text="Quick Run" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Button>
                     <Grid Grid.Row="1" Margin="0,10,0,0">
                         <TextBox x:Name="SearchTextBox" TextChanged="SearchTextBox_TextChanged" Margin="5"/>
                         <TextBlock x:Name="PlaceholderText" Text="🔍Search here" 
@@ -196,7 +190,7 @@
   ToolTip="Enter a program name to filter the list"/>
 
                     <!-- Label with instruction -->
-                    <Label Content="Select the programmes you want to import into Home" 
+                    <Label Content="Select programs to be imported into Home" 
 Grid.Row="0" Margin="5"/>
 
                     <!-- Contenitore per ListBox con scorrimento -->

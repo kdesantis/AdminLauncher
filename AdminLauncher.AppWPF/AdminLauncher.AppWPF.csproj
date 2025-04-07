@@ -54,9 +54,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\OnOff.png" />
-    <Resource Include="Resources\QuickRunIcon.png">
+    <Content Include="Resources\QuickRunIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </Content>
     <Resource Include="Resources\rocket.png" />
   </ItemGroup>
 

@@ -373,7 +373,7 @@ namespace AdminLauncher.AppWPF
                 }
 
                 var newButtonGenerator = new ButtonsGenerator(FilteredProgramsManager, this);
-                newButtonGenerator.GenerateButtons();
+                newButtonGenerator.GenerateButtons(true);
             }
             else
             {
@@ -390,11 +390,6 @@ namespace AdminLauncher.AppWPF
                 FileName = koFiUrl,
                 UseShellExecute = true
             });
-        }
-
-        private void QuickRunButton_Click(object sender, RoutedEventArgs e)
-        {
-            QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath, CurrentDialogUtility);
         }
 
         private void AddProgramTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)

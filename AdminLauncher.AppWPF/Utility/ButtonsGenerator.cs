@@ -19,25 +19,32 @@ namespace AdminLauncher.AppWPF.Utility
         /// </summary>
         /// <param name="programManager"></param>
         /// <param name="mainWindow"></param>
-        public void GenerateButtons()
+        public void GenerateButtons(bool isFiltered = false)
         {
             if (Manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Mosaic)
             {
-                new MosaicButtonsGenerator(Manager, Window).GenerateHorizontalButtons();
+                new MosaicButtonsGenerator(Manager, Window).GenerateHorizontalButtons(isFiltered);
             }
             else if (Manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Vertical)
             {
-                new VerticalButtonsGenerator(Manager, Window).GenerateVerticalButtons();
+                new VerticalButtonsGenerator(Manager, Window).GenerateVerticalButtons(isFiltered);
             }
 
         }
-        protected List<GenericItem> GetSortedGenericItems()
+        protected List<GenericItem> GetSortedGenericItems(bool isFiltered)
         {
-            return
-            [
-                .. Manager.programManager.Routines.OrderBy(e => e.Name),
-                .. Manager.programManager.Programs.OrderBy(e => e.Name).OrderByDescending(e => e.IsFavorite),
-            ];
+            var list = new List<GenericItem>();
+
+            if (!isFiltered)
+                list.Add(QuickRunUtils.GetQuickRunItem());
+
+            list.AddRange(Manager.programManager.Routines.OrderBy(e => e.Name));
+
+            list.AddRange(Manager.programManager.Programs
+                .OrderBy(e => e.Name)
+                .OrderByDescending(e => e.IsFavorite));
+
+            return list;
         }
 
         protected ContextMenu CreateContextMenu(GenericItem item)

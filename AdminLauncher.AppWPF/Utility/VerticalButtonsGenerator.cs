@@ -19,11 +19,11 @@ namespace AdminLauncher.AppWPF.Utility
         /// </summary>
         /// <param name="programManager"></param>
         /// <param name="mainWindow"></param>
-        public void GenerateVerticalButtons()
+        public void GenerateVerticalButtons(bool isFiltered)
         {
             Window.ButtonPanel.Children.Clear();
 
-            List<GenericItem> genericItems = GetSortedGenericItems();
+            List<GenericItem> genericItems = GetSortedGenericItems(isFiltered);
 
             foreach (var item in genericItems)
             {
@@ -39,9 +39,18 @@ namespace AdminLauncher.AppWPF.Utility
                 Margin = new Thickness(5),
                 HorizontalContentAlignment = System.Windows.HorizontalAlignment.Stretch,
                 Content = CreateProductGrid(item),
-                ToolTip = $"Run {item.Name}",
+               
             };
-            button.Click += (sender, e) => Window.CurrentDialogUtility.LaunchInformatinError(item.Launch());
+            if (item.Index == -1)
+            {
+                button.ToolTip = $"Select a program to run";
+                button.Click += (sender, e) => QuickRunUtils.LaunchQuickRun(Manager.settingsManager.InitialFileDialogPath, Window.CurrentDialogUtility);
+            }
+            else
+            {
+                button.ToolTip = $"Run {item.Name}";
+                button.Click += (sender, e) => Window.CurrentDialogUtility.LaunchInformatinError(item.Launch());
+            }
 
             return button;
         }
@@ -115,7 +124,8 @@ namespace AdminLauncher.AppWPF.Utility
             };
 
             Grid.SetColumn(menuButton, 3);
-            grid.Children.Add(menuButton);
+            if (item.Index != -1)
+                grid.Children.Add(menuButton);
 
             return grid;
         }

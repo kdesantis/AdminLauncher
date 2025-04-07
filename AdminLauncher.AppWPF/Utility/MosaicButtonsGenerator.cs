@@ -23,11 +23,11 @@ namespace AdminLauncher.AppWPF.Utility
         {
         }
 
-        public void GenerateHorizontalButtons()
+        public void GenerateHorizontalButtons(bool isFiltered)
         {
             Window.ButtonPanel.Children.Clear();
 
-            List<GenericItem> genericItems = GetSortedGenericItems();
+            List<GenericItem> genericItems = GetSortedGenericItems(isFiltered);
 
             WrapPanel gridPanel = new()
             {
@@ -55,8 +55,16 @@ namespace AdminLauncher.AppWPF.Utility
                 ToolTip = $"Run {item.Name}",
             };
 
-            button.Click += (sender, e) => Window.CurrentDialogUtility.LaunchInformatinError(item.Launch());
-
+            if (item.Index == -1)
+            {
+                button.ToolTip = $"Select a program to run";
+                button.Click += (sender, e) => QuickRunUtils.LaunchQuickRun(Manager.settingsManager.InitialFileDialogPath, Window.CurrentDialogUtility);
+            }
+            else
+            {
+                button.ToolTip = $"Run {item.Name}";
+                button.Click += (sender, e) => Window.CurrentDialogUtility.LaunchInformatinError(item.Launch());
+            }
             return button;
         }
 
@@ -124,7 +132,8 @@ namespace AdminLauncher.AppWPF.Utility
 
             Grid.SetRow(menuButton, 0);
             Grid.SetColumn(menuButton, 1);
-            productGrid.Children.Add(menuButton);
+            if (item.Index != -1)
+                productGrid.Children.Add(menuButton);
 
             // Favorite icon on top at left
             if (item is ProgramItem programItem && programItem.IsFavorite)
