@@ -6,6 +6,7 @@ using System.Windows.Media.Imaging;
 using Button = System.Windows.Controls.Button;
 using Image = System.Windows.Controls.Image;
 using HorizontalAlignment = System.Windows.HorizontalAlignment;
+using MahApps.Metro.IconPacks;
 namespace AdminLauncher.AppWPF.Utility
 {
     public class VerticalButtonsGenerator : ButtonsGenerator
@@ -19,11 +20,11 @@ namespace AdminLauncher.AppWPF.Utility
         /// </summary>
         /// <param name="programManager"></param>
         /// <param name="mainWindow"></param>
-        public void GenerateVerticalButtons(bool isFiltered)
+        public void GenerateVerticalButtons()
         {
             Window.ButtonPanel.Children.Clear();
 
-            List<GenericItem> genericItems = GetSortedGenericItems(isFiltered);
+            List<GenericItem> genericItems = GetSortedGenericItems();
 
             foreach (var item in genericItems)
             {
@@ -39,18 +40,10 @@ namespace AdminLauncher.AppWPF.Utility
                 Margin = new Thickness(5),
                 HorizontalContentAlignment = System.Windows.HorizontalAlignment.Stretch,
                 Content = CreateProductGrid(item),
-               
+
             };
-            if (item.Index == -1)
-            {
-                button.ToolTip = $"Select a program to run";
-                button.Click += (sender, e) => QuickRunUtils.LaunchQuickRun(Manager.settingsManager.InitialFileDialogPath, Window.CurrentDialogUtility);
-            }
-            else
-            {
-                button.ToolTip = $"Run {item.Name}";
-                button.Click += (sender, e) => Window.CurrentDialogUtility.LaunchInformatinError(item.Launch());
-            }
+            button.ToolTip = $"Run {item.Name}";
+            button.Click += (sender, e) => Window.CurrentDialogUtility.LaunchInformatinError(item.Launch());
 
             return button;
         }
@@ -95,11 +88,15 @@ namespace AdminLauncher.AppWPF.Utility
                 Grid.SetColumn(favoriteIcon, 2);
                 grid.Children.Add(favoriteIcon);
             }
-
+            var packIconMaterial = new PackIconMaterial()
+            {
+                Kind = PackIconMaterialKind.DotsVertical,
+                VerticalAlignment = VerticalAlignment.Center
+            };
             // button for open the menu
             Button menuButton = new()
             {
-                Content = "⋮",
+                Content = packIconMaterial,
                 Width = 24,
                 Height = 24,
                 HorizontalAlignment = HorizontalAlignment.Right,

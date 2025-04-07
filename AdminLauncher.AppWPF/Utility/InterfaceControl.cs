@@ -103,6 +103,10 @@ namespace AdminLauncher.AppWPF.Utility
                     mainWindow.MainTabControl.SelectedItem = mainWindow.AddRoutineTab;
                     ChageVisibilityAddProgramTabs(false, mainWindow);
                     break;
+                case InterfaceEnum.QuickRunInterface:
+                    mainWindow.MainTabControl.SelectedItem = mainWindow.QuickRunTab;
+                    ChageVisibilityAddProgramTabs(false, mainWindow);
+                    break;
                 case InterfaceEnum.About:
                     mainWindow.MainTabControl.SelectedItem = mainWindow.AboutTab;
                     ChageVisibilityAddProgramTabs(false, mainWindow);
@@ -199,6 +203,7 @@ namespace AdminLauncher.AppWPF.Utility
         AddProgramInterface,
         AddRoutineInterface,
         About,
-        ModifyProgramInterface
+        ModifyProgramInterface,
+        QuickRunInterface
     }
 }

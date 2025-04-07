@@ -22,10 +22,5 @@ namespace AdminLauncher.AppWPF.Utility
                 dialogUtility.LaunchInformatinError(result);
             }
         }
-
-        public static ProgramItem GetQuickRunItem()
-        {
-            return new ProgramItem() { Index= -1, Name = "Quick Run", CustomIconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"Resources", "QuickRunIcon.png"), ExecutablePath = "QuickRun"};
-        }
     }
 }

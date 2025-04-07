@@ -23,11 +23,11 @@ namespace AdminLauncher.AppWPF.Utility
         {
         }
 
-        public void GenerateHorizontalButtons(bool isFiltered)
+        public void GenerateHorizontalButtons()
         {
             Window.ButtonPanel.Children.Clear();
 
-            List<GenericItem> genericItems = GetSortedGenericItems(isFiltered);
+            List<GenericItem> genericItems = GetSortedGenericItems();
 
             WrapPanel gridPanel = new()
             {
@@ -55,16 +55,9 @@ namespace AdminLauncher.AppWPF.Utility
                 ToolTip = $"Run {item.Name}",
             };
 
-            if (item.Index == -1)
-            {
-                button.ToolTip = $"Select a program to run";
-                button.Click += (sender, e) => QuickRunUtils.LaunchQuickRun(Manager.settingsManager.InitialFileDialogPath, Window.CurrentDialogUtility);
-            }
-            else
-            {
-                button.ToolTip = $"Run {item.Name}";
-                button.Click += (sender, e) => Window.CurrentDialogUtility.LaunchInformatinError(item.Launch());
-            }
+            button.ToolTip = $"Run {item.Name}";
+            button.Click += (sender, e) => Window.CurrentDialogUtility.LaunchInformatinError(item.Launch());
+            
             return button;
         }
 
@@ -107,10 +100,15 @@ namespace AdminLauncher.AppWPF.Utility
             Grid.SetColumnSpan(textBlock, 2);
             productGrid.Children.Add(textBlock);
 
+            var packIconMaterial = new PackIconMaterial()
+            {
+                Kind = PackIconMaterialKind.DotsVertical,
+                VerticalAlignment = VerticalAlignment.Center
+            };
             // Right centered menu button
             Button menuButton = new()
             {
-                Content = "⋮",
+                Content = packIconMaterial,
                 Width = 24,
                 Height = 24,
                 HorizontalAlignment = HorizontalAlignment.Right,

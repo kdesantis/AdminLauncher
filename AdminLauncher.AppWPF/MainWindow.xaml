@@ -54,112 +54,7 @@
                 </Grid>
             </TabItem>
 
-            <!-- Tab Settings -->
-            <TabItem x:Name="SettingsTab">
-
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,10,0,0">
-                        <packIcons:PackIconMaterial Kind="CogOutline" Width="24" Height="24" Margin="0,0,5,0"/>
-                        <TextBlock Text="Settings" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </TabItem.Header>
-                <StackPanel x:Name="ColumnsSettingsStackPanel"  Orientation="Vertical">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0">
-                            <Label Content="Buttons Orientation"/>
-                            <ComboBox x:Name="ButtonsOrientationCombobox" Margin="5" SelectionChanged="ButtonsOrientationCombobox_Selected"/>
-                        </StackPanel>
-                        <StackPanel Grid.Column="1">
-                            <Label Content="Window Orientation"/>
-                            <ComboBox x:Name="WindowOrientationCombobox" Margin="5" SelectionChanged="WindowOrientationCombobox_Selected"/>
-                        </StackPanel>
-                    </Grid>
-                    <Label Content="File dialog initial path"/>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="80*"/>
-                            <ColumnDefinition Width="20*"/>
-                            <ColumnDefinition Width="20*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBox x:Name="InitialPathTextBox" Grid.Column="0" Margin="5" IsReadOnly="True"/>
-                        <Button Content="Browse..." Click="InitialPathButton_Click" Grid.Column="1" Margin="5,5,2,5"/>
-                        <Button Content="Erase" Click="EraseInitialPath_Click" Grid.Column="2" Margin="0,5,0,5"/>
-                    </Grid>
-                    <UniformGrid Grid.Row="2" Margin="5" Columns="2" Rows="2">
-                        <TextBlock Text="BaseTheme" Margin="0 0 2 0" VerticalAlignment="Center" />
-                        <TextBlock Text="Colors" Margin="2 0 0 0" VerticalAlignment="Center" />
-
-                        <ComboBox x:Name="ThemeBaseSelector" Margin="0 0 2 0" VerticalAlignment="Center" IsSynchronizedWithCurrentItem="False" SelectionChanged="ThemeBaseSelectionChanged"/>
-
-                        <ComboBox x:Name="ColorsSelector" Margin="2 0 0 0" VerticalAlignment="Center" SelectionChanged="ColorsSelectorOnSelectionChanged" />
-                    </UniformGrid>
-                    <!-- Theme preview -->
-                    <GroupBox Header="Theme Preview" Margin="5" Padding="5">
-                        <StackPanel Orientation="Vertical">
-                            <StackPanel  x:Name="MosaicPreviewStackPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Button Width="165" Height="75" Margin="0,0,10,0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
-                                        <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                        <TextBlock Text="App 1" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    </StackPanel>
-                                    <Button.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem Header="Edit Program"/>
-                                            <MenuItem Header="Delete Program"/>
-                                        </ContextMenu>
-                                    </Button.ContextMenu>
-                                </Button>
-
-                                <Button Width="165" Height="75" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                        <TextBlock Text="App 2" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    </StackPanel>
-                                    <Button.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem Header="Edit Program"/>
-                                            <MenuItem Header="Delete Program"/>
-                                        </ContextMenu>
-                                    </Button.ContextMenu>
-                                </Button>
-                            </StackPanel>
-                            <StackPanel  x:Name="VerticalPreviewStackPanel" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Button Width="auto" Height="45" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,0,0">
-                                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Orientation="Horizontal">
-                                        <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,5,0"/>
-                                        <!-->Use insane margin for align the content to the left <-->
-                                        <TextBlock Text="App 1" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,600,0"/>
-                                    </StackPanel>
-                                    <Button.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem Header="Edit Program"/>
-                                            <MenuItem Header="Delete Program"/>
-                                        </ContextMenu>
-                                    </Button.ContextMenu>
-                                </Button>
-                                <Button Width="auto" Height="45" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,7.5,0,0">
-                                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Orientation="Horizontal">
-                                        <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,5,0"/>
-                                        <!-->Use insane margin for align the content to the left <-->
-                                        <TextBlock Text="App 2" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,600,0"/>
-                                    </StackPanel>
-                                    <Button.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem Header="Edit Program"/>
-                                            <MenuItem Header="Delete Program"/>
-                                        </ContextMenu>
-                                    </Button.ContextMenu>
-                                </Button>
-                            </StackPanel>
-                        </StackPanel>
-                    </GroupBox>
-
-                </StackPanel>
-            </TabItem>
+            
 
             <!-- Tab Add Program -->
             <TabItem x:Name="AddProgramTab" PreviewMouseDown="AddProgramTab_PreviewMouseDown">
@@ -315,6 +210,122 @@ Grid.Row="0" Margin="5"/>
                         <Button Content="Cancel" Click="CancelRoutine_Click" Width="100" Margin="5"/>
                     </StackPanel>
                 </Grid>
+            </TabItem>
+
+            <TabItem x:Name="QuickRunTab" PreviewMouseDown="QuickRunTab_PreviewMouseDown">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,10,0,0">
+                        <packIcons:PackIconMaterial Kind="RunFast" Width="24" Height="24" Margin="0,0,5,0"/>
+                        <TextBlock Text="Quick Run" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+
+            <!-- Tab Settings -->
+            <TabItem x:Name="SettingsTab">
+
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,10,0,0">
+                        <packIcons:PackIconMaterial Kind="CogOutline" Width="24" Height="24" Margin="0,0,5,0"/>
+                        <TextBlock Text="Settings" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <StackPanel x:Name="ColumnsSettingsStackPanel"  Orientation="Vertical">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <Label Content="Buttons Orientation"/>
+                            <ComboBox x:Name="ButtonsOrientationCombobox" Margin="5" SelectionChanged="ButtonsOrientationCombobox_Selected"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <Label Content="Window Orientation"/>
+                            <ComboBox x:Name="WindowOrientationCombobox" Margin="5" SelectionChanged="WindowOrientationCombobox_Selected"/>
+                        </StackPanel>
+                    </Grid>
+                    <Label Content="File dialog initial path"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80*"/>
+                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="20*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="InitialPathTextBox" Grid.Column="0" Margin="5" IsReadOnly="True"/>
+                        <Button Content="Browse..." Click="InitialPathButton_Click" Grid.Column="1" Margin="5,5,2,5"/>
+                        <Button Content="Erase" Click="EraseInitialPath_Click" Grid.Column="2" Margin="0,5,0,5"/>
+                    </Grid>
+                    <UniformGrid Grid.Row="2" Margin="5" Columns="2" Rows="2">
+                        <TextBlock Text="BaseTheme" Margin="0 0 2 0" VerticalAlignment="Center" />
+                        <TextBlock Text="Colors" Margin="2 0 0 0" VerticalAlignment="Center" />
+
+                        <ComboBox x:Name="ThemeBaseSelector" Margin="0 0 2 0" VerticalAlignment="Center" IsSynchronizedWithCurrentItem="False" SelectionChanged="ThemeBaseSelectionChanged"/>
+
+                        <ComboBox x:Name="ColorsSelector" Margin="2 0 0 0" VerticalAlignment="Center" SelectionChanged="ColorsSelectorOnSelectionChanged" />
+                    </UniformGrid>
+                    <!-- Theme preview -->
+                    <GroupBox Header="Theme Preview" Margin="5" Padding="5">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel  x:Name="MosaicPreviewStackPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Width="165" Height="75" Margin="0,0,10,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+                                        <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="App 1" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                    <Button.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Edit Program"/>
+                                            <MenuItem Header="Delete Program"/>
+                                        </ContextMenu>
+                                    </Button.ContextMenu>
+                                </Button>
+
+                                <Button Width="165" Height="75" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="App 2" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                    <Button.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Edit Program"/>
+                                            <MenuItem Header="Delete Program"/>
+                                        </ContextMenu>
+                                    </Button.ContextMenu>
+                                </Button>
+                            </StackPanel>
+                            <StackPanel  x:Name="VerticalPreviewStackPanel" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Width="auto" Height="45" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,0,0">
+                                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Orientation="Horizontal">
+                                        <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,5,0"/>
+                                        <!-->Use insane margin for align the content to the left <-->
+                                        <TextBlock Text="App 1" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,600,0"/>
+                                    </StackPanel>
+                                    <Button.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Edit Program"/>
+                                            <MenuItem Header="Delete Program"/>
+                                        </ContextMenu>
+                                    </Button.ContextMenu>
+                                </Button>
+                                <Button Width="auto" Height="45" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,7.5,0,0">
+                                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Orientation="Horizontal">
+                                        <Image Source="Resources/rocket.png" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,5,0"/>
+                                        <!-->Use insane margin for align the content to the left <-->
+                                        <TextBlock Text="App 2" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,600,0"/>
+                                    </StackPanel>
+                                    <Button.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Edit Program"/>
+                                            <MenuItem Header="Delete Program"/>
+                                        </ContextMenu>
+                                    </Button.ContextMenu>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+
+                </StackPanel>
             </TabItem>
 
             <!-- Tab About -->

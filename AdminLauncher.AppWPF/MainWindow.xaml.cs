@@ -373,7 +373,7 @@ namespace AdminLauncher.AppWPF
                 }
 
                 var newButtonGenerator = new ButtonsGenerator(FilteredProgramsManager, this);
-                newButtonGenerator.GenerateButtons(true);
+                newButtonGenerator.GenerateButtons();
             }
             else
             {
@@ -396,6 +396,12 @@ namespace AdminLauncher.AppWPF
         {
             e.Handled = true;
             InterfaceControl.InterfaceLoader(InterfaceEnum.AddProgramInterface, this);
+        }
+
+        private void QuickRunTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath, CurrentDialogUtility);
         }
     }
 }

@@ -19,24 +19,21 @@ namespace AdminLauncher.AppWPF.Utility
         /// </summary>
         /// <param name="programManager"></param>
         /// <param name="mainWindow"></param>
-        public void GenerateButtons(bool isFiltered = false)
+        public void GenerateButtons()
         {
             if (Manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Mosaic)
             {
-                new MosaicButtonsGenerator(Manager, Window).GenerateHorizontalButtons(isFiltered);
+                new MosaicButtonsGenerator(Manager, Window).GenerateHorizontalButtons();
             }
             else if (Manager.settingsManager.ButtonsOrientation == OrientationsButtonEnum.Vertical)
             {
-                new VerticalButtonsGenerator(Manager, Window).GenerateVerticalButtons(isFiltered);
+                new VerticalButtonsGenerator(Manager, Window).GenerateVerticalButtons();
             }
 
         }
-        protected List<GenericItem> GetSortedGenericItems(bool isFiltered)
+        protected List<GenericItem> GetSortedGenericItems()
         {
             var list = new List<GenericItem>();
-
-            if (!isFiltered)
-                list.Add(QuickRunUtils.GetQuickRunItem());
 
             list.AddRange(Manager.programManager.Routines.OrderBy(e => e.Name));
 
