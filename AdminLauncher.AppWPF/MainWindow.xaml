@@ -54,12 +54,10 @@
                 </Grid>
             </TabItem>
 
-            
-
             <!-- Tab Add Program -->
             <TabItem x:Name="AddProgramTab" PreviewMouseDown="AddProgramTab_PreviewMouseDown">
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,10,0,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,15,0,0">
                         <packIcons:PackIconMaterial Kind="PlusThick" Width="24" Height="24" Margin="0,0,5,0"/>
                         <TextBlock Text="Add Program" VerticalAlignment="Center"/>
                     </StackPanel>
@@ -163,7 +161,7 @@ Grid.Row="0" Margin="5"/>
             <!-- Tab Add Routine -->
             <TabItem x:Name="AddRoutineTab" Visibility="Visible">
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,10,0,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,15,0,0">
                         <packIcons:PackIconMaterial Kind="ListBox" Width="24" Height="24" Margin="0,0,5,0"/>
                         <TextBlock Text="Add Routine" VerticalAlignment="Center"/>
                     </StackPanel>
@@ -214,7 +212,7 @@ Grid.Row="0" Margin="5"/>
 
             <TabItem x:Name="QuickRunTab" PreviewMouseDown="QuickRunTab_PreviewMouseDown">
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,10,0,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,15,0,0">
                         <packIcons:PackIconMaterial Kind="RunFast" Width="24" Height="24" Margin="0,0,5,0"/>
                         <TextBlock Text="Quick Run" VerticalAlignment="Center"/>
                     </StackPanel>
@@ -225,7 +223,7 @@ Grid.Row="0" Margin="5"/>
             <TabItem x:Name="SettingsTab">
 
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,10,0,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,15,0,0">
                         <packIcons:PackIconMaterial Kind="CogOutline" Width="24" Height="24" Margin="0,0,5,0"/>
                         <TextBlock Text="Settings" VerticalAlignment="Center"/>
                     </StackPanel>
@@ -331,7 +329,7 @@ Grid.Row="0" Margin="5"/>
             <!-- Tab About -->
             <TabItem x:Name="AboutTab">
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,10,0,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,15,0,0">
                         <packIcons:PackIconMaterial Kind="Information" Width="24" Height="24" Margin="0,0,5,0"/>
                         <TextBlock Text="About" VerticalAlignment="Center"/>
                     </StackPanel>
@@ -426,7 +424,7 @@ To report bugs or request assistance, open a issue:
             </TabItem>
             <TabItem x:Name="DonateTab" PreviewMouseDown="DonateTab_PreviewMouseDown">
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,10,0,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,15,0,0">
                         <packIcons:PackIconMaterial Kind="Heart" Width="24" Height="24" Margin="0,0,5,0"/>
                         <TextBlock Text="Donate" VerticalAlignment="Center"/>
                     </StackPanel>
