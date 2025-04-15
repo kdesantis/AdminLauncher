@@ -33,11 +33,15 @@ namespace AdminLauncher.AppWPF.Utility
         }
         protected List<GenericItem> GetSortedGenericItems()
         {
-            return
-            [
-                .. Manager.programManager.Routines.OrderBy(e => e.Name),
-                .. Manager.programManager.Programs.OrderBy(e => e.Name).OrderByDescending(e => e.IsFavorite),
-            ];
+            var list = new List<GenericItem>();
+
+            list.AddRange(Manager.programManager.Routines.OrderBy(e => e.Name));
+
+            list.AddRange(Manager.programManager.Programs
+                .OrderBy(e => e.Name)
+                .OrderByDescending(e => e.IsFavorite));
+
+            return list;
         }
 
         protected ContextMenu CreateContextMenu(GenericItem item)

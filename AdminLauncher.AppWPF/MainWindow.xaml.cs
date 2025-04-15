@@ -68,6 +68,10 @@ namespace AdminLauncher.AppWPF
             // Filter selected programs
             SelectedProgram = ProgramList.Where(p => p.IsChecked).Select(p => p.Program).ToList();
 
+            //validate
+            if (SelectedProgram.Count == 0)
+                return;
+
             foreach (var item in SelectedProgram)
                 manager.programManager.AddProgram(item);
 
@@ -227,6 +231,10 @@ namespace AdminLauncher.AppWPF
                     newRoutine.AddProgram(selectedProgram.Program);
             }
 
+            //validate
+            if (newRoutine.Programs.Count == 0)
+                return;
+
             manager.programManager.AddRoutine(newRoutine);
             manager.Save();
 
@@ -269,6 +277,10 @@ namespace AdminLauncher.AppWPF
         }
         private void SaveProgram_Click(object sender, RoutedEventArgs e)
         {
+            //validate
+            if (string.IsNullOrEmpty(ProgramPathTextBox.Text))
+                return;
+
             ProgramItem newProgram = new()
             {
                 Index = Int32.Parse(ProgramIndexLabel.Content.ToString()),
@@ -392,15 +404,16 @@ namespace AdminLauncher.AppWPF
             });
         }
 
-        private void QuickRunButton_Click(object sender, RoutedEventArgs e)
-        {
-            QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath, CurrentDialogUtility);
-        }
-
         private void AddProgramTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
             InterfaceControl.InterfaceLoader(InterfaceEnum.AddProgramInterface, this);
+        }
+
+        private void QuickRunTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath, CurrentDialogUtility);
         }
     }
 }

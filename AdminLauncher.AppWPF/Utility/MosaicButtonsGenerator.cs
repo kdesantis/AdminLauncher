@@ -55,8 +55,9 @@ namespace AdminLauncher.AppWPF.Utility
                 ToolTip = $"Run {item.Name}",
             };
 
+            button.ToolTip = $"Run {item.Name}";
             button.Click += (sender, e) => Window.CurrentDialogUtility.LaunchInformatinError(item.Launch());
-
+            
             return button;
         }
 
@@ -99,10 +100,15 @@ namespace AdminLauncher.AppWPF.Utility
             Grid.SetColumnSpan(textBlock, 2);
             productGrid.Children.Add(textBlock);
 
+            var packIconMaterial = new PackIconMaterial()
+            {
+                Kind = PackIconMaterialKind.DotsVertical,
+                VerticalAlignment = VerticalAlignment.Center
+            };
             // Right centered menu button
             Button menuButton = new()
             {
-                Content = "⋮",
+                Content = packIconMaterial,
                 Width = 24,
                 Height = 24,
                 HorizontalAlignment = HorizontalAlignment.Right,
@@ -124,7 +130,8 @@ namespace AdminLauncher.AppWPF.Utility
 
             Grid.SetRow(menuButton, 0);
             Grid.SetColumn(menuButton, 1);
-            productGrid.Children.Add(menuButton);
+            if (item.Index != -1)
+                productGrid.Children.Add(menuButton);
 
             // Favorite icon on top at left
             if (item is ProgramItem programItem && programItem.IsFavorite)

@@ -6,6 +6,7 @@ using System.Windows.Media.Imaging;
 using Button = System.Windows.Controls.Button;
 using Image = System.Windows.Controls.Image;
 using HorizontalAlignment = System.Windows.HorizontalAlignment;
+using MahApps.Metro.IconPacks;
 namespace AdminLauncher.AppWPF.Utility
 {
     public class VerticalButtonsGenerator : ButtonsGenerator
@@ -39,8 +40,9 @@ namespace AdminLauncher.AppWPF.Utility
                 Margin = new Thickness(5),
                 HorizontalContentAlignment = System.Windows.HorizontalAlignment.Stretch,
                 Content = CreateProductGrid(item),
-                ToolTip = $"Run {item.Name}",
+
             };
+            button.ToolTip = $"Run {item.Name}";
             button.Click += (sender, e) => Window.CurrentDialogUtility.LaunchInformatinError(item.Launch());
 
             return button;
@@ -86,11 +88,15 @@ namespace AdminLauncher.AppWPF.Utility
                 Grid.SetColumn(favoriteIcon, 2);
                 grid.Children.Add(favoriteIcon);
             }
-
+            var packIconMaterial = new PackIconMaterial()
+            {
+                Kind = PackIconMaterialKind.DotsVertical,
+                VerticalAlignment = VerticalAlignment.Center
+            };
             // button for open the menu
             Button menuButton = new()
             {
-                Content = "⋮",
+                Content = packIconMaterial,
                 Width = 24,
                 Height = 24,
                 HorizontalAlignment = HorizontalAlignment.Right,
@@ -115,7 +121,8 @@ namespace AdminLauncher.AppWPF.Utility
             };
 
             Grid.SetColumn(menuButton, 3);
-            grid.Children.Add(menuButton);
+            if (item.Index != -1)
+                grid.Children.Add(menuButton);
 
             return grid;
         }
