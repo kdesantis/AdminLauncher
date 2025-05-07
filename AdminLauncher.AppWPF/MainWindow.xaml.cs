@@ -78,7 +78,7 @@ namespace AdminLauncher.AppWPF
             ProgramList.Where(p => p.IsChecked).ToList().ForEach(p => p.IsChecked = false);
 
             SearchBox.Text = string.Empty;
-
+            manager.Save();
             ReloadPrograms();
             InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
         }
