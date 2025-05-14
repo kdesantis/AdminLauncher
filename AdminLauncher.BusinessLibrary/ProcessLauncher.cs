@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace AdminLauncher.BusinessLibrary
 {
@@ -16,25 +17,33 @@ namespace AdminLauncher.BusinessLibrary
             var result = new LaunchResult() { LaunchState = LaunchStateEnum.Success, Message = $"program {program.Name} started correctly", GenericItem = program };
             try
             {
+                Process process = new Process();
                 if (File.Exists(program.ExecutablePath))
+                {
                     switch (Path.GetExtension(program.ExecutablePath).ToLower())
                     {
                         case ".msc":
-                            Process.Start("mmc.exe", program.ExecutablePath);
+                            process = Process.Start("mmc.exe", program.ExecutablePath);
                             break;
                         case ".msi":
-                            Process.Start("msiexec.exe", $"/i \"{program.ExecutablePath}\"");
+                            process = Process.Start("msiexec.exe", $"/i \"{program.ExecutablePath}\"");
                             break;
                         case ".ps1":
-                            Process.Start("powershell.exe", $"-ExecutionPolicy Bypass -File \"{program.ExecutablePath}\"");
+                            process = Process.Start("powershell.exe", $"-ExecutionPolicy Bypass -File \"{program.ExecutablePath}\"");
                             break;
                         case ".vbs":
-                            Process.Start("wscript.exe", $"\"{program.ExecutablePath}\"");
+                            process = Process.Start("wscript.exe", $"\"{program.ExecutablePath}\"");
                             break;
                         default:
-                            Process.Start(program.ExecutablePath, program.Arguments);
+                            process = Process.Start(program.ExecutablePath, program.Arguments);
                             break;
                     }
+                    if (process.ExitCode != 0)
+                    {
+                        logger.Error($"Exit code {process.ExitCode}. Program {program.ExecutablePath} - {program.Arguments}");
+                        result = new LaunchResult() { LaunchState = LaunchStateEnum.Error, Message = $"{process.ExitCode}", GenericItem = program };
+                    }
+                }
                 else
                 {
                     logger.Info($"executable file not exists{program.ExecutablePath}");
