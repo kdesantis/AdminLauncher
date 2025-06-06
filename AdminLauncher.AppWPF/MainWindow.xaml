@@ -210,11 +210,21 @@ Grid.Row="0" Margin="5"/>
                 </Grid>
             </TabItem>
 
+            <!-- Quick Run -->
             <TabItem x:Name="QuickRunTab" PreviewMouseDown="QuickRunTab_PreviewMouseDown">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,15,0,0">
                         <packIcons:PackIconMaterial Kind="RunFast" Width="24" Height="24" Margin="0,0,5,0"/>
                         <TextBlock Text="Quick Run" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+            <!-- File Explorer -->
+            <TabItem x:Name="FileExplorerTab" PreviewMouseDown="FileExplorerTab_PreviewMouseDown">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,15,0,0">
+                        <packIcons:PackIconMaterial Kind="FileTreeOutline" Width="24" Height="24" Margin="0,0,5,0"/>
+                        <TextBlock Text="File Explorer" VerticalAlignment="Center"/>
                     </StackPanel>
                 </TabItem.Header>
             </TabItem>
