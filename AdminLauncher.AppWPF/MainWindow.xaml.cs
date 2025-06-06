@@ -418,7 +418,7 @@ namespace AdminLauncher.AppWPF
         private void FileExplorerTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
-            new FileExplorerUtility().LaunchFileExplorer();
+            new FileExplorerUtility().LaunchFileExplorer(manager, CurrentDialogUtility);
             //QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath, CurrentDialogUtility);
         }
     }

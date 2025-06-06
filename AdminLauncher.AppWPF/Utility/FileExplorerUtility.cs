@@ -12,15 +12,38 @@ namespace AdminLauncher.AppWPF.Utility
 {
     internal class FileExplorerUtility
     {
-
-        public void LaunchFileExplorer()
+        public async void LaunchFileExplorer(Manager manager, DialogUtility dialogUtility)
         {
-            if(FileExplorerExist())
-                StartFileExplorer();
+
+            if (FileExplorerExist())
+            {
+                var releaseInfo = await GitHubReleaseFetcher.GetLatestReleaseAsync("derceg", "explorerplusplus");
+                if (releaseInfo is not null && releaseInfo.TagName != manager.settingsManager.ExplorerPlusPlusTagName)
+                    await DownlaoadLastVersion(manager, dialogUtility, releaseInfo);
+                StartFileExplorer(dialogUtility);
+            }
             else
             {
-                DownloadFileExplorerAsync();
-                LaunchFileExplorer();
+                var releaseInfo = await GitHubReleaseFetcher.GetLatestReleaseAsync("derceg", "explorerplusplus");
+                if (releaseInfo != null)
+                {
+                    await DownlaoadLastVersion(manager, dialogUtility, releaseInfo);
+                }
+                else
+                {
+                    dialogUtility.ExplorerPlusPlusError();
+                }
+            }
+
+        }
+
+        private async Task DownlaoadLastVersion(Manager manager, DialogUtility dialogUtility, GitHubReleaseInfo releaseInfo)
+        {
+            var stateDownload = await DownloadFileExplorerAsync(dialogUtility, releaseInfo);
+            if (stateDownload)
+            {
+                manager.settingsManager.ExplorerPlusPlusTagName = releaseInfo.TagName;
+                manager.Save();
             }
         }
 
@@ -29,36 +52,29 @@ namespace AdminLauncher.AppWPF.Utility
             return Directory.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "explorerplusplus"));
         }
 
-        private async Task DownloadFileExplorerAsync()
+        private async Task<bool> DownloadFileExplorerAsync(DialogUtility dialogUtility, GitHubReleaseInfo releaseInfo)
         {
-
-            var release = await GitHubReleaseFetcher.GetLatestReleaseAsync("derceg", "explorerplusplus");
-            var url = release.Assets.FirstOrDefault(a => a.DownloadUrl.Contains("explorerpp_x64.zip")).DownloadUrl;
-            var downloadPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "explorerplusplus.zip");
-            await GitHubDownloader.DownloadFileAsync(url, downloadPath);
-
-            if (downloadPath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+            if (releaseInfo is not null)
             {
-                string extractPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "explorerplusplus");
-                Directory.CreateDirectory(extractPath);
-                ZipExtractor.ExtractZip(downloadPath, extractPath);
+                var url = releaseInfo.Assets.FirstOrDefault(a => a.DownloadUrl.Contains("explorerpp_x64.zip")).DownloadUrl;
+                var downloadPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "explorerplusplus.zip");
+                await DownloadFileAsync(url, downloadPath);
+
+                if (downloadPath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+                {
+                    string extractPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "explorerplusplus");
+                    Directory.CreateDirectory(extractPath);
+                    ExtractZip(downloadPath, extractPath);
+                }
+                File.Delete(downloadPath);
+                return true;
             }
+            dialogUtility.ExplorerPlusPlusError();
+            return false;
         }
-
-        private void StartFileExplorer()
-        {
-            var result = (new ProgramItem { Name = "File Explorer", ExecutablePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "explorerplusplus", "Explorer++.exe") }).Launch();
-            //dialogUtility.LaunchInformatinError(result);
-            
-        }
-
-    }
-    public static class GitHubDownloader
-    {
-        private static readonly HttpClient _client = new HttpClient();
-
         public static async Task DownloadFileAsync(string url, string outputPath)
         {
+            HttpClient _client = new HttpClient();
             // GitHub richiede uno User-Agent
             _client.DefaultRequestHeaders.UserAgent.ParseAdd("CSharpApp");
 
@@ -68,21 +84,18 @@ namespace AdminLauncher.AppWPF.Utility
             await using var fs = new FileStream(outputPath, FileMode.Create, FileAccess.Write, FileShare.None);
             await response.Content.CopyToAsync(fs);
         }
-    }
-    public static class ZipExtractor
-    {
         public static void ExtractZip(string zipPath, string destinationDirectory)
         {
             if (File.Exists(zipPath) && zipPath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
             {
-                Console.WriteLine($"Estraendo {Path.GetFileName(zipPath)}...");
                 ZipFile.ExtractToDirectory(zipPath, destinationDirectory, overwriteFiles: true);
-                Console.WriteLine($"Estratto in: {destinationDirectory}");
             }
-            else
-            {
-                Console.WriteLine($"Il file {zipPath} non è uno ZIP o non esiste.");
-            }
+        }
+        private void StartFileExplorer(DialogUtility dialogUtility)
+        {
+            var result = (new ProgramItem { Name = "File Explorer", ExecutablePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "explorerplusplus", "Explorer++.exe") }).Launch();
+            dialogUtility.LaunchInformatinError(result);
+
         }
     }
 }

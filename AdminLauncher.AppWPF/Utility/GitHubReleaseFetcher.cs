@@ -17,30 +17,38 @@ namespace AdminLauncher.AppWPF.Utility
             var url = $"https://api.github.com/repos/{owner}/{repo}/releases/latest";
             _client.DefaultRequestHeaders.UserAgent.ParseAdd("CSharpApp");
 
-            var response = await _client.GetAsync(url);
-            response.EnsureSuccessStatusCode();
-
-            var json = await response.Content.ReadAsStringAsync();
-            var releaseJson = JsonDocument.Parse(json).RootElement;
-
-            var release = new GitHubReleaseInfo
+            try
             {
-                TagName = releaseJson.GetProperty("tag_name").GetString(),
-                Name = releaseJson.GetProperty("name").GetString(),
-                HtmlUrl = releaseJson.GetProperty("html_url").GetString(),
-                Assets = new List<GitHubAsset>()
-            };
+                var response = await _client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
 
-            foreach (var asset in releaseJson.GetProperty("assets").EnumerateArray())
-            {
-                release.Assets.Add(new GitHubAsset
+                var json = await response.Content.ReadAsStringAsync();
+                var releaseJson = JsonDocument.Parse(json).RootElement;
+
+                var release = new GitHubReleaseInfo
                 {
-                    Name = asset.GetProperty("name").GetString(),
-                    DownloadUrl = asset.GetProperty("browser_download_url").GetString()
-                });
+                    TagName = releaseJson.GetProperty("tag_name").GetString(),
+                    Name = releaseJson.GetProperty("name").GetString(),
+                    HtmlUrl = releaseJson.GetProperty("html_url").GetString(),
+                    Assets = new List<GitHubAsset>()
+                };
+
+                foreach (var asset in releaseJson.GetProperty("assets").EnumerateArray())
+                {
+                    release.Assets.Add(new GitHubAsset
+                    {
+                        Name = asset.GetProperty("name").GetString(),
+                        DownloadUrl = asset.GetProperty("browser_download_url").GetString()
+                    });
+                }
+                return release;
+            }
+            catch (Exception ex)
+            {
+
+                return null;
             }
 
-            return release;
         }
     }
     public class GitHubReleaseInfo
