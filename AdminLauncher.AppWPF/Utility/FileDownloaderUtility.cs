@@ -14,13 +14,13 @@ using System.Windows;
 
 namespace AdminLauncher.AppWPF.Utility
 {
-    internal class DownloadSetupUtility
+    internal class FileDownloaderUtility
     {
         private double _downloadProgress;
         private MainWindow MainWindow;
         private CancellationTokenSource _cancellationTokenSource;
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
-        public DownloadSetupUtility(MainWindow MainWindow)
+        public FileDownloaderUtility(MainWindow MainWindow)
         {
             this.MainWindow = MainWindow;
         }
@@ -70,14 +70,13 @@ namespace AdminLauncher.AppWPF.Utility
         }
 
 
-        public async Task<string> StartDownload(string url)
+        public async Task<string> StartDownload(string url, string destinationPath)
         {
-            var destinationPath = Path.Combine(Path.GetTempPath(), "setup.exe");
             _cancellationTokenSource = new CancellationTokenSource();
             var cancellationToken = _cancellationTokenSource.Token;
             try
             {
-                var controller = await MainWindow.ShowProgressAsync("Download in progress", "Downloading the installer, please wait...", true);
+                var controller = await MainWindow.ShowProgressAsync("Download in progress", "Downloading the file, please wait...", true);
                 controller.SetIndeterminate();
 
                 controller.Canceled += async (sender, args) =>
@@ -93,11 +92,11 @@ namespace AdminLauncher.AppWPF.Utility
             }
             catch (OperationCanceledException)
             {
-                logger.Warn("Download cancelled by User");
+                logger.Warn($"Download of {url} cancelled by User");
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "Error during download of setup");
+                logger.Error(ex, $"Error during download of {url}");
             }
             finally
             {
