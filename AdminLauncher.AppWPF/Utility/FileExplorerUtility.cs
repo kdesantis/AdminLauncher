@@ -26,13 +26,12 @@ namespace AdminLauncher.AppWPF.Utility
 
         public async void LaunchFileExplorer()
         {
-
             if (FileExplorerExist())
             {
                 var releaseInfo = await GitHubReleaseFetcher.GetLatestReleaseAsync("derceg", "explorerplusplus");
                 if (releaseInfo is not null && releaseInfo.TagName != _manager.settingsManager.ExplorerPlusPlusTagName)
                     await DownlaoadLastVersion(releaseInfo);
-                StartFileExplorer(_dialogUtility);
+                StartFileExplorer();
             }
             else
             {
@@ -47,7 +46,6 @@ namespace AdminLauncher.AppWPF.Utility
                     _dialogUtility.ExplorerPlusPlusError();
                 }
             }
-
         }
 
         private async Task DownlaoadLastVersion(GitHubReleaseInfo releaseInfo)
@@ -93,14 +91,13 @@ namespace AdminLauncher.AppWPF.Utility
                 ZipFile.ExtractToDirectory(zipPath, destinationDirectory, overwriteFiles: true);
             }
         }
-        private void StartFileExplorer(DialogUtility dialogUtility)
+        private void StartFileExplorer()
         {
             if (Process.GetProcessesByName("Explorer++").Count() == 0)
             {
                 var result = (new ProgramItem { Name = "File Explorer", ExecutablePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "explorerplusplus", "Explorer++.exe") }).Launch();
-                dialogUtility.LaunchInformatinError(result);
+                _dialogUtility.LaunchInformatinError(result);
             }
-
         }
     }
 }
