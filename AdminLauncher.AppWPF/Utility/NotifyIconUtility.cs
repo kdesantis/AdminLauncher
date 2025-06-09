@@ -79,6 +79,9 @@ namespace AdminLauncher.AppWPF.Utility
         private void OnCloseClick(object sender, EventArgs e)
         {
             window.firstClosure = false;
+
+            new FileExplorerUtility(null,null,null).Kill();
+
             Application.Current.Shutdown();
         }
         private void OnQuickRunClick(object sender, EventArgs e) =>

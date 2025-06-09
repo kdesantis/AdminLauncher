@@ -50,7 +50,7 @@ namespace AdminLauncher.AppWPF.Utility
 
         private async Task DownlaoadLastVersion(GitHubReleaseInfo releaseInfo)
         {
-            Process.GetProcessesByName("Explorer++").FirstOrDefault()?.Kill();
+            Kill();
             var url = releaseInfo.Assets.FirstOrDefault(a => a.DownloadUrl.Contains("explorerpp_x64.zip")).DownloadUrl;
             var destinationpath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "explorerplusplus.zip");
             var downloader = new FileDownloaderUtility(_mainWindows);
@@ -98,6 +98,10 @@ namespace AdminLauncher.AppWPF.Utility
                 var result = (new ProgramItem { Name = "File Explorer", ExecutablePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "explorerplusplus", "Explorer++.exe") }).Launch();
                 _dialogUtility.LaunchInformatinError(result);
             }
+        }
+        public void Kill()
+        {
+            Process.GetProcessesByName("Explorer++").FirstOrDefault()?.Kill();
         }
     }
 }
