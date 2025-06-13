@@ -68,7 +68,8 @@ namespace AdminLauncher.AppWPF.Utility
 
         private bool FileExplorerExist()
         {
-            return Directory.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "explorerplusplus"));
+            return Directory.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "explorerplusplus"))
+                && File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "explorerplusplus", "Explorer++.exe"));
         }
 
 

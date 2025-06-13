@@ -15,7 +15,7 @@ namespace AdminLauncher.AppWPF.Utility
         public static async Task<GitHubReleaseInfo> GetLatestReleaseAsync(string owner, string repo)
         {
             var url = $"https://api.github.com/repos/{owner}/{repo}/releases/latest";
-            _client.DefaultRequestHeaders.UserAgent.ParseAdd("CSharpApp");
+            _client.DefaultRequestHeaders.UserAgent.ParseAdd("AdminLauncher");
 
             try
             {
