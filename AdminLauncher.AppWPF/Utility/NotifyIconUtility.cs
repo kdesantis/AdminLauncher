@@ -65,7 +65,7 @@ namespace AdminLauncher.AppWPF.Utility
                 contextMenu.Items.Add(new ToolStripSeparator());
             contextMenu.Items.Add("Quick Run", Properties.Resources.rocket, OnQuickRunClick);
             contextMenu.Items.Add(new ToolStripSeparator());
-            contextMenu.Items.Add("Explorer++", Properties.Resources.rocket, OnExplorerPlusPlusClick);
+            contextMenu.Items.Add("Explorer++", Properties.Resources.ExplorerIcon, OnExplorerPlusPlusClick);
             contextMenu.Items.Add(new ToolStripSeparator());
             contextMenu.Items.Add("Close", Properties.Resources.OnOff, OnCloseClick);
             AppNotifyIcon.ContextMenuStrip = contextMenu;

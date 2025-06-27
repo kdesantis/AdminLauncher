@@ -63,6 +63,16 @@ namespace AdminLauncher.AppWPF.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ExplorerIcon {
+            get {
+                object obj = ResourceManager.GetObject("ExplorerIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap OnOff {
             get {
                 object obj = ResourceManager.GetObject("OnOff", resourceCulture);
@@ -76,18 +86,6 @@ namespace AdminLauncher.AppWPF.Properties {
         internal static System.Drawing.Bitmap rocket {
             get {
                 object obj = ResourceManager.GetObject("rocket", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap QuickRunIcon
-        {
-            get
-            {
-                object obj = ResourceManager.GetObject("QuickRunIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
