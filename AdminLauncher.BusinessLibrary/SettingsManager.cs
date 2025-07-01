@@ -8,6 +8,7 @@ namespace AdminLauncher.BusinessLibrary
         public WindowOrientationEnum WindowOrientation { get; set; }
         public string InitialFileDialogPath { get; set; }
         public string Theme { get; set; }
+        public string ExplorerPlusPlusTagName { get; set; }
         public object Clone()
         {
             return new SettingsManager()
@@ -15,7 +16,8 @@ namespace AdminLauncher.BusinessLibrary
                 ButtonsOrientation = ButtonsOrientation,
                 WindowOrientation = WindowOrientation,
                 InitialFileDialogPath = InitialFileDialogPath,
-                Theme = Theme
+                Theme = Theme,
+                ExplorerPlusPlusTagName = ExplorerPlusPlusTagName
             };
         }
     }

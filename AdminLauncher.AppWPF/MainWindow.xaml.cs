@@ -415,5 +415,11 @@ namespace AdminLauncher.AppWPF
             e.Handled = true;
             QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath, CurrentDialogUtility);
         }
+        private void FileExplorerTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            new FileExplorerUtility(manager, CurrentDialogUtility, this).LaunchFileExplorer();
+            //QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath, CurrentDialogUtility);
+        }
     }
 }
