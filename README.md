@@ -9,6 +9,7 @@
 - **Run with administrator privileges** 🔑: Easily execute programs with admin rights without having to interact with the UAC confirmation window or login with admin user every time.
 - **Launch routines** 🛠️: Configure groups of programs to launch together, such as a set of work tools or favorite applications.
 - **Quick Run** ⚡: Quickly launch a single program or executable (e.g., a setup file) without needing to configure a routine.
+- **Explorer++** 🗂️: Perform operations on files with elevated privileges thanks to the integration with third-party software [Explorer++](https://explorerplusplus.com/).
 - **Simple and intuitive interface** 🎨: Built on WPF, the interface is designed to be user-friendly, ensuring smooth navigation and an optimal user experience.
 
 ## System Requirements 💻
@@ -30,6 +31,8 @@ This project is licensed under the **GNU General Public License v3.0**. See the 
 ## Credits 🙏
 
 [IconExtractor](https://github.com/jsakamoto/iconextractor) by jsakamoto
+
+[Explorer++](https://explorerplusplus.com/) by David Erceg
 
 ## Notes 📝
 
