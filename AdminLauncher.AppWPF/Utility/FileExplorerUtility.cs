@@ -26,16 +26,15 @@ namespace AdminLauncher.AppWPF.Utility
 
         public async void LaunchFileExplorer()
         {
+            var releaseInfo = await GitHubReleaseFetcher.GetLatestReleaseAsync("derceg", "explorerplusplus");
             if (FileExplorerExist())
             {
-                var releaseInfo = await GitHubReleaseFetcher.GetLatestReleaseAsync("derceg", "explorerplusplus");
                 if (releaseInfo is not null && releaseInfo.TagName != _manager.settingsManager.ExplorerPlusPlusTagName)
                     await DownlaoadLastVersion(releaseInfo);
                 StartFileExplorer();
             }
             else
             {
-                var releaseInfo = await GitHubReleaseFetcher.GetLatestReleaseAsync("derceg", "explorerplusplus");
                 if (releaseInfo != null)
                 {
                     await DownlaoadLastVersion(releaseInfo);
@@ -71,21 +70,7 @@ namespace AdminLauncher.AppWPF.Utility
             return Directory.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "explorerplusplus"))
                 && File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "explorerplusplus", "Explorer++.exe"));
         }
-
-
-        public static async Task DownloadFileAsync(string url, string outputPath)
-        {
-            HttpClient _client = new HttpClient();
-            // GitHub richiede uno User-Agent
-            _client.DefaultRequestHeaders.UserAgent.ParseAdd("CSharpApp");
-
-            using var response = await _client.GetAsync(url);
-            response.EnsureSuccessStatusCode();
-
-            await using var fs = new FileStream(outputPath, FileMode.Create, FileAccess.Write, FileShare.None);
-            await response.Content.CopyToAsync(fs);
-        }
-        public static void ExtractZip(string zipPath, string destinationDirectory)
+        private static void ExtractZip(string zipPath, string destinationDirectory)
         {
             if (File.Exists(zipPath) && zipPath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
             {

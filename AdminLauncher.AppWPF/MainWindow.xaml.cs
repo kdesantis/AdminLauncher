@@ -419,7 +419,6 @@ namespace AdminLauncher.AppWPF
         {
             e.Handled = true;
             new FileExplorerUtility(manager, CurrentDialogUtility, this).LaunchFileExplorer();
-            //QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath, CurrentDialogUtility);
         }
     }
 }
