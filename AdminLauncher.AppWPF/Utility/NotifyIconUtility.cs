@@ -65,6 +65,8 @@ namespace AdminLauncher.AppWPF.Utility
                 contextMenu.Items.Add(new ToolStripSeparator());
             contextMenu.Items.Add("Quick Run", Properties.Resources.rocket, OnQuickRunClick);
             contextMenu.Items.Add(new ToolStripSeparator());
+            contextMenu.Items.Add("Explorer++", Properties.Resources.ExplorerIcon, OnExplorerPlusPlusClick);
+            contextMenu.Items.Add(new ToolStripSeparator());
             contextMenu.Items.Add("Close", Properties.Resources.OnOff, OnCloseClick);
             AppNotifyIcon.ContextMenuStrip = contextMenu;
         }
@@ -77,9 +79,14 @@ namespace AdminLauncher.AppWPF.Utility
         private void OnCloseClick(object sender, EventArgs e)
         {
             window.firstClosure = false;
+
+            new FileExplorerUtility(null,null,null).Kill();
+
             Application.Current.Shutdown();
         }
         private void OnQuickRunClick(object sender, EventArgs e) =>
             QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath, window.CurrentDialogUtility);
+        private void OnExplorerPlusPlusClick(object sender, EventArgs e) =>
+            new FileExplorerUtility(manager,window.CurrentDialogUtility, window).LaunchFileExplorer();
     }
 }

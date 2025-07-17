@@ -20,6 +20,8 @@ Or you can do it from the menu bar icon
 
 If you need to launch a program once, you can use the **Quick Run** button which allows you to select an executable and launch it without adding it to the home folder.
 
+If you need to make changes to files with maximum privileges, we have integrated the third-party software Explorer++ by David Erceg. Downloads and updates to the latest version are automatic.
+
 **Be careful**, if you try to close the application it **will not close** but will be hidden, 
 to show it just **double click** on the icon in the task bar. To close the application 
 permanently right click on the icon in the task bar and select “Close” in the menu.

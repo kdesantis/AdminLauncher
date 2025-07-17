@@ -1,6 +1,6 @@
 {
-  "Version": "2.1",
+  "Version": "2.2",
   "Type": 1,
-  "Url": "https://github.com/kdesantis/AdminLauncher/releases/download/2.1/Admin.Launcher_2.1_Setup.exe",
-  "ReleaseNotes": "-Moved quick run button on lateral menu"
+  "Url": "https://github.com/kdesantis/AdminLauncher/releases/download/2.2/Admin.Launcher_2.2_Setup.exe",
+  "ReleaseNotes": "Integrated Explorer++"
 }

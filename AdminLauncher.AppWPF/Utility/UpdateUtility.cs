@@ -1,6 +1,7 @@
 ﻿using AdminLauncher.UpdateLibrary;
 using System.Configuration;
 using System.Diagnostics;
+using System.IO;
 
 namespace AdminLauncher.AppWPF.Utility
 {
@@ -35,7 +36,7 @@ namespace AdminLauncher.AppWPF.Utility
         {
             if (updateInformation.Type == UrlType.Installer)
             {
-                var setupPath = await new DownloadSetupUtility(mainWindow).StartDownload(updateInformation.Url);
+                var setupPath = await new FileDownloaderUtility(mainWindow).StartDownload(updateInformation.Url, Path.Combine(Path.GetTempPath(), "setup.exe"));
 
                 Process.Start(new ProcessStartInfo
                 {

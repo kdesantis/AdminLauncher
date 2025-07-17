@@ -126,6 +126,11 @@ namespace AdminLauncher.AppWPF.Utility
                 "This session will be closed.", MessageDialogStyle.Affirmative);
         }
 
+        public void ExplorerPlusPlusError()
+        {
+            var message = $"Error, impossible to download Explorer++. Check your Internet connection and retry";
+            MainWindow.ShowMessageAsync("Impossible to downlaod Explorer++", message, MessageDialogStyle.Affirmative);
+        }
         private MetroDialogSettings GetYesNoMetroDialogSettings()
         {
             var settings = new MetroDialogSettings()

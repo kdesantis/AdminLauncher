@@ -78,7 +78,7 @@ namespace AdminLauncher.AppWPF
             ProgramList.Where(p => p.IsChecked).ToList().ForEach(p => p.IsChecked = false);
 
             SearchBox.Text = string.Empty;
-
+            manager.Save();
             ReloadPrograms();
             InterfaceControl.InterfaceLoader(InterfaceEnum.Home, this);
         }
@@ -414,6 +414,11 @@ namespace AdminLauncher.AppWPF
         {
             e.Handled = true;
             QuickRunUtils.LaunchQuickRun(manager.settingsManager.InitialFileDialogPath, CurrentDialogUtility);
+        }
+        private void FileExplorerTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            new FileExplorerUtility(manager, CurrentDialogUtility, this).LaunchFileExplorer();
         }
     }
 }
