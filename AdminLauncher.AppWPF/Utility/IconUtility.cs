@@ -37,6 +37,12 @@ namespace AdminLauncher.AppWPF.Utility
             return null;
         }
 
+        public static void DeleteTempIcon()
+        {
+            var iconDirectoryPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), ConfigurationManager.AppSettings["IconTempDirectoryName"]);
+            if (Directory.Exists(iconDirectoryPath))
+                Directory.Delete(iconDirectoryPath, true);
+        }
         public static Image GetImageIcon(string iconPath)
         {
             // test image
