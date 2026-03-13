@@ -19,11 +19,8 @@ namespace AdminLauncher.BusinessLibrary
                 index = existProgram.Index;
                 Programs.Remove(existProgram);
             }
-            else
-            {
-                program.Index = CurrIndex;
-                CurrIndex++;
-            }
+            CurrIndex++;
+            program.Index = CurrIndex;
             logger.Info("Added program {program.Index}.{program.Name}", program.Index, program.Name);
             Programs.Add(program);
         }

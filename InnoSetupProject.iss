@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Admin Launcher"
-#define MyAppVersion "2.2"
+#define MyAppVersion "2.3"
 #define MyAppPublisher "De Santis Kevin"
 #define MyAppURL "https://github.com/kdesantis/AdminLauncher/"
 #define MyAppExeName "AdminLauncher.AppWPF.exe"
@@ -28,7 +28,7 @@ ArchitecturesAllowed=x64compatible
 ; the 64-bit view of the registry.
 ArchitecturesInstallIn64BitMode=x64compatible
 DisableProgramGroupPage=yes
-LicenseFile=C:\Users\adm.desantis\source\repos\kdesantis\AdminLauncher\LICENSE
+LicenseFile=C:\Users\adm.desantis\source\repos\AdminLauncher\LICENSE
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputDir=C:\
