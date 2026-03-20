@@ -73,6 +73,7 @@ namespace AdminLauncher.AppWPF.Utility
         private void ShowWindow()
         {
             InterfaceControl.PositionWindowInBottomRight(window);
+            InterfaceControl.InterfaceLoader(InterfaceEnum.Home, window);
             window.Show();
             window.WindowState = WindowState.Normal;
         }
